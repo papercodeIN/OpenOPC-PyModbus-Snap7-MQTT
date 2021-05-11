@@ -6,9 +6,9 @@
 - GrayBox OPC-DA Automation Wrapper(DLL) : http://gestyy.com/etVI8J
 - Register GrayBox OPC-DA Automation Wrapper(DLL) : (regsvr32 gbda_aut.dll)
 - Python Version 3.6.8(32-Bit)
-- PyWin32 for Python 3.6.8(32-Bit) : http://gestyy.com/etVOqH
-- Matrikon OPC-DA Server for Simulation : http://gestyy.com/etVO0r
-- Matrikon OPC Explorer : http://gestyy.com/etVI9q
+- PyWin32 for Python 3.6.8(32-Bit) : [Download](http://gestyy.com/etVOqH)
+- Matrikon OPC-DA Server for Simulation : [Download](http://gestyy.com/etVO0r)
+- Matrikon OPC Explorer : [Download](http://gestyy.com/etVI9q)
 ```
 
 ### Repository File Structure
