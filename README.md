@@ -1,3 +1,13 @@
+## Library Used:
+```markdown
+- OpenOPC (pip install OpenOPC-Python3x)
+- opcua (pip install opcua)
+- PyModbus (pip install pymodbus)
+- GrayBox OPC-DA Automation Wrapper(DLL) : http://gestyy.com/etVI8J
+- Register GrayBox OPC-DA Automation Wrapper(DLL) : (regsvr32 gbda_aut.dll)
+- Python Version 3.6.8(32-Bit)
+- PyWin32 for Python 3.6.8(32-Bit) : http://gestyy.com/etVOqH
+```
 
 ### Repository File Structure
 ```markdown
