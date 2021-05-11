@@ -3,7 +3,7 @@
 - OpenOPC (pip install OpenOPC-Python3x)
 - opcua (pip install opcua)
 - PyModbus (pip install pymodbus)
-- GrayBox OPC-DA Automation Wrapper(DLL) : http://gestyy.com/etVI8J
+- GrayBox OPC-DA Automation Wrapper(DLL) : [Download](http://gestyy.com/etVI8J)
 - Register GrayBox OPC-DA Automation Wrapper(DLL) : (regsvr32 gbda_aut.dll)
 - Python Version 3.6.8(32-Bit)
 - PyWin32 for Python 3.6.8(32-Bit) : [Download](http://gestyy.com/etVOqH)
@@ -28,7 +28,7 @@
 ├── OPC Notebooks/
     |
     ├── OPC-DA Notebooks/
-    │   ├── OpenOPC with Citect SCADA OPC-DA Server
+    │   ├── [OpenOPC with Citect SCADA OPC-DA Server](https://github.com/papercodeIN/OpenOPC-PyModbus-Snap7-MQTT/blob/main/OPC/OPC-DA/OpenOPC%20with%20CODESYS%20OPC-DA%20Server%20(Schneider%20Machine%20Expert%20Basic).ipynb)
     │   ├── OpenOPC with CODESYS OPC-DA Server (Schneider Machine Expert Basic)
     │   ├── OpenOPC with Metrikon Simulation Server
     │   ├── OpenOPC with Schneider OPC Factory Server
