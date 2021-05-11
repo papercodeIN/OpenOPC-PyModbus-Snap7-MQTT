@@ -28,7 +28,7 @@
 ├── OPC Notebooks/
     |
     ├── OPC-DA Notebooks/
-    │   ├── [OpenOPC with Citect SCADA OPC-DA Server](https://github.com/papercodeIN/OpenOPC-PyModbus-Snap7-MQTT/blob/main/OPC/OPC-DA/OpenOPC%20with%20CODESYS%20OPC-DA%20Server%20(Schneider%20Machine%20Expert%20Basic).ipynb)
+    │   ├── OpenOPC with Citect SCADA OPC-DA Server
     │   ├── OpenOPC with CODESYS OPC-DA Server (Schneider Machine Expert Basic)
     │   ├── OpenOPC with Metrikon Simulation Server
     │   ├── OpenOPC with Schneider OPC Factory Server
