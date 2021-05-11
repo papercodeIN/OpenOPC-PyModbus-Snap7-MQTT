@@ -1,5 +1,5 @@
 ## Library and Software Used:
-```markdown
+
 - OpenOPC (pip install OpenOPC-Python3x)
 - opcua (pip install opcua)
 - PyModbus (pip install pymodbus)
@@ -9,7 +9,6 @@
 - PyWin32 for Python 3.6.8(32-Bit) : [Download](http://gestyy.com/etVOqH)
 - Matrikon OPC-DA Server for Simulation : [Download](http://gestyy.com/etVO0r)
 - Matrikon OPC Explorer : [Download](http://gestyy.com/etVI9q)
-```
 
 ### Repository File Structure
 ```markdown
