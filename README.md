@@ -12,19 +12,19 @@
 │   └── Read & Write Holding Register ModbusTCP Python
 |
 ├── OPC Notebooks/
-|   |
-│   ├── OPC-DA Notebooks/
-│   │   ├── OpenOPC with Citect SCADA OPC-DA Server
-│   │   ├── OpenOPC with CODESYS OPC-DA Server (Schneider Machine Expert Basic)
-│   │   ├── OpenOPC with Metrikon Simulation Server
-│   │   ├── OpenOPC with Schneider OPC Factory Server
-│   │   ├── OpenOPC with Metrikon Simulation Server - Getting Tag Properties
-│   │   ├── OpenOPC with Metrikon Simulation Server - Flat and Recursive Option
-│   │   ├── Flat_True.png
-│   |   └── Recursive_True.png
-|   |
-│   └── OPC-UA Noteboooks
-│   │   ├── Basic OPC-UA Server No Security
-│   |   └── Secure OPC-UA Server with User Credential
+    |
+    ├── OPC-DA Notebooks/
+    │   ├── OpenOPC with Citect SCADA OPC-DA Server
+    │   ├── OpenOPC with CODESYS OPC-DA Server (Schneider Machine Expert Basic)
+    │   ├── OpenOPC with Metrikon Simulation Server
+    │   ├── OpenOPC with Schneider OPC Factory Server
+    │   ├── OpenOPC with Metrikon Simulation Server - Getting Tag Properties
+    │   ├── OpenOPC with Metrikon Simulation Server - Flat and Recursive Option
+    │   ├── Flat_True.png
+    |   └── Recursive_True.png
+    |
+    └── OPC-UA Noteboooks
+        ├── Basic OPC-UA Server No Security
+        └── Secure OPC-UA Server with User Credential
 
 ```
