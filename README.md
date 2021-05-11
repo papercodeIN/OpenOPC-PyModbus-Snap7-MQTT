@@ -34,6 +34,7 @@
     │   ├── OpenOPC with Schneider OPC Factory Server
     │   ├── OpenOPC with Metrikon Simulation Server - Getting Tag Properties
     │   ├── OpenOPC with Metrikon Simulation Server - Flat and Recursive Option
+    |   ├── OpenOPC with KEPServerEX - Read and Write Tags
     │   ├── Flat_True.png
     |   └── Recursive_True.png
     |
