@@ -26,7 +26,7 @@
 |
 ├── OPC Notebooks/
     |
-    ├── [OPC-DA Notebooks](https://github.com/papercodeIN/OpenOPC-PyModbus-Snap7-MQTT/tree/main/OPC/OPC-DA)/
+    ├── OPC-DA Notebooks/
     │   ├── OpenOPC with Citect SCADA OPC-DA Server
     │   ├── OpenOPC with CODESYS OPC-DA Server (Schneider Machine Expert Basic)
     │   ├── OpenOPC with Metrikon Simulation Server
