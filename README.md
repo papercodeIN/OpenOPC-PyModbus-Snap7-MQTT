@@ -18,6 +18,7 @@
 │   ├── Read & Write Coils ModbusTCP Python
 │   ├── Read & Write DINT Value ModbusTCP Python
 │   ├── Read & Write Float Value ModbusTCP Python
+│   ├── Read Modbus Holding Register and Convert it into Binary(Bits)
 │   └── Read & Write Holding Register ModbusTCP Python
 |
 ├── MQTT Notebooks/
