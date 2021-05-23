@@ -16,8 +16,8 @@
 ```markdown
 ├── Modbus Notebooks/
 │   ├── pymodbus
-│   │   ├── pymodbus Library | ModbusTCP Client
-│   │   ├── pymodbus Library | ModbusTCP Server Python
+│   │   ├── pymodbus Library | ModbusTCP Client in Python
+│   │   ├── pymodbus Library | ModbusTCP Server in Python
 │   │   ├── pymodbus Library | Read & Write DINT Value
 │   │   ├── pymodbus Library | Read & Write Float Value
 │   │   ├── pymodbus Library | Read & Write Modbus Coil Status in Python
