@@ -18,7 +18,7 @@
 │   ├── pyModbusTCP Library | ModbusTCP Server in Python
 │   ├── pymodbus Library | ModbusTCP Client
 │   ├── pymodbus Library | ModbusTCP Server in Python
-│   ├── pymodbus Library | Read & Write Coils ModbusTCP Python
+│   ├── pymodbus Library | Read and Write Modbus Coil Status in Python
 │   ├── pymodbus Library | Read & Write DINT Value ModbusTCP Python
 │   ├── pymodbus Library | Read & Write Float Value ModbusTCP Python
 │   ├── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
