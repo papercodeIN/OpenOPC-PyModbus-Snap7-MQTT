@@ -25,7 +25,7 @@
 │   │   └── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
 │   │
 │   ├── pyModbusTCP
-|   │   └──  pyModbusTCP Library | ModbusTCP Server in Python
+│   │   └──  pyModbusTCP Library | ModbusTCP Server in Python
 │   │
 │   └── modbus_tk
 │       └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
