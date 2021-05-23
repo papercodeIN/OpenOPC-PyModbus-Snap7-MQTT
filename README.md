@@ -15,8 +15,9 @@
 ### Repository File Structure
 ```markdown
 ├── Modbus Notebooks/
+│   ├── pyModbusTCP Library | ModbusTCP Server in Python
 │   ├── pymodbus Library | ModbusTCP Client
-│   ├── pymodbus Library | ModbusTCP Server Python
+│   ├── pymodbus Library | ModbusTCP Server in Python
 │   ├── pymodbus Library | Read & Write Coils ModbusTCP Python
 │   ├── pymodbus Library | Read & Write DINT Value ModbusTCP Python
 │   ├── pymodbus Library | Read & Write Float Value ModbusTCP Python
