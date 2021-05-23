@@ -3,6 +3,8 @@
 - OpenOPC (pip install OpenOPC-Python3x)
 - opcua (pip install opcua)
 - PyModbus (pip install pymodbus)
+- pyModbusTCP (pip install pyModbusTCP)
+- modbus-tk (pip install modbus_tk)
 - GrayBox OPC-DA Automation Wrapper(DLL) : [Download](http://gestyy.com/etVI8J)
 - Register GrayBox OPC-DA Automation Wrapper(DLL) : (regsvr32 gbda_aut.dll)
 - Python Version 3.6.8(32-Bit)
