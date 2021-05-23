@@ -28,7 +28,7 @@
 │   │   └──  pyModbusTCP Library | ModbusTCP Server in Python
 │   │
 │   └── modbus_tk
-│       └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
+│        └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
 │   
 ├── MQTT Notebooks/
 │   ├── MQTT Basic Publisher
