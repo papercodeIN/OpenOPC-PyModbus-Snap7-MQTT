@@ -28,14 +28,14 @@
 |   │   └──  pyModbusTCP Library | ModbusTCP Server in Python
 │   │
 │   └── modbus_tk
-|       └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
+│       └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
 │   
 ├── MQTT Notebooks/
 │   ├── MQTT Basic Publisher
 │   └── MQTT Publisher with Secirity (Username and Password)
-|
+│   
 └── OPC Notebooks/
-    |
+    │
     ├── OPC-DA Notebooks/
     │   ├── OpenOPC-Python3x Library | OpenOPC with Citect SCADA OPC-DA Server
     │   ├── OpenOPC-Python3x Library | OpenOPC with CODESYS OPC-DA Server (Schneider Machine Expert Basic)
@@ -43,10 +43,10 @@
     │   ├── OpenOPC-Python3x Library | OpenOPC with Schneider OPC Factory Server
     │   ├── OpenOPC-Python3x Library | OpenOPC with Metrikon Simulation Server - Getting Tag Properties
     │   ├── OpenOPC-Python3x Library | OpenOPC with Metrikon Simulation Server - Flat and Recursive Option
-    |   ├── OpenOPC-Python3x Library | OpenOPC with KEPServerEX - Read and Write Tags
+    │   ├── OpenOPC-Python3x Library | OpenOPC with KEPServerEX - Read and Write Tags
     │   ├── Flat_True.png
-    |   └── Recursive_True.png
-    |
+    │   └── Recursive_True.png
+    │
     └── OPC-UA Noteboooks
         ├── opcua Library | Basic OPC-UA Server No Security
         └── opcua Library | Secure OPC-UA Server with User Credential
