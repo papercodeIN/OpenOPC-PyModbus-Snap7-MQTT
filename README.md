@@ -17,12 +17,12 @@
 ├── Modbus Notebooks/
 │   ├── pymodbus
 │   │   ├── pymodbus Library | ModbusTCP Client
-│   │   ├── pymodbus Library | ModbusTCP Server in Python
-│   │   ├── pymodbus Library | Read and Write Modbus Coil Status in Python
-│   │   ├── pymodbus Library | Read & Write DINT Value ModbusTCP Python
-│   │   ├── pymodbus Library | Read & Write Float Value ModbusTCP Python
-│   │   ├── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
-│   │   └── pymodbus Library | Read & Write Modbus Holding Register Values in Python
+│   │   ├── pymodbus Library | ModbusTCP Server Python
+│   │   ├── pymodbus Library | Read & Write DINT Value
+│   │   ├── pymodbus Library | Read & Write Float Value
+│   │   ├── pymodbus Library | Read & Write Modbus Coil Status in Python
+│   │   ├── pymodbus Library | Read & Write Modbus Holding Register Values in Python
+│   │   └── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
 |   |
 │   ├── pyModbusTCP
 |   │   └──  pyModbusTCP Library | OpenOPC with Citect SCADA OPC-DA Server
