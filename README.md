@@ -22,7 +22,7 @@
 │   ├── pymodbus Library | Read & Write DINT Value ModbusTCP Python
 │   ├── pymodbus Library | Read & Write Float Value ModbusTCP Python
 │   ├── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
-│   └── pymodbus Library | Read & Write Holding Register ModbusTCP Python
+│   └── pymodbus Library | Read & Write Modbus Holding Register Values in Python
 |
 ├── MQTT Notebooks/
 │   ├── MQTT Basic Publisher
