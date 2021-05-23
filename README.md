@@ -13,13 +13,13 @@
 ### Repository File Structure
 ```markdown
 ├── Modbus Notebooks/
-│   ├── ModbusTCP Client
-│   ├── ModbusTCP Server Python
-│   ├── Read & Write Coils ModbusTCP Python
-│   ├── Read & Write DINT Value ModbusTCP Python
-│   ├── Read & Write Float Value ModbusTCP Python
-│   ├── Read Modbus Holding Register and Convert it into Binary(Bits)
-│   └── Read & Write Holding Register ModbusTCP Python
+│   ├── ModbusTCP Client | pymodbus Library |
+│   ├── ModbusTCP Server Python | pymodbus Library |
+│   ├── Read & Write Coils ModbusTCP Python | pymodbus Library |
+│   ├── Read & Write DINT Value ModbusTCP Python | pymodbus Library |
+│   ├── Read & Write Float Value ModbusTCP Python | pymodbus Library |
+│   ├── Read Modbus Holding Register and Convert it into Binary(Bits) | pymodbus Library |
+│   └── Read & Write Holding Register ModbusTCP Python | pymodbus Library |
 |
 ├── MQTT Notebooks/
 │   ├── MQTT Basic Publisher
@@ -28,18 +28,18 @@
 ├── OPC Notebooks/
     |
     ├── OPC-DA Notebooks/
-    │   ├── OpenOPC with Citect SCADA OPC-DA Server
-    │   ├── OpenOPC with CODESYS OPC-DA Server (Schneider Machine Expert Basic)
-    │   ├── OpenOPC with Metrikon Simulation Server
-    │   ├── OpenOPC with Schneider OPC Factory Server
-    │   ├── OpenOPC with Metrikon Simulation Server - Getting Tag Properties
-    │   ├── OpenOPC with Metrikon Simulation Server - Flat and Recursive Option
-    |   ├── OpenOPC with KEPServerEX - Read and Write Tags
+    │   ├── OpenOPC with Citect SCADA OPC-DA Server | OpenOPC-Python3x Library |
+    │   ├── OpenOPC with CODESYS OPC-DA Server (Schneider Machine Expert Basic) | OpenOPC-Python3x Library |
+    │   ├── OpenOPC with Metrikon Simulation Server | OpenOPC-Python3x Library |
+    │   ├── OpenOPC with Schneider OPC Factory Server | OpenOPC-Python3x Library |
+    │   ├── OpenOPC with Metrikon Simulation Server - Getting Tag Properties | OpenOPC-Python3x Library |
+    │   ├── OpenOPC with Metrikon Simulation Server - Flat and Recursive Option | OpenOPC-Python3x Library |
+    |   ├── OpenOPC with KEPServerEX - Read and Write Tags | OpenOPC-Python3x Library |
     │   ├── Flat_True.png
     |   └── Recursive_True.png
     |
     └── OPC-UA Noteboooks
-        ├── Basic OPC-UA Server No Security
-        └── Secure OPC-UA Server with User Credential
+        ├── Basic OPC-UA Server No Security | opcua Library |
+        └── Secure OPC-UA Server with User Credential | opcua Library |
 
 ```
