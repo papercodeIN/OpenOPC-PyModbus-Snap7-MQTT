@@ -15,20 +15,26 @@
 ### Repository File Structure
 ```markdown
 ├── Modbus Notebooks/
-│   ├── pyModbusTCP Library | ModbusTCP Server in Python
-│   ├── pymodbus Library | ModbusTCP Client
-│   ├── pymodbus Library | ModbusTCP Server in Python
-│   ├── pymodbus Library | Read and Write Modbus Coil Status in Python
-│   ├── pymodbus Library | Read & Write DINT Value ModbusTCP Python
-│   ├── pymodbus Library | Read & Write Float Value ModbusTCP Python
-│   ├── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
-│   └── pymodbus Library | Read & Write Modbus Holding Register Values in Python
+│   ├── pymodbus
+│   │   ├── pymodbus Library | ModbusTCP Client
+│   │   ├── pymodbus Library | ModbusTCP Server in Python
+│   │   ├── pymodbus Library | Read and Write Modbus Coil Status in Python
+│   │   ├── pymodbus Library | Read & Write DINT Value ModbusTCP Python
+│   │   ├── pymodbus Library | Read & Write Float Value ModbusTCP Python
+│   │   ├── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
+│   │   └── pymodbus Library | Read & Write Modbus Holding Register Values in Python
+|   |
+│   ├── pyModbusTCP
+|   │   └──  pyModbusTCP Library | OpenOPC with Citect SCADA OPC-DA Server
+|   |
+│   └── modbus_tk
+|       └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
 |
 ├── MQTT Notebooks/
 │   ├── MQTT Basic Publisher
 │   └── MQTT Publisher with Secirity (Username and Password)
 |
-├── OPC Notebooks/
+└── OPC Notebooks/
     |
     ├── OPC-DA Notebooks/
     │   ├── OpenOPC-Python3x Library | OpenOPC with Citect SCADA OPC-DA Server
