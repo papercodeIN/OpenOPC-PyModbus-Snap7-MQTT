@@ -49,7 +49,8 @@
     │
     └── OPC-UA Noteboooks
         ├── opcua Library | Import OPC-UA Server Model from XML File
-        ├── opcua Library | Export OPC-UA Server Model into XML File    
+        ├── opcua Library | Export OPC-UA Server Model into XML File by NameSpace
+        ├── opcua Library | Export OPC-UA Server Model into XML File by Node
         ├── opcua Library | Basic OPC-UA Server No Security
         └── opcua Library | Secure OPC-UA Server with User Credential
 
