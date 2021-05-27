@@ -16,13 +16,19 @@
 ```markdown
 ├── Modbus Notebooks/
 │   ├── pymodbus
-│   │   ├── pymodbus Library | ModbusTCP Client in Python
-│   │   ├── pymodbus Library | ModbusTCP Server in Python
-│   │   ├── pymodbus Library | Read & Write DINT Value
-│   │   ├── pymodbus Library | Read & Write Float Value
-│   │   ├── pymodbus Library | Read & Write Modbus Coil Status in Python
-│   │   ├── pymodbus Library | Read & Write Modbus Holding Register Values in Python
-│   │   └── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
+│   │   ├── Modbus_RTU_or_Serial
+│   │   │   ├──
+│   │   │   ├──
+│   │   │   └──
+│   │   │
+│   │   ├── Modbus_TCP
+│   │       ├── pymodbus Library | ModbusTCP Client in Python
+│   │       ├── pymodbus Library | ModbusTCP Server in Python
+│   │       ├── pymodbus Library | Read & Write DINT Value
+│   │       ├── pymodbus Library | Read & Write Float Value
+│   │       ├── pymodbus Library | Read & Write Modbus Coil Status in Python
+│   │       ├── pymodbus Library | Read & Write Modbus Holding Register Values in Python
+│   │       └── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
 │   │
 │   ├── pyModbusTCP
 │   │   └── pyModbusTCP Library | ModbusTCP Server in Python
