@@ -20,17 +20,17 @@
 │   ├── pymodbus
 │   │   ├── Modbus_RTU_or_Serial
 │   │   │   ├── pymodbus Library | 
-│   │   │   ├── pymodbus Library | 
-│   │   │   └── pymodbus Library | Read & Write Modbus (RTU/Serial) Holding Register Values in Python
+│   │   │   ├── pymodbus Library | Read & Write Float Value of Modbus (RTU/Serial) Holding Register
+│   │   │   └── pymodbus Library | Read & Write Modbus (RTU/Serial) Holding Register
 │   │   │
 │   │   └── Modbus_TCP
 │   │       ├── pymodbus Library | ModbusTCP Client in Python
 │   │       ├── pymodbus Library | ModbusTCP Server in Python
-│   │       ├── pymodbus Library | Read & Write DINT Value
-│   │       ├── pymodbus Library | Read & Write Float Value
-│   │       ├── pymodbus Library | Read & Write Modbus Coil Status in Python
-│   │       ├── pymodbus Library | Read & Write Modbus Holding Register Values in Python
-│   │       └── pymodbus Library | Read Modbus Holding Register and Convert it into Binary(Bits)
+│   │       ├── pymodbus Library | Read & Write DINT Value of Modbus (TCP) Holding Register
+│   │       ├── pymodbus Library | Read & Write Float Value of Modbus (TCP) Holding Register
+│   │       ├── pymodbus Library | Read & Write Modbus (TCP) Coil Status 
+│   │       ├── pymodbus Library | Read & Write Modbus (TCP) Holding Register Values 
+│   │       └── pymodbus Library | Read Modbus (TCP) Holding Register and Convert it into Binary(Bits)
 │   │
 │   ├── pyModbusTCP
 │   │   └── pyModbusTCP Library | ModbusTCP Server in Python
