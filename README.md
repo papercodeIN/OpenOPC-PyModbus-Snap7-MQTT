@@ -17,11 +17,11 @@
 ├── Modbus Notebooks/
 │   ├── pymodbus
 │   │   ├── Modbus_RTU_or_Serial
-│   │   │   ├──
-│   │   │   ├──
-│   │   │   └──
+│   │   │   ├── pymodbus Library | 
+│   │   │   ├── pymodbus Library | 
+│   │   │   └── pymodbus Library | Read & Write Modbus ( RTU or Serial ) Holding Register Values in Python
 │   │   │
-│   │   ├── Modbus_TCP
+│   │   └── Modbus_TCP
 │   │       ├── pymodbus Library | ModbusTCP Client in Python
 │   │       ├── pymodbus Library | ModbusTCP Server in Python
 │   │       ├── pymodbus Library | Read & Write DINT Value
