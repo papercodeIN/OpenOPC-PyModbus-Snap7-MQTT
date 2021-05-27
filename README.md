@@ -11,6 +11,8 @@
 - PyWin32 for Python 3.6.8(32-Bit) : [Download](http://gestyy.com/etVOqH)
 - Matrikon OPC-DA Server for Simulation : [Download](http://gestyy.com/etVO0r)
 - Matrikon OPC Explorer : [Download](http://gestyy.com/etVI9q)
+- Download diagslave Modbus Simulator : [Download](https://www.modbusdriver.com/downloads/diagslave.zip)
+- Download Virtual Serial Port Driver Software : [Download](https://cdn.eltima.com/download/vspd.exe)
 
 ### Repository File Structure
 ```markdown
