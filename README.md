@@ -15,7 +15,6 @@
 - Download Virtual Serial Port Driver Software : [Download](https://cdn.eltima.com/download/vspd.exe)
 
 
-[![Everything Is AWESOME](http://i.imgur.com/Ot5DWAW.png)](https://youtu.be/StTqXEQ2l-Y?t=35s "Everything Is AWESOME")
 ### Repository File Structure
 ```markdown
 
