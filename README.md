@@ -21,7 +21,8 @@
 │   │   ├── Modbus_RTU_or_Serial
 │   │   │   ├── pymodbus Library | 
 │   │   │   ├── pymodbus Library | Read & Write Float Value of Modbus (RTU/Serial) Holding Register
-│   │   │   └── pymodbus Library | Read & Write Modbus (RTU/Serial) Holding Register
+│   │   │   └── pymodbus Library | Read & Write Modbus (RTU/Serial) Holding Register <a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE
+" target="_blank">
 │   │   │
 │   │   └── Modbus_TCP
 │   │       ├── pymodbus Library | ModbusTCP Client in Python
