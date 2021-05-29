@@ -15,14 +15,12 @@
 - Download Virtual Serial Port Driver Software : [Download](https://cdn.eltima.com/download/vspd.exe)
 
 ### Repository File Structure
-```markdown
 ├── Modbus Notebooks/
 │   ├── pymodbus
 │   │   ├── Modbus_RTU_or_Serial
 │   │   │   ├── pymodbus Library | 
 │   │   │   ├── pymodbus Library | Read & Write Float Value of Modbus (RTU/Serial) Holding Register
-│   │   │   └── pymodbus Library | Read & Write Modbus (RTU/Serial) Holding Register <a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE
-" target="_blank">
+│   │   │   └── pymodbus Library | Read & Write Modbus (RTU/Serial) Holding Register 
 │   │   │
 │   │   └── Modbus_TCP
 │   │       ├── pymodbus Library | ModbusTCP Client in Python
@@ -64,4 +62,3 @@
         ├── opcua Library | Basic OPC-UA Server No Security
         └── opcua Library | Secure OPC-UA Server with User Credential
 
-```
