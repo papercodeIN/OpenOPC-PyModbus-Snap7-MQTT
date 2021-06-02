@@ -42,8 +42,9 @@
 │       └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
 │   
 ├── MQTT Notebooks/
-│   ├── MQTT Basic Publisher
-│   └── MQTT Publisher with Secirity (Username and Password)
+│   ├── MQTT Publisher - Mosquitto - No Security
+│   ├── MQTT Publisher - CloudMQTT - With Security
+│   └── MQTT Subscriber
 │   
 └── OPC Notebooks/
     │
