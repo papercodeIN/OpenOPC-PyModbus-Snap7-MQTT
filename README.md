@@ -42,9 +42,9 @@
 │       └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
 │   
 ├── MQTT Notebooks/
-│   ├── MQTT Publisher - Mosquitto - No Security
-│   ├── MQTT Publisher - CloudMQTT - With Security
-│   └── MQTT Subscriber
+│   ├── paho.mqtt | MQTT Publisher - Mosquitto - No Security
+│   ├── paho.mqtt | MQTT Publisher - CloudMQTT - With Security
+│   └── paho.mqtt | MQTT Subscriber - Any Broker - With and Without Security
 │   
 └── OPC Notebooks/
     │
