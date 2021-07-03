@@ -60,9 +60,11 @@
     │   └── Recursive_True.png
     │
     └── OPC-UA Noteboooks
+        ├── opcua Library | OPC-UA Client with SubscriptionHandler  
         ├── opcua Library | Import OPC-UA Server Model from XML File
         ├── opcua Library | Export OPC-UA Server Model into XML File by NameSpace
         ├── opcua Library | Export OPC-UA Server Model into XML File by Node
+        ├── Server_Model.xml
         ├── opcua Library | Basic OPC-UA Server No Security
         └── opcua Library | Secure OPC-UA Server with User Credential
 ```
