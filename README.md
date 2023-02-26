@@ -37,9 +37,12 @@
 │   ├── pyModbusTCP
 │   │   └── pyModbusTCP Library | ModbusTCP Server in Python
 │   │
-│   └── modbus_tk
-│       ├── modbus_tk Library | Read & Write Float Value
-│       └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
+│   ├── modbus_tk
+│   │   ├── modbus_tk Library | Read & Write Float Value
+│   │   └── modbus_tk Library | Read & Write Modbus Holding Register Values in Python
+│   │
+│   └── Arduino_NodeMCU
+│       └── NodeMCU_Modbus_TCP_Server | Modbus TCP Server in NodeMCU to publish DHT11 Sensor data to Modbus Holding Register
 │   
 ├── MQTT Notebooks/
 │   ├── paho.mqtt | MQTT Publisher - Mosquitto - No Security
