@@ -1,75 +1,52 @@
-#ifdef ESP8266
-  #include <ESP8266WiFi.h>     /* WiFi library for ESP8266 */
-#else
-  #include <WiFi.h>            /* WiFi library for ESP32 */
-#endif
-#include <ModbusIP_ESP8266.h>  /* modbus protocol library */
-#include "DHT.h"             /* DHT11 sensor library */
+#include <ESP8266WiFi.h>
+#include <ModbusIP_ESP8266.h>
+#include <DHT.h>
 
+#define DHTPIN 2 // D4 of NodeMCU is GPIO2
+#define DHTTYPE DHT11
 
-/******************************** preprocessor directives *******************************/
-DHT dht(2,DHT11);    /* D4 of NodeMCU is GPIO14 */
+DHT dht(DHTPIN, DHTTYPE);
+ModbusIP mb;
 
-/* the modbus offset register for temperature and humidity of the DHT11 sensor */
-const int DHT_HREG = 100;
+// Modbus register addresses for temperature and humidity
+const int TEMPERATURE_REGISTER_ADDRESS = 0;
+const int HUMIDITY_REGISTER_ADDRESS = 1;
 
-uint16_t temperature = 0;   /* the temperature value read from DHT sensor */
-uint16_t humidity = 0;      /* the humidity value read from DHT sensor */
-
-long myTime;                /* this variable is used for millis function */
-
-/************************************* class objects ************************************/
-
-ModbusIP modbus;
-
-/********************************** initialization code *********************************/
 void setup() {
   Serial.begin(115200);
-
   WiFi.begin("SSID", "PASSWORD");
   while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
-      Serial.print(".");
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
   }
-
-  Serial.println("");
-  Serial.println("WiFi connected");  
-  Serial.println("IP address: ");
+  Serial.println("Connected to WiFi");
+  Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
-  
-  modbus.server();
-  modbus.addHreg(DHT_HREG, temperature);
-  modbus.addHreg(DHT_HREG+1, humidity);
 
-  myTime = millis();    /* set my time now */
+  mb.server();
+  mb.addHreg(TEMPERATURE_REGISTER_ADDRESS, 0);
+  mb.addHreg(HUMIDITY_REGISTER_ADDRESS, 0);
+
+  dht.begin();
 }
- 
-/*********************************** application code ***********************************/
+
 void loop() {
+  mb.task();
 
-  modbus.task();      /* Call once inside loop() - all magic here */
+  uint16_t temperature = dht.readTemperature();
+  uint16_t humidity = dht.readHumidity();
 
-  if (millis() > myTime + 2000)   /* loop for each 1 second */
-  {
-    myTime = millis();    /* update the new time */
+  if (!isnan(temperature) && !isnan(humidity)) {
+    mb.Hreg(TEMPERATURE_REGISTER_ADDRESS, temperature);
+    mb.Hreg(HUMIDITY_REGISTER_ADDRESS, humidity);
 
-    /* Read the sensor data - temperature and humidity */
-    temperature = dht.readTemperature();
-    humidity = dht.readHumidity();
-    
-    if (temperature != 65535 && humidity != 65535) /* @todo: this is a bug in the code */
-    {
-      /* print the temperature and humidity values on the serial window */
-      Serial.print("Temperature is: ");
-      Serial.print(temperature);
-      Serial.println(" degrees C");
-      Serial.print("Humidity is: ");
-      Serial.println(humidity);
-      Serial.println();
-      
-      /* save the values in the modbus registers */
-      modbus.Hreg(DHT_HREG, temperature);
-      modbus.Hreg(DHT_HREG+1, humidity);
-    }
+    Serial.print("Temperature: ");
+    Serial.print(temperature);
+    Serial.println(" *C");
+    Serial.print("Humidity: ");
+    Serial.print(humidity);
+    Serial.println(" %");
   }
+
+  delay(1000);
 }
