@@ -1,0 +1,77 @@
+Version 1.9
+-----------
+- Reduced itemsmap and json response for faster processing
+
+Version 1.8
+-----------
+- Improved data recovery
+- Fast and reliable
+- Some bug fixed
+
+Version 1.7
+-----------
+- Fast recovery of the OPC Items map for Ethernet and YUN
+- Some bugs fixed and performance improved
+- Examples updated
+- Please update the OPC Library from Arduino IDE library manager using the 1.7 version
+
+Version 1.6
+-----------
+- Support for Arduino Ethernet Shield
+- Changed OPC Server Name from ArduinoSerialOPCDAServer.exe to a more generic name: ArduinoOPCServer.exe
+- Half executable size
+- New sketch for Arduino UNO Ethernet
+
+Version 1.5
+-----------
+- Now can write/send item values to your Arduno YUN using OPC Server 
+- Some bugs fixed and performance improved
+
+Version 1.4
+-----------
+- Supports for Arduino YUN and WIFI
+- Allow to get items using a Internet Browser in JSON format
+- Some new examples added with JSON support (now at https://github.com/OPCMakers/OPC )
+
+Version 1.3
+-------------------------
+- Fixed item value called twice so x2 performance!!!
+- Better memory management with less footprint
+- Writevalue fixed
+- Fixed opc items data type
+- Float support
+- Some new examples added (now at https://github.com/OPCMakers/ArduinoOPCServer )
+- All Serial port properties are available in ini file to fine tunning
+- Beta library for Arduino Ethernet (not working yet but some code added to unify serial and ethernet library)
+
+Version 1.2 (beta)
+------------------
+- MultiArduino support!!!!
+- Bug fixes
+- Sample sketches updated
+- Browse items timeout increased
+- Add Arduino icon added
+- Log info with OPCServer application path to avoid  call old OPCServers
+- Added some more log information for debug pourpose
+- Now you can change the serial control flow
+- Added vertical scroll bar to the debug window
+
+
+Version 1.1
+-----------
+- Ability to write boolean values from OPC client
+- Port configuration shown on main form
+- Changed name to Arduino Serial OPC DA Server
+- Added example sketches with the library
+- Version info shown in main form
+- Bugs fixed and improved performance
+- TrayIcon
+
+
+Version 1.0
+-----------
+- First relase
+- Arduino Uno Tested
+- Boolean, byte and int opc item type supported
+- Callback opc item values recovery
+- Included OPC.h library with small footprint
