@@ -1,1 +1,0 @@
-"C:\Users\PARROT\Desktop\ArduinoOPCServer\ArduinoOPCServer.exe" /unregserver
