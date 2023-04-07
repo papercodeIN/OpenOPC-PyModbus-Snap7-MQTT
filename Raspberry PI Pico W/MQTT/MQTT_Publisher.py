@@ -8,8 +8,8 @@ from machine import Pin
 led = Pin("LED", Pin.OUT)
 
 # Fill in your WiFi network name (ssid) and password here:
-wifi_ssid = "Fusion Automate"
-wifi_password = "Fusion_Automate"
+wifi_ssid = ""
+wifi_password = ""
 
 # Connect to WiFi
 wlan = network.WLAN(network.STA_IF)
