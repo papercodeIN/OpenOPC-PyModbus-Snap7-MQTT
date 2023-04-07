@@ -21,11 +21,11 @@ while wlan.isconnected() == False:
 print("Connected to WiFi")
 
 # Fill in your Adafruit IO Authentication and Feed MQTT Topic details
-mqtt_host = "io.adafruit.com"
-mqtt_username = "PyLin"  # Your Adafruit IO username
-mqtt_password = "aio_bDkZ61W9t0PVqkZ8L8ZhP1xKaSbv"  # Adafruit IO Key
-mqtt_publish_topic = "PyLin/feeds/feed-fusion"  # The MQTT topic for your Adafruit IO Feed
-mqtt_receive_topic = "PyLin/feeds/pi-pico-w-led"  # The MQTT topic for your Adafruit IO Feed
+mqtt_host = ""
+mqtt_username = ""  # Your Adafruit IO username
+mqtt_password = ""  # Adafruit IO Key
+mqtt_publish_topic = ""  # The MQTT topic for your Adafruit IO Feed
+mqtt_receive_topic = ""  # The MQTT topic for your Adafruit IO Feed
 
 # Enter a random ID for this MQTT Client
 # It needs to be globally unique across all of Adafruit IO.
