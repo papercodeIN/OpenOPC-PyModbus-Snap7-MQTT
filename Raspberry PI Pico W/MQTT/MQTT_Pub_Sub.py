@@ -5,12 +5,12 @@ import machine
 import random
 
 # Default  MQTT_BROKER to connect to
-mqtt_host = "io.adafruit.com"
+mqtt_host = ""
 mqtt_client_id = ubinascii.hexlify(machine.unique_id())
-mqtt_username = "PyLin"  # Your Adafruit IO username
-mqtt_password = "aio_bDkZ61W9t0PVqkZ8L8ZhP1xKaSbv"  # Adafruit IO Key
-mqtt_receive_topic = b"PyLin/feeds/pi-pico-w-led"
-mqtt_publish_topic = b"PyLin/feeds/feed-fusion"
+mqtt_username = ""  # Your Adafruit IO username
+mqtt_password = ""  # Adafruit IO Key
+mqtt_receive_topic = b""
+mqtt_publish_topic = b""
 
 # Setup built in PICO LED as Output
 led = machine.Pin("LED",machine.Pin.OUT)
