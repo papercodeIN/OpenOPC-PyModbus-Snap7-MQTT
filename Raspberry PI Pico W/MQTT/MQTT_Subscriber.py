@@ -7,8 +7,8 @@ from umqtt.simple import MQTTClient
 led = Pin("LED", Pin.OUT)
 
 # Fill in your WiFi network name (ssid) and password here:
-wifi_ssid = "Fusion Automate"
-wifi_password = "Fusion_Automate"
+wifi_ssid = ""
+wifi_password = ""
 
 # Connect to WiFi
 wlan = network.WLAN(network.STA_IF)
@@ -20,10 +20,10 @@ while wlan.isconnected() == False:
 print("Connected to WiFi")
 
 # Fill in your Adafruit IO Authentication and Feed MQTT Topic details
-mqtt_host = "io.adafruit.com"
-mqtt_username = "PyLin"  # Your Adafruit IO username
-mqtt_password = "aio_bDkZ61W9t0PVqkZ8L8ZhP1xKaSbv"  # Adafruit IO Key
-mqtt_receive_topic = "PyLin/feeds/pi-pico-w-led"  # The MQTT topic for your Adafruit IO Feed
+mqtt_host = ""
+mqtt_username = ""  # Your Adafruit IO username
+mqtt_password = ""  # Adafruit IO Key
+mqtt_receive_topic = ""  # The MQTT topic for your Adafruit IO Feed
 
 # Enter a random ID for this MQTT Client
 # It needs to be globally unique across all of Adafruit IO.
