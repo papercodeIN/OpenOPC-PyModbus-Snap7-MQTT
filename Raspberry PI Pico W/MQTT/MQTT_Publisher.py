@@ -2,14 +2,10 @@ import network
 import time
 from math import sin
 from umqtt.simple import MQTTClient
-from machine import Pin
-
-# Setup the onboard LED so we can turn it on/off
-led = Pin("LED", Pin.OUT)
 
 # Fill in your WiFi network name (ssid) and password here:
-wifi_ssid = ""
-wifi_password = ""
+wifi_ssid = "Fusion Automate"
+wifi_password = "Fusion_Automate"
 
 # Connect to WiFi
 wlan = network.WLAN(network.STA_IF)
@@ -21,14 +17,14 @@ while wlan.isconnected() == False:
 print("Connected to WiFi")
 
 # Fill in your Adafruit IO Authentication and Feed MQTT Topic details
-mqtt_host = ""
+mqtt_host = "io.adafruit.com"
 mqtt_username = ""  # Your Adafruit IO username
 mqtt_password = ""  # Adafruit IO Key
-mqtt_publish_topic = ""  # The MQTT topic for your Adafruit IO Feed
+mqtt_publish_topic = "PyLin/feeds/trend-feed"  # The MQTT topic for your Adafruit IO Feed
 
 # Enter a random ID for this MQTT Client
 # It needs to be globally unique across all of Adafruit IO.
-mqtt_client_id = "Fusion_Automate_PI_PICO_W_PUB_SUB"
+mqtt_client_id = "Fusion_Automate_PI_PICO_W_PUB"
 
 # Initialize our MQTTClient and connect to the MQTT server
 mqtt_client = MQTTClient(
@@ -37,20 +33,6 @@ mqtt_client = MQTTClient(
         user=mqtt_username,
         password=mqtt_password)
 
-# So that we can respond to messages on an MQTT topic, we need a callback
-# function that will handle the messages.
-def mqtt_subscription_callback(topic, message):
-    print (f'Topic {topic} received message {message}')  # Debug print out of what was received over MQTT
-    if message == b'on':
-        print("LED ON")
-        led.value(1)
-    elif message == b'off':
-        print("LED OFF")
-        led.value(0)
-        
-
-# Before connecting, tell the MQTT client to use the callback
-mqtt_client.set_callback(mqtt_subscription_callback)
 mqtt_client.connect()
 
 # Publish a data point to the Adafruit IO MQTT server every 3 seconds
