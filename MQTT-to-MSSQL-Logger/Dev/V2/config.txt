@@ -1,0 +1,15 @@
+[BROKER]
+
+Broker_Address=hairdresser.cloudmqtt.com
+Broker_Port=17795
+Broker_Topic=test
+Broker_Username=fxstxixx
+Broker_Password=vclP1dwIhIHY
+
+[DB]
+Enable_Logging=Y
+SQL_Server=PARROT
+SQL_DB=MQTT
+LOGGING_TABLE=LOG
+TEMP_TABLE=TEMP
+REALTIME_TABLE=Realtime

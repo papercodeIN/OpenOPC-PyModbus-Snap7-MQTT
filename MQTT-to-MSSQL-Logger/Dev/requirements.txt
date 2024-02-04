@@ -1,0 +1,6 @@
+pandas
+paho-mqtt
+sqlalchemy
+pyodbc
+
+
