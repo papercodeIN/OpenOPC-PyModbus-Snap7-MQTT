@@ -1,0 +1,6 @@
+sqlalchemy
+OpenOPC-Python3x
+pyodbc
+pandas
+pyqt5
+notebook

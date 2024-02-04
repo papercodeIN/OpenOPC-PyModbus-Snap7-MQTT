@@ -1,0 +1,16 @@
+{
+    "CacheEntries": 1,
+    "CacheHits": 5,
+    "CacheMisses": 1,
+    "CacheSize": 1652628,
+    "CallsForExternalDebugInfo": 0,
+    "CallsForLinking": 0,
+    "CallsForPreprocessing": 0,
+    "CallsWithInvalidArgument": 0,
+    "CallsWithMultipleSourceFiles": 0,
+    "CallsWithPch": 0,
+    "CallsWithoutSourceFile": 0,
+    "EvictedMisses": 0,
+    "HeaderChangedMisses": 0,
+    "SourceChangedMisses": 0
+}

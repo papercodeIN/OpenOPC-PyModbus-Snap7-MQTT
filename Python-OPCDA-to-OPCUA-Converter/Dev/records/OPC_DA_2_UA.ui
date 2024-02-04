@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OPC_DA_TO_UA</class>
+ <widget class="QMainWindow" name="OPC_DA_TO_UA">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>532</width>
+    <height>206</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>OPC-DA to OPC-UA Converter</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>5</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>OPC DA Server</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="OPC_DA_Server_List">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>5</y>
+      <width>220</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Select_OPC_DA_Server">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>5</y>
+      <width>140</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string extracomment="Select OPC-DA Server"/>
+    </property>
+    <property name="text">
+     <string>Select OPC-DA Server</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Select_Aliases">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>35</y>
+      <width>140</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string extracomment="Select Aliase from OPC-DA Server "/>
+    </property>
+    <property name="text">
+     <string>Set Aliase</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Aliases_List">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>35</y>
+      <width>220</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>35</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Aliases</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Start_OPC_UA_Server">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>240</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Start OPC-UA Server</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Stop_OPC_UA_Server">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>130</y>
+      <width>240</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Stop OPC-UA Server</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Port_Label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Port</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="User_Port">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>100</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="Dynamic_Port">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>100</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Use Dynamic Port</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="DefaultPort">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>100</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string extracomment="Default Port is 4840."/>
+    </property>
+    <property name="text">
+     <string>Use Default Port</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Object_Node_Name">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>65</y>
+      <width>221</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Port_Label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>65</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Object Node</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Set_Object_Node">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>65</y>
+      <width>140</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string extracomment="Select Aliase from OPC-DA Server "/>
+    </property>
+    <property name="text">
+     <string>Set Object Node</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>532</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionStart_OPC_UA_Server"/>
+    <addaction name="actionStop_OPC_UA_Server"/>
+    <addaction name="actionView_OPC_UA_Users"/>
+    <addaction name="separator"/>
+    <addaction name="Exit_2"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="About">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="Exit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="Exit_2">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionOPC_UA_Users">
+   <property name="text">
+    <string>Add OPC-UA Users</string>
+   </property>
+   <property name="toolTip">
+    <string extracomment="Manage OPC-UA User">OPC-UA Users</string>
+   </property>
+   <property name="statusTip">
+    <string extracomment="Manage OPC-UA User"/>
+   </property>
+  </action>
+  <action name="actionView_OPC_UA_Users">
+   <property name="text">
+    <string>View OPC-UA Users</string>
+   </property>
+  </action>
+  <action name="actionStop_OPC_UA_Server">
+   <property name="text">
+    <string>Stop OPC-UA Server</string>
+   </property>
+  </action>
+  <action name="actionStart_OPC_UA_Server">
+   <property name="text">
+    <string>Start OPC-UA Server</string>
+   </property>
+  </action>
+  <action name="actionRemove_OPC_UA_Users">
+   <property name="text">
+    <string>Remove OPC-UA Users</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
