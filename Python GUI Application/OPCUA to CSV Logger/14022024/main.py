@@ -340,22 +340,15 @@ class OPCUAToCsvLogger(QWidget):
             QMessageBox.warning(self, "Authentication Failed", "Authentication failed. Please provide valid credentials.")
 
     def log_data_to_csv(self, filename, filepath):
-        print(">>>>> Inside Log Data to CSV")
         try:
             data = []
             # print("Selected Tags: ", self.selected_tags )
             # Read OPC-UA data for each selected tag
             for tag in self.selected_tags:
                 node = self.opcua_client.get_node(tag)
-                print(node)
                 raw_value = node.get_data_value()
-                value = raw_value.Value.Value
-                timestamp = raw_value.SourceTimestamp
-                quality = raw_value.StatusCode.name
-                data.append((timestamp, tag, value, quality))
+                data.append((raw_value.SourceTimestamp, node.get_browse_name().Name, raw_value.Value.Value, raw_value.StatusCode.name))
 
-                # Print the data
-                print(f"Timestamp: {timestamp}, Tag: {tag}, Value: {value}, Quality: {quality}")
 
             # Log OPC-UA data to CSV file
             log_message = self.csv_append(data, filename, filepath)
