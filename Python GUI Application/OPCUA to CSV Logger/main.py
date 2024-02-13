@@ -102,6 +102,7 @@ class OPCUAToCsvLogger(QWidget):
         return config
 
     def init_ui(self):
+        
         config_info_label = QLabel("Configuration Information:")
         config_info_label.setAlignment(Qt.AlignCenter)
 
@@ -156,18 +157,6 @@ class OPCUAToCsvLogger(QWidget):
                 os.makedirs(logging_folder)
         except configparser.Error as e:
             self.logger.error(f"Error reading configuration: {e}")
-
-    # def connect_to_opcua_server(self):
-    #     try:
-    #         endpoint_url = self.config.get('opcua', 'endpoint_url')
-    #         self.opcua_client = Client(endpoint_url)
-    #         self.opcua_client.connect()
-    #         self.logger.info(f"Connected to OPC-UA server: {endpoint_url}")
-    #         self.log_textedit.append(f"{QDateTime.currentDateTime().toString()} - Connected to OPC-UA server: {endpoint_url}")
-    #     except Exception as e:
-    #         error_message = f"Error connecting to OPC-UA server: {str(e)}"
-    #         self.logger.error(error_message)
-    #         self.log_textedit.append(f"{QDateTime.currentDateTime().toString()} - {error_message}")
 
     def connect_to_opcua_server(self):
         try:
@@ -354,7 +343,7 @@ class OPCUAToCsvLogger(QWidget):
         print(">>>>> Inside Log Data to CSV")
         try:
             data = []
-            print("Selected Tags: ", self.selected_tags )
+            # print("Selected Tags: ", self.selected_tags )
             # Read OPC-UA data for each selected tag
             for tag in self.selected_tags:
                 node = self.opcua_client.get_node(tag)
