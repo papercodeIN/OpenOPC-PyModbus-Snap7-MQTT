@@ -1,6 +1,6 @@
 import asyncio
 import pandas as pd
-import os.path
+import os
 import time
 from asyncua import Client
 from datetime import datetime, date
