@@ -12,7 +12,9 @@ import configparser
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from datetime import datetime
-from opcua import Client
+from asyncua import Client
+import asyncio
+
 
 class AuthenticationDialog(QDialog):
     def __init__(self):
@@ -41,6 +43,7 @@ class AuthenticationDialog(QDialog):
             self.accept()
         else:
             self.reject()
+
 
 class OPCUAToCsvLogger(QWidget):
     def __init__(self):
@@ -102,7 +105,6 @@ class OPCUAToCsvLogger(QWidget):
         return config
 
     def init_ui(self):
-        
         config_info_label = QLabel("Configuration Information:")
         config_info_label.setAlignment(Qt.AlignCenter)
 
@@ -158,7 +160,7 @@ class OPCUAToCsvLogger(QWidget):
         except configparser.Error as e:
             self.logger.error(f"Error reading configuration: {e}")
 
-    def connect_to_opcua_server(self):
+    async def connect_to_opcua_server(self):
         try:
             selected_opc_server = self.config.get('opcua', 'endpoint_url')
         except configparser.Error as e:
@@ -171,7 +173,7 @@ class OPCUAToCsvLogger(QWidget):
         for retry in range(1, max_retries + 1):
             try:
                 self.opcua_client = Client(selected_opc_server)
-                self.opcua_client.connect()
+                await self.opcua_client.connect()
                 self.logger.info(f"Connected to OPC-UA server {selected_opc_server}.")
                 self.log_textedit.append(f"{QDateTime.currentDateTime().toString()} - Connected to OPC-UA server {selected_opc_server}.")
                 break  # Exit the loop if the connection is successful
@@ -190,7 +192,7 @@ class OPCUAToCsvLogger(QWidget):
                     self.send_alert(teams_alert_message)
                     return
 
-                time.sleep(retry_interval)
+                await asyncio.sleep(retry_interval)
 
         try:
             csv_file_path = self.config.get('tag', 'file_path')
@@ -243,52 +245,7 @@ class OPCUAToCsvLogger(QWidget):
 
         # Start a timer to periodically log OPC data and check for a new file every 15 minutes
         self.logging_timer = QTimer(self)
-
-        def on_timer_timeout():
-            current_time = datetime.now()
-            minutes = current_time.minute
-
-            # Form the folder structure based on year, month, and day
-            folder_path = os.path.join(
-                filepath,
-                str(current_time.year),
-                f"{current_time.strftime('%m')}",
-                f"{current_time.strftime('%d')}"
-            )
-
-            # Ensure the folder structure exists, create if not
-            os.makedirs(folder_path, exist_ok=True)
-
-            # Check if the current minute is a multiple of 15 (i.e., 0, 15, 30, 45)
-            if minutes % 15 == 0:
-                # Form the filename with the updated timestamp
-                new_filename = f"{current_time.strftime('%Y-%m-%d_%H%M')}.csv"
-
-                # Full path to the new CSV file
-                full_filepath = os.path.join(folder_path, new_filename)
-
-                # Log OPC data to the new CSV file
-                self.log_data_to_csv(full_filepath, filepath)
-                self.current_filename = new_filename  # Update current filename
-
-                log_message = f"Started logging OPC data to CSV file: {filename}"
-                self.logger.info(log_message)
-
-            else:
-                # Continue logging to the current file
-                if self.current_filename is None:
-                    # This is the initial case or if the timer is started before the first 15-minute interval
-                    self.current_filename = f"{current_time.strftime('%Y-%m-%d_%H%M')}.csv"
-
-                # Full path to the current CSV file
-                full_filepath = os.path.join(folder_path, self.current_filename)
-
-                self.log_data_to_csv(full_filepath, filepath)
-
-        # Connect the timer to the logic for the subsequent intervals
-        self.logging_timer.timeout.connect(on_timer_timeout)
-
-        # Set the timer interval based on the configured logging interval
+        self.logging_timer.timeout.connect(self.on_timer_timeout)  # Connect to regular function
         self.logging_timer.start(logging_interval)
 
         self.logger.info(f"Timer Status after starting: {self.logging_timer.isActive()}")
@@ -296,7 +253,46 @@ class OPCUAToCsvLogger(QWidget):
         # Disable the exit button
         self.exit_button.setEnabled(False)
 
+    def on_timer_timeout(self):
+        current_time = datetime.now()
+        minutes = current_time.minute
 
+        # Form the folder structure based on year, month, and day
+        folder_path = os.path.join(
+            self.config.get('logging', 'folder'),
+            str(current_time.year),
+            f"{current_time.strftime('%m')}",
+            f"{current_time.strftime('%d')}"
+        )
+
+        # Ensure the folder structure exists, create if not
+        os.makedirs(folder_path, exist_ok=True)
+
+        # Check if the current minute is a multiple of 15 (i.e., 0, 15, 30, 45)
+        if minutes % 15 == 0:
+            # Form the filename with the updated timestamp
+            new_filename = f"{current_time.strftime('%Y-%m-%d_%H%M')}.csv"
+
+            # Full path to the new CSV file
+            full_filepath = os.path.join(folder_path, new_filename)
+
+            # Log OPC data to the new CSV file
+            self.log_data_to_csv(full_filepath, self.config.get('logging', 'folder'))
+            self.current_filename = new_filename  # Update current filename
+
+            log_message = f"Started logging OPC data to CSV file: {new_filename}"
+            self.logger.info(log_message)
+
+        else:
+            # Continue logging to the current file
+            if self.current_filename is None:
+                # This is the initial case or if the timer is started before the first 15-minute interval
+                self.current_filename = f"{current_time.strftime('%Y-%m-%d_%H%M')}.csv"
+
+            # Full path to the current CSV file
+            full_filepath = os.path.join(folder_path, self.current_filename)
+
+            self.log_data_to_csv(full_filepath, self.config.get('logging', 'folder'))
 
     def stop_logging(self):
         # Check if data logging is already stopped
@@ -339,20 +335,19 @@ class OPCUAToCsvLogger(QWidget):
             # Authentication failed, notify the user
             QMessageBox.warning(self, "Authentication Failed", "Authentication failed. Please provide valid credentials.")
 
-    def log_data_to_csv(self, filename, filepath):
+    async def log_data_to_csv(self, filename, filepath):
         try:
             data = []
-            # print("Selected Tags: ", self.selected_tags )
             # Read OPC-UA data for each selected tag
             for tag in self.selected_tags:
-                node = self.opcua_client.get_node(tag)
-                raw_value = node.get_data_value()
-                data.append((raw_value.SourceTimestamp, node.get_browse_name().Name, raw_value.Value.Value, raw_value.StatusCode.name))
+                node = await self.opcua_client.get_node(tag)  # Await here
+                raw_value = await node.read_value()  # Await here
+                print(node, " : ", raw_value.Value.Value)
+            #     data.append((raw_value.SourceTimestamp, node.get_browse_name().Name, raw_value.Value.Value, raw_value.StatusCode.name))
 
-
-            # Log OPC-UA data to CSV file
-            log_message = self.csv_append(data, filename, filepath)
-            self.logger.info(log_message)
+            # # Log OPC-UA data to CSV file
+            # log_message = self.csv_append(data, filename, filepath)
+            # self.logger.info(log_message)
 
         except Exception as e:
             error_message = f"Error logging OPC-UA data to CSV: {str(e)}"
@@ -395,22 +390,35 @@ class OPCUAToCsvLogger(QWidget):
 
         return log_message  # Return success message
 
-    def send_alert(self, msg):
-        pass
 
-    def copy_logs_to_clipboard(self):
-        clipboard = QApplication.clipboard()
-        clipboard.setText(self.log_textedit.toPlainText())
-
-    def clear_logs(self):
-        self.log_textedit.clear()
+    def send_alert(self, message):
+        # Implement your alerting mechanism here (e.g., sending an email, SMS, etc.)
+        print("Alert:", message)
 
     def send_alert_on_exit(self):
-        pass
+        # Send alert on application exit
+        alert_message = "Application exited unexpectedly."
+        self.send_alert(alert_message)
+
+    def copy_logs_to_clipboard(self):
+        # Copy logs to clipboard
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.log_textedit.toPlainText())
+        self.logger.info("Logs copied to clipboard.")
+
+    def clear_logs(self):
+        # Clear logs
+        self.log_textedit.clear()
+        self.logger.info("Logs cleared.")
 
 
-if __name__ == '__main__':
+async def main():
     app = QApplication(sys.argv)
     window = OPCUAToCsvLogger()
     window.show()
+    await window.connect_to_opcua_server()  # Await connect_to_opcua_server
+    window.start_logging()  # Await start_logging
     sys.exit(app.exec_())
+
+
+asyncio.run(main())
