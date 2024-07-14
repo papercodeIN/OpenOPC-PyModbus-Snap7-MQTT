@@ -1,7 +1,9 @@
 """Pymodbus SerialRTU2TCP Forwarder
 
 usage :
-python3 serial_forwarder.py --log DEBUG --port "/dev/ttyUSB0" --baudrate 9600 --server_ip "192.168.1.27" --server_port 5020 --slaves 1 2 3
+python rtu_2_tcp.py --log DEBUG --port "/dev/ttyUSB0" --baudrate 9600 --server_ip "127.0.0.1" --server_port 502 --slaves 1 2 3
+
+python rtu_2_tcp.py --log DEBUG --port "COM2" --baudrate 9600 --server_ip "127.0.0.1" --server_port 502 --slaves 1 2 3
 """
 import argparse
 import asyncio
