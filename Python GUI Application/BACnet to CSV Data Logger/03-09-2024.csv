@@ -1,0 +1,5 @@
+TimeStamp,Temperature.Indoor,Temperature.Water,Temperature.Outdoor,SetPoint.Value,Setpoint.1,Setpoint.2,Setpoint.3,State.Heater,State.Chiller,State,State.VentilationLevel
+2024-09-03 10:35:57,20.899999618530273,34.70000076293945,12.0,21.0,21.0,19.0,17.0,1: active,0: inactive,2: Heater,2: Meduim
+2024-09-03 10:36:02,20.799999237060547,34.20000076293945,12.0,21.0,21.0,19.0,17.0,1: active,0: inactive,2: Heater,2: Meduim
+2024-09-03 10:36:06,20.700000762939453,34.0,12.0,21.0,21.0,19.0,17.0,1: active,0: inactive,2: Heater,2: Meduim
+2024-09-03 10:36:11,20.799999237060547,34.0,12.0,21.0,21.0,19.0,17.0,1: active,0: inactive,2: Heater,2: Meduim
