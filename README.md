@@ -1,4 +1,4 @@
-
+<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=papercodeIN.OpenOPC-PyModbus-Snap7-MQTT" height="20" />
 ---
 <p align="center">
   <span style="font-size: 1.1em; color: #FFD700; font-weight: bold;">✨ Enjoying this project? Support our work! ✨</span>
