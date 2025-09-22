@@ -92,3 +92,20 @@
         ├── opcua Library | Basic OPC-UA Server No Security
         └── opcua Library | Secure OPC-UA Server with User Credential
 ```
+
+| Category             | Title                                                                 | Link                                                                 |
+|----------------------|-----------------------------------------------------------------------|----------------------------------------------------------------------|
+| 🆓 Free Code         | Modbus TCP/IP Server in Python using pyModbusTCP Library             | [Link](https://buymeacoffee.com/pylin/e/460268)                      |
+| 💲 Minimal Legacy Code | Modbus TCP-IP to SQLite Data Logging using Python                   | [Link](https://buymeacoffee.com/pylin/e/460137)                      |
+|                      | Modbus TCP-IP to MySQL Data Logging using Python                     | [Link](https://buymeacoffee.com/pylin/e/460142)                      |
+|                      | Modbus TCP-IP to CSV Data Logging using Python                       | [Link](https://buymeacoffee.com/pylin/e/460144)                      |
+|                      | Modbus Serial/RS485 to SQLite Data Logging using Python              | [Link](https://buymeacoffee.com/pylin/e/460172)                      |
+|                      | Modbus Serial/RS485 to MySQL Data Logging using Python               | [Link](https://buymeacoffee.com/pylin/e/460171)                      |
+| 📢 Data Logger       | Modbus TCP/IP Device Data-logging to SQLite Database using Python    | [Link](https://buymeacoffee.com/pylin/e/454638)                      |
+|                      | Modbus TCP/IP Device Data-logging to MySQL Database using Python     | [Link](https://buymeacoffee.com/pylin/e/454637)                      |
+|                      | Modbus TCP/IP Device Data-logging to CSV File using Python           | [Link](https://buymeacoffee.com/pylin/e/454636)                      |
+|                      | Modbus Serial/RTU/RS485 Device Data-logging to MySQL Database        | [Link](https://buymeacoffee.com/pylin/e/454631)                      |
+|                      | Modbus Serial/RTU/RS485 Device Data-logging to SQLite Database       | [Link](https://buymeacoffee.com/pylin/e/454630)                      |
+|                      | Modbus Serial/RTU/RS485 Device Data-logging to CSV File              | [Link](https://buymeacoffee.com/pylin/e/454629)                      |
+| 📢 Protocol Converter| Modbus TCP/IP to MQTT Publisher in Python (JSON Payload)             | [Link](https://buymeacoffee.com/pylin/e/454495)                      |
+|                      | Modbus TCP/IP to MQTT Publisher in Python (RAW Payload)              | [Link](https://buymeacoffee.com/pylin/e/454493)                      |
