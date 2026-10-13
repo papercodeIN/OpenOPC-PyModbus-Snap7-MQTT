@@ -1,0 +1,19 @@
+# Core - install as needed per example
+pymodbus
+opcua
+minimalmodbus
+modbus-tk
+paho-mqtt
+python-snap7
+pyModbusTCP
+pandas
+numpy
+pyfanuc
+
+# Windows only (OPC-DA OpenOPC) - install from official releases:
+# https://github.com/mhammond/pywin32/releases
+# pip install pywin32
+# Or: pip install pywin32 --only-binary=:all:
+
+# Optional extras used in some notebooks
+# openopc  # pip install OpenOPC-Python3x (Windows, 32-bit Python 3.6)

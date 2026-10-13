@@ -1,0 +1,11 @@
+# root user have full access to all MQTT Topics
+user root
+topic readwrite #
+
+# admin user can only read topic temp
+user admin1
+topic read temp/#
+
+# admin1 user can write topic temp
+user admin2
+topic write temp/#

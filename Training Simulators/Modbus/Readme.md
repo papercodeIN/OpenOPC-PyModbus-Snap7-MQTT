@@ -1,0 +1,1 @@
+- [Modbus Software Channel](https://t.me/+OOBmm1ZsE2VmNTk9)

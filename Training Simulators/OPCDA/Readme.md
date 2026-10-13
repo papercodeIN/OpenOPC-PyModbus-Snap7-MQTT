@@ -1,0 +1,2 @@
+- [OPCDA Software Channel](https://t.me/+5giCAds1Bi1iOTBl)
+- [Prosys OPC Software Channel](https://t.me/+fqT02pqGzvFlNjc1)

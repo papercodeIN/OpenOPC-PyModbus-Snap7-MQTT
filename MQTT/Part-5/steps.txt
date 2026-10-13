@@ -1,0 +1,21 @@
+- Run cmd As Administrator
+- Nevigate to mosquitto Folder : C:\Program Files\mosquitto
+
+- Start Mosquitto Service by : net start mosquitto
+- Stop Mosquitto Service by :net stop mosquitto
+
+CREATE USER AND PASSWORD FILE
+- mosquitto_passwd -c password_file.txt root
+- mosquitto_passwd -b password_file.txt admin1 admin@123
+- mosquitto_passwd -b password_file.txt admin2 admin@123
+
+MODIGY ACL (ACCESS CONTROL LIST) FILE
+- root user have full access to all MQTT topic
+- admin1 user can only read topic temp and subtopics of temp
+- admin2 user can only write topic temp and subtopics of temp
+
+CHANGE CONFIG FILE
+- per_listener_settings true
+- allow_anonymous false
+- password_file C:\Program Files\mosquitto\password_file.txt
+- acl_file C:\Program Files\mosquitto\aclfile.acl

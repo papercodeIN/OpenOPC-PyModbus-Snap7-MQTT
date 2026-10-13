@@ -1,0 +1,15 @@
+ip: 127.0.0.1
+port: 502
+update_rate: 2
+address_offset: 0
+variant: Test
+scan_batching: 10
+registers:
+  - pub_topic: "Test_Server/HR0"
+    address: 0
+  - pub_topic: "Test_Server/HR1"
+    address: 1
+  - pub_topic: "Test_Server/Room Temp"
+    address: 2
+  - pub_topic: "Test_Server/Room1 Temp"
+    address: 3

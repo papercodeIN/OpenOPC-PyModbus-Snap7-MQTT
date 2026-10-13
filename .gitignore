@@ -1,0 +1,24 @@
+# Jupyter
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+
+# Binaries - use GitHub Releases instead
+*.exe
+*.7z
+*.opf
+!*.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.venv/
+venv/
+.env
+secrets.py
+*.log
+*.sqlite
+*.db

@@ -1,0 +1,4 @@
+PyQt5==5.15.9
+BAC0==0.7.9
+SQLAlchemy==2.0.20
+mysql-connector-python==8.1.0
