@@ -33,7 +33,7 @@ Industrial automation toolkit for OPC, Modbus, MQTT, BACnet, IEC104, and DNP3 pr
 │   │   ├── MQTT/
 │   │   ├── OPC-DA/
 │   │   ├── OPC-UA/
-│   │   └── js-modbus/
+│   │   │   └── js-modbus/              # JavaScript Modbus example
 │   ├── Node-RED/                       # Node-RED flows organized by protocol
 │   │   ├── BACnet/                     # Node-RED + BACnet (Public, Private)
 │   │   ├── Modbus/                     # Node-RED + Modbus (Public, Private)
@@ -46,7 +46,6 @@ Industrial automation toolkit for OPC, Modbus, MQTT, BACnet, IEC104, and DNP3 pr
 │   │   ├── MQTT/                       # MQTT clients, publishers and loggers
 │   │   ├── OPC-DA/
 │   │   ├── OPC-UA/                     # OPC-UA clients, servers and bridges
-│   │   ├── OPC/                        # Existing OPC project group
 │   │   └── Applications/               # Standalone Python application projects
 │   └── Telegraf/                       # Telegraf work grouped by protocol
 │       ├── Modbus/
