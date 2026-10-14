@@ -21,60 +21,43 @@ Industrial automation toolkit for OPC, Modbus, MQTT, BACnet, IEC104, and DNP3 pr
 ## Repository Structure
 
 ```
-├── Protocols/                          # Protocol implementations and examples
-│   ├── BACnet/                         # BACnet IP communication scripts
-│   ├── DNP3/                           # DNP3 protocol examples
-│   ├── IEC104/                         # IEC 60870-5-104 server implementations
-│   ├── MODBUS/                         # Modbus RTU/TCP clients and servers
-│   │   ├── Arduino_NodeMCU/            # NodeMCU Modbus TCP server
-│   │   ├── MinimulModbus/              # Minimal Modbus examples
-│   │   ├── Modbus_Serial/              # Modbus Serial RTU examples (incl. JavaScript)
-│   │   ├── modbus_tk/                  # modbus_tk library examples
-│   │   └── pymodbus/                   # pymodbus library examples
-│   │       ├── Modbus_RTU_Master/      # RTU master implementations
-│   │       ├── Modbus_RTU_or_Serial/   # RTU/Serial notebooks
-│   │       ├── Modbus_TCP/             # TCP client/server notebooks
-│   │       └── Modbus_TCP_Client/      # TCP client examples
-│   ├── MQTT/                           # MQTT publishers, subscribers, loggers
-│   │   ├── NodeMCU/                    # NodeMCU MQTT examples
-│   │   ├── Part-5/                     # MQTT admin/config examples
-│   │   ├── Publisher/                  # MQTT publisher scripts
-│   │   └── Subscriber/                 # MQTT subscriber scripts
-│   └── OPC/                            # OPC-DA and OPC-UA examples
-│       ├── OPC-DA/                     # OpenOPC DA client notebooks
-│       ├── OPC-UA/                     # OPC-UA server/client notebooks (incl. JavaScript)
-│       ├── OPCUA/                      # Telegraf OPC-UA integration
-│       └── OPC UA + MQTT/              # OPC-UA to MQTT converters
+├── Protocols/                          # Protocol-specific examples and references
+│   ├── MODBUS/
+│   ├── MQTT/
+│   └── OPC/
 ├── Projects/                           # Platform-based solutions
-│   ├── JavaScript/                     # JavaScript-based projects
-│   │   └── js-modbus/                  # Browser-based Modbus client
+│   ├── Grafana/
+│   ├── JavaScript/                     # JavaScript solutions
+│   │   ├── BACnet/
+│   │   ├── Modbus/
+│   │   ├── MODBUS/                     # Case-sensitive legacy Git path; same content as Modbus
+│   │   ├── OPC-UA/
+│   │   └── js-modbus/
 │   ├── Node-RED/                       # Node-RED flows organized by protocol
 │   │   ├── BACnet/                     # Node-RED + BACnet (Public, Private)
 │   │   ├── Modbus/                     # Node-RED + Modbus (Public, Private)
 │   │   ├── MQTT/                       # Node-RED + MQTT (Public)
 │   │   └── OPC-UA/                     # Node-RED + OPC-UA (Public, Private)
-│   ├── Python/                         # Python-based tools and applications
-│   │   ├── Fanuc/                      # Fanuc CNC communication scripts
-│   │   ├── Fanuc_Logger/               # Fanuc data logging to database
-│   │   ├── MQTT-to-MSSQL-Logger/       # MQTT to Microsoft SQL Server logger
-│   │   ├── Python Based Modbus SImulator/ # Software Modbus simulator
-│   │   ├── Python GUI Application/     # GUI apps (BACnet, OPC-DA, OPC-UA loggers)
-│   │   ├── Python-Modbus-Simulator/    # Modbus TCP server development
-│   │   ├── Python-OPCDA-Datalogger/    # OPC-DA data logging tool
-│   │   ├── Python-OPCDA-to-OPCUA-Converter/ # OPC-DA to OPC-UA bridge
-│   │   └── SQLite-to-OPCUA-Publisher/  # SQLite to OPC-UA publisher
-│   └── Telegraf/                       # Telegraf configurations for OT
-│       ├── Modbus/                     # Telegraf Modbus read configs
-│       └── OPCUA/                      # Telegraf OPC-UA read configs
+│   ├── Python/                         # Python solutions and application projects
+│   │   ├── BACnet/                     # BACnet clients, simulators and loggers
+│   │   ├── IEC-104/
+│   │   ├── Modbus/
+│   │   ├── MODBUS/                     # Case-sensitive legacy Git path; same content as Modbus
+│   │   ├── MQTT/                       # MQTT clients, publishers and loggers
+│   │   ├── OPC/                        # OPC-DA/OPC-UA clients, servers and bridges
+│   │   └── Applications/               # Standalone Python application projects
+│   └── Telegraf/                       # Telegraf work grouped by protocol
+│       ├── Modbus/
+│       └── OPC-UA/
 ├── Training Simulators/                # Simulator software for student training
-│   ├── BACnet/                         # BACnet simulators
-│   ├── DNP3/                           # DNP3 client and server simulators
-│   ├── IEC104/                         # IEC104 client and server simulators
-│   ├── MQTT/                           # MQTT broker tools
-│   ├── Modbus/                         # Modbus simulators
-│   ├── Node-RED Remote Access/         # Remote access tools (ngrok, localtonet)
-│   ├── OPCDA/                          # OPC-DA simulation servers
-│   └── OPCUA/                          # OPC-UA clients (UaExpert)
+│   ├── BACnet/
+│   ├── DNP3/
+│   ├── IEC-104/
+│   ├── Modbus/
+│   ├── MQTT/
+│   ├── OPC-DA/
+│   ├── OPC-UA/
+│   └── Remote Access/
 ├── Tools/                              # Supporting utilities
 │   ├── KEPServerEX V6.6.350 Tutorial Project Backup/
 │   └── pywin32/                        # pywin32 library resources
@@ -90,12 +73,12 @@ Industrial automation toolkit for OPC, Modbus, MQTT, BACnet, IEC104, and DNP3 pr
 | Simulator | Location |
 |-----------|----------|
 | DNP3 Client/Server | `Training Simulators/DNP3/` |
-| IEC104 Client/Server | `Training Simulators/IEC104/` |
+| IEC104 Client/Server | `Training Simulators/IEC-104/` |
 | Modbus | `Training Simulators/Modbus/` |
 | MQTT | `Training Simulators/MQTT/` |
-| OPC-DA Server | `Training Simulators/OPCDA/` |
-| OPC-UA Client (UaExpert) | `Training Simulators/OPCUA/` |
-| Node-RED Remote Access | `Training Simulators/Node-RED Remote Access/` |
+| OPC-DA Server | `Training Simulators/OPC-DA/` |
+| OPC-UA Client (UaExpert) | `Training Simulators/OPC-UA/` |
+| Remote Access | `Training Simulators/Remote Access/` |
 
 ## Getting Started
 
