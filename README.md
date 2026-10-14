@@ -30,7 +30,8 @@ Industrial automation toolkit for OPC, Modbus, MQTT, BACnet, IEC104, and DNP3 pr
 │   ├── JavaScript/                     # JavaScript solutions
 │   │   ├── BACnet/
 │   │   ├── Modbus/
-│   │   ├── MODBUS/                     # Case-sensitive legacy Git path; same content as Modbus
+│   │   ├── MQTT/
+│   │   ├── OPC-DA/
 │   │   ├── OPC-UA/
 │   │   └── js-modbus/
 │   ├── Node-RED/                       # Node-RED flows organized by protocol
@@ -42,13 +43,15 @@ Industrial automation toolkit for OPC, Modbus, MQTT, BACnet, IEC104, and DNP3 pr
 │   │   ├── BACnet/                     # BACnet clients, simulators and loggers
 │   │   ├── IEC-104/
 │   │   ├── Modbus/
-│   │   ├── MODBUS/                     # Case-sensitive legacy Git path; same content as Modbus
 │   │   ├── MQTT/                       # MQTT clients, publishers and loggers
-│   │   ├── OPC/                        # OPC-DA/OPC-UA clients, servers and bridges
+│   │   ├── OPC-DA/
+│   │   ├── OPC-UA/                     # OPC-UA clients, servers and bridges
+│   │   ├── OPC/                        # Existing OPC project group
 │   │   └── Applications/               # Standalone Python application projects
 │   └── Telegraf/                       # Telegraf work grouped by protocol
 │       ├── Modbus/
 │       └── OPC-UA/
+│   # Platform folders use Modbus, OPC-UA, OPC-DA, MQTT and BACnet where applicable
 ├── Training Simulators/                # Simulator software for student training
 │   ├── BACnet/
 │   ├── DNP3/
