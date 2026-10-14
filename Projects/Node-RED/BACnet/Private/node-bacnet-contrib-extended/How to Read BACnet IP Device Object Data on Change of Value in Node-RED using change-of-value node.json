@@ -1,0 +1,44 @@
+[
+    {
+        "id": "107f242d999a935f",
+        "type": "tab",
+        "label": "change-of-value",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1aa268f1a0438dce",
+        "type": "debug",
+        "z": "107f242d999a935f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "cfa436b22edec71a",
+        "type": "change-of-value",
+        "z": "107f242d999a935f",
+        "name": "",
+        "address": "192.168.1.6:61531",
+        "inputType": "0",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 140,
+        "y": 80,
+        "wires": [
+            [
+                "1aa268f1a0438dce"
+            ]
+        ]
+    }
+]

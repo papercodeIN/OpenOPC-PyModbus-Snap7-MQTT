@@ -1,0 +1,88 @@
+[
+    {
+        "id": "c2f97f831b10833d",
+        "type": "tab",
+        "label": "Read Single BACnet Device",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4fb6bf9552d1c542",
+        "type": "function",
+        "z": "c2f97f831b10833d",
+        "name": "Inject Parameters",
+        "func": "// var randNum = Math.floor(Math.random() * 5100);\n// msg.communicationPort = 47809 + randNum;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n// msg.apduTimeout = 3000;\n// msg.reuseAddr = true;\n// msg.transportClosedDuration = 90000;\n//msg.getAllPropertiesManually = \"true\";\n\n// msg.deviceId = 2051;\n// BACnet Device ID\nmsg.deviceId = 3588107; \n// BACnet Device IP:Port\n// If you use it without port then there is a chance that it will not work\nmsg.address = \"192.168.1.8:55559\"; \nmsg.apduTimeout = 20000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "ede5e2d97a9ff630"
+            ]
+        ]
+    },
+    {
+        "id": "4494f2fbdd6bcf29",
+        "type": "inject",
+        "z": "c2f97f831b10833d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 80,
+        "wires": [
+            [
+                "4fb6bf9552d1c542"
+            ]
+        ]
+    },
+    {
+        "id": "ede5e2d97a9ff630",
+        "type": "read-single-device",
+        "z": "c2f97f831b10833d",
+        "name": "",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "177ff63bf3091b0f"
+            ]
+        ]
+    },
+    {
+        "id": "177ff63bf3091b0f",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 200,
+        "wires": []
+    }
+]

@@ -1,0 +1,238 @@
+[
+    {
+        "id": "77f0b662a7473241",
+        "type": "tab",
+        "label": "Prosys",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "599f4ad72278267e",
+        "type": "OpcUa-Client",
+        "z": "77f0b662a7473241",
+        "endpoint": "8dedbe4.828f54",
+        "action": "write",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "folderName4PKI": "",
+        "useTransport": false,
+        "maxChunkCount": "",
+        "maxMessageSize": "",
+        "receiveBufferSize": "",
+        "sendBufferSize": "",
+        "name": "",
+        "x": 500,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d55f2b7ec00af6bc",
+        "type": "inject",
+        "z": "77f0b662a7473241",
+        "name": "Write Value 45 to Var_1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ns=3;i=1007;datatype=Double",
+        "payload": "45",
+        "payloadType": "num",
+        "x": 190,
+        "y": 100,
+        "wires": [
+            [
+                "599f4ad72278267e"
+            ]
+        ]
+    },
+    {
+        "id": "c47c1a91f4dc9ddf",
+        "type": "inject",
+        "z": "77f0b662a7473241",
+        "name": "Write Value 55 to Var_1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ns=3;i=1007;datatype=Double",
+        "payload": "55",
+        "payloadType": "num",
+        "x": 190,
+        "y": 140,
+        "wires": [
+            [
+                "599f4ad72278267e"
+            ]
+        ]
+    },
+    {
+        "id": "9c87de4725195187",
+        "type": "ui_numeric",
+        "z": "77f0b662a7473241",
+        "name": "",
+        "label": "Var_1",
+        "tooltip": "",
+        "group": "4f17ecdb21849041",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "ns=3;i=1007;datatype=Double",
+        "topicType": "str",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                "599f4ad72278267e"
+            ]
+        ]
+    },
+    {
+        "id": "b27cbd928eb28e4a",
+        "type": "ui_numeric",
+        "z": "77f0b662a7473241",
+        "name": "",
+        "label": "Var_2",
+        "tooltip": "",
+        "group": "4f17ecdb21849041",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "ns=3;i=1008;datatype=Double",
+        "topicType": "str",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "599f4ad72278267e"
+            ]
+        ]
+    },
+    {
+        "id": "44cad85aefeed622",
+        "type": "inject",
+        "z": "77f0b662a7473241",
+        "name": "Write Value 45 to Var_2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ns=3;i=1008;datatype=Double",
+        "payload": "45",
+        "payloadType": "num",
+        "x": 190,
+        "y": 260,
+        "wires": [
+            [
+                "599f4ad72278267e"
+            ]
+        ]
+    },
+    {
+        "id": "f8d7c015d662bd8e",
+        "type": "inject",
+        "z": "77f0b662a7473241",
+        "name": "Write Value 55 to Var_2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ns=3;i=1008;datatype=Double",
+        "payload": "55",
+        "payloadType": "num",
+        "x": 190,
+        "y": 300,
+        "wires": [
+            [
+                "599f4ad72278267e"
+            ]
+        ]
+    },
+    {
+        "id": "8dedbe4.828f54",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://DESKTOP-1D1P1PV:53530/localhost",
+        "secpol": "None",
+        "secmode": "None",
+        "none": false,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "4f17ecdb21849041",
+        "type": "ui_group",
+        "name": "Prosys OPC UA",
+        "tab": "6e9b9ef9.94e89",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6e9b9ef9.94e89",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

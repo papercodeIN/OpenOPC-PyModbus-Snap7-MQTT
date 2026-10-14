@@ -1,0 +1,353 @@
+[
+    {
+        "id": "43d78e401ec59171",
+        "type": "tab",
+        "label": "Basic OPC UA to MQTT Gateway",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "e923a09c059988bb",
+        "type": "group",
+        "z": "43d78e401ec59171",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "d16ebe4d9cd60b98",
+            "9828c1938196dff1",
+            "cd49626f23864aec",
+            "a8f7b53aeae7e6fe",
+            "1fc748cf85eb8363"
+        ],
+        "x": 54,
+        "y": 79,
+        "w": 712,
+        "h": 82
+    },
+    {
+        "id": "9422d04ab8f9e6ca",
+        "type": "group",
+        "z": "43d78e401ec59171",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "fee6694ee997a5a5",
+            "1fd451b35e2a221e",
+            "dc264f1a494e733a"
+        ],
+        "x": 54,
+        "y": 219,
+        "w": 452,
+        "h": 82
+    },
+    {
+        "id": "d16ebe4d9cd60b98",
+        "type": "OPCUA-IIoT-Read",
+        "z": "43d78e401ec59171",
+        "g": "e923a09c059988bb",
+        "attributeId": "13",
+        "maxAge": 1,
+        "depth": 1,
+        "connector": "e04218a87a3d8312",
+        "name": "Read",
+        "justValue": true,
+        "showStatusActivities": false,
+        "showErrors": false,
+        "parseStrings": false,
+        "historyDays": "",
+        "x": 270,
+        "y": 120,
+        "wires": [
+            [
+                "9828c1938196dff1"
+            ]
+        ]
+    },
+    {
+        "id": "9828c1938196dff1",
+        "type": "OPCUA-IIoT-Response",
+        "z": "43d78e401ec59171",
+        "g": "e923a09c059988bb",
+        "name": "Simplify",
+        "compressStructure": true,
+        "showStatusActivities": false,
+        "showErrors": false,
+        "activateUnsetFilter": false,
+        "activateFilters": false,
+        "negateFilter": false,
+        "filters": [],
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "1fc748cf85eb8363"
+            ]
+        ]
+    },
+    {
+        "id": "cd49626f23864aec",
+        "type": "OPCUA-IIoT-Inject",
+        "z": "43d78e401ec59171",
+        "g": "e923a09c059988bb",
+        "injectType": "read",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "startDelay": "1",
+        "name": "Inject",
+        "addressSpaceItems": [
+            {
+                "name": "Counter",
+                "nodeId": "ns=3;i=1002",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Random",
+                "nodeId": "ns=3;i=1003",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Sawtooth",
+                "nodeId": "ns=3;i=1004",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Sinusoid",
+                "nodeId": "ns=3;i=1005",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Square",
+                "nodeId": "ns=3;i=1006",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Triangle",
+                "nodeId": "ns=3;i=1007",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Constant",
+                "nodeId": "ns=3;i=1001",
+                "datatypeName": "Double"
+            }
+        ],
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "d16ebe4d9cd60b98"
+            ]
+        ]
+    },
+    {
+        "id": "a8f7b53aeae7e6fe",
+        "type": "mqtt out",
+        "z": "43d78e401ec59171",
+        "g": "e923a09c059988bb",
+        "name": "Publisher",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "31c6b3408efb7a86",
+        "x": 680,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "1fc748cf85eb8363",
+        "type": "function",
+        "z": "43d78e401ec59171",
+        "g": "e923a09c059988bb",
+        "name": "Convert",
+        "func": "// Parse the incoming JSON data\nvar data = msg.payload.value;\n\n// Iterate through each data point\ndata.forEach(function(item) {\n    // Check if nodeId and name properties exist before accessing them\n    if (item.nodeId && item.nodeId.name) {\n        // Extract the variable name and value\n        var variableName = item.nodeId.name;\n        var variableValue = item.value;\n\n        // Send the MQTT message\n        node.send({\n            topic: variableName, // Set the MQTT topic as the variable name\n            payload: variableValue // Set the payload as the variable value\n        });\n    } else {\n        // Log a warning or handle the missing data as needed\n        console.warn(\"Skipping item: nodeId or name property is undefined.\");\n    }\n});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 120,
+        "wires": [
+            [
+                "a8f7b53aeae7e6fe"
+            ]
+        ]
+    },
+    {
+        "id": "fee6694ee997a5a5",
+        "type": "OpcUa-Item",
+        "z": "43d78e401ec59171",
+        "g": "9422d04ab8f9e6ca",
+        "item": "ns=3;i=1001",
+        "datatype": "Double",
+        "value": "",
+        "name": "Setup",
+        "x": 290,
+        "y": 260,
+        "wires": [
+            [
+                "1fd451b35e2a221e"
+            ]
+        ]
+    },
+    {
+        "id": "1fd451b35e2a221e",
+        "type": "OpcUa-Client",
+        "z": "43d78e401ec59171",
+        "g": "9422d04ab8f9e6ca",
+        "endpoint": "820babbbacf2d14d",
+        "action": "write",
+        "deadbandvalue": "",
+        "time": 10,
+        "timeUnit": "s",
+        "localfile": "",
+        "localkeyfile": "",
+        "useTransport": false,
+        "maxChunkCount": "",
+        "maxMessageSize": "",
+        "receiveBufferSize": "",
+        "sendBufferSize": "",
+        "name": "Write",
+        "x": 430,
+        "y": 260,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "dc264f1a494e733a",
+        "type": "mqtt in",
+        "z": "43d78e401ec59171",
+        "g": "9422d04ab8f9e6ca",
+        "name": "Subscriber",
+        "topic": "Constant",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "31c6b3408efb7a86",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 260,
+        "wires": [
+            [
+                "fee6694ee997a5a5"
+            ]
+        ]
+    },
+    {
+        "id": "1024712fcfc7cb46",
+        "type": "comment",
+        "z": "43d78e401ec59171",
+        "name": "OPC UA to MQTT Publisher",
+        "info": "",
+        "x": 180,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "3b04fc1244965405",
+        "type": "comment",
+        "z": "43d78e401ec59171",
+        "name": "MQTT to OPC UA Writer",
+        "info": "",
+        "x": 170,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "e04218a87a3d8312",
+        "type": "OPCUA-IIoT-Connector",
+        "discoveryUrl": "",
+        "endpoint": "opc.tcp://Parrot:4840/OPCUA/SimulationServer",
+        "endpointMustExist": false,
+        "keepSessionAlive": true,
+        "loginEnabled": false,
+        "name": "Prosys OPCUA Simulation Server",
+        "showErrors": false,
+        "securityPolicy": "None",
+        "securityMode": "None",
+        "individualCerts": false,
+        "publicCertificateFile": "",
+        "privateKeyFile": "",
+        "defaultSecureTokenLifetime": "",
+        "autoSelectRightEndpoint": false,
+        "strategyMaxRetry": "",
+        "strategyInitialDelay": "",
+        "strategyMaxDelay": "",
+        "strategyRandomisationFactor": "",
+        "requestedSessionTimeout": "",
+        "connectionStartDelay": "",
+        "reconnectDelay": "",
+        "maxBadSessionRequests": "10"
+    },
+    {
+        "id": "31c6b3408efb7a86",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "820babbbacf2d14d",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://Parrot:4840/OPCUA/SimulationServer",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    }
+]

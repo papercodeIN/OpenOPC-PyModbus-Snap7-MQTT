@@ -1,0 +1,16 @@
+{
+  "name": "bacnet-discovery",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bacstack": "^0.0.1-beta.14",
+    "node-bacnet": "^0.2.4"
+  }
+}

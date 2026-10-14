@@ -1,0 +1,88 @@
+[
+    {
+        "id": "e59ccc493ab8713f",
+        "type": "tab",
+        "label": "Read-Object-Properties",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5515866ca25b964a",
+        "type": "read-object-properties",
+        "z": "e59ccc493ab8713f",
+        "name": "",
+        "x": 440,
+        "y": 140,
+        "wires": [
+            [
+                "bf874e495e86a417"
+            ]
+        ]
+    },
+    {
+        "id": "f53d617dd251dd64",
+        "type": "function",
+        "z": "e59ccc493ab8713f",
+        "name": "Inject Id + Type + Properties",
+        "func": "msg.deviceId = 3588107;\nmsg.address = \"192.168.1.6:61531\";\nmsg.inputType = 0;\nmsg.bacnetID = 1;\n\nconst bacnetProperties = [\n  { id: 77 }, // OBJECT_NAME\n // { id: 79 }, // OBJECT_TYPE OR INPUT TYPE\n  { id: 85 }, // PRESENT_VALUE\n];\n\n\nconst requestArray = [\n  { objectId: { type: msg.inputType, instance: msg.bacnetID }, properties: bacnetProperties }\n];\n\nmsg.requestArray = requestArray        \n        \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 140,
+        "wires": [
+            [
+                "5515866ca25b964a"
+            ]
+        ]
+    },
+    {
+        "id": "d8d1549a7fbecea0",
+        "type": "inject",
+        "z": "e59ccc493ab8713f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 80,
+        "wires": [
+            [
+                "f53d617dd251dd64"
+            ]
+        ]
+    },
+    {
+        "id": "bf874e495e86a417",
+        "type": "debug",
+        "z": "e59ccc493ab8713f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 140,
+        "wires": []
+    }
+]

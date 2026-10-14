@@ -1,0 +1,264 @@
+[
+    {
+        "id": "6f6736f937cc9f44",
+        "type": "tab",
+        "label": "OPC UA to MQTT Publisher with JSON Payload",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d9ad7bcd06db64f0",
+        "type": "group",
+        "z": "6f6736f937cc9f44",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "b954e4fcb604dc27",
+            "a03103f94176a066",
+            "24fa95f7c40c2f3f",
+            "bef24677d0587a37",
+            "47a27d1a1c1b8460",
+            "6625ac483087965a"
+        ],
+        "x": 54,
+        "y": 59,
+        "w": 712,
+        "h": 122
+    },
+    {
+        "id": "438b57c482a4878e",
+        "type": "comment",
+        "z": "6f6736f937cc9f44",
+        "name": "OPC UA to MQTT Publisher",
+        "info": "",
+        "x": 180,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b954e4fcb604dc27",
+        "type": "OPCUA-IIoT-Read",
+        "z": "6f6736f937cc9f44",
+        "g": "d9ad7bcd06db64f0",
+        "attributeId": "13",
+        "maxAge": 1,
+        "depth": 1,
+        "connector": "e04218a87a3d8312",
+        "name": "Read",
+        "justValue": true,
+        "showStatusActivities": false,
+        "showErrors": false,
+        "parseStrings": false,
+        "historyDays": "",
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "a03103f94176a066"
+            ]
+        ]
+    },
+    {
+        "id": "a03103f94176a066",
+        "type": "OPCUA-IIoT-Response",
+        "z": "6f6736f937cc9f44",
+        "g": "d9ad7bcd06db64f0",
+        "name": "Simplify",
+        "compressStructure": true,
+        "showStatusActivities": false,
+        "showErrors": false,
+        "activateUnsetFilter": false,
+        "activateFilters": false,
+        "negateFilter": false,
+        "filters": [],
+        "x": 400,
+        "y": 100,
+        "wires": [
+            [
+                "47a27d1a1c1b8460",
+                "6625ac483087965a"
+            ]
+        ]
+    },
+    {
+        "id": "24fa95f7c40c2f3f",
+        "type": "OPCUA-IIoT-Inject",
+        "z": "6f6736f937cc9f44",
+        "g": "d9ad7bcd06db64f0",
+        "injectType": "read",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "startDelay": "1",
+        "name": "Inject",
+        "addressSpaceItems": [
+            {
+                "name": "Counter",
+                "nodeId": "ns=3;i=1002",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Random",
+                "nodeId": "ns=3;i=1003",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Sawtooth",
+                "nodeId": "ns=3;i=1004",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Sinusoid",
+                "nodeId": "ns=3;i=1005",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Square",
+                "nodeId": "ns=3;i=1006",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Triangle",
+                "nodeId": "ns=3;i=1007",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Constant",
+                "nodeId": "ns=3;i=1001",
+                "datatypeName": "Double"
+            }
+        ],
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "b954e4fcb604dc27"
+            ]
+        ]
+    },
+    {
+        "id": "bef24677d0587a37",
+        "type": "mqtt out",
+        "z": "6f6736f937cc9f44",
+        "g": "d9ad7bcd06db64f0",
+        "name": "Publisher",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "31c6b3408efb7a86",
+        "x": 680,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "47a27d1a1c1b8460",
+        "type": "function",
+        "z": "6f6736f937cc9f44",
+        "g": "d9ad7bcd06db64f0",
+        "name": "Convert",
+        "func": "// Parse the incoming JSON data\nvar data = msg.payload.value;\n\n// Initialize an empty array to hold the collected data\nvar collectedData = [];\n\n// Iterate through each data point\ndata.forEach(function(item) {\n    // Check if nodeId and name properties exist before accessing them\n    if (item.nodeId && item.nodeId.name) {\n        // Extract the variable name, nodeId, datatypeName, and value\n        var variableName = item.nodeId.name;\n        var variableValue = item.value;\n        var nodeId = item.nodeId.nodeId;\n        var datatypeName = item.nodeId.datatypeName;\n\n        // Add the data to the collectedData array\n        collectedData.push({\n            variableName: variableName,\n            value: variableValue,\n            nodeId: nodeId,\n            datatypeName: datatypeName\n        });\n    } else {\n        // Log a warning or handle the missing data as needed\n        console.warn(\"Skipping item: nodeId or name property is undefined.\");\n    }\n});\n\n// Send the MQTT message with all data points in JSON format\nnode.send({\n    topic: \"OPCUA\", // Set the MQTT topic to \"OPCUA\"\n    payload: collectedData // Set the payload as the collected data object\n});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 100,
+        "wires": [
+            [
+                "bef24677d0587a37"
+            ]
+        ]
+    },
+    {
+        "id": "6625ac483087965a",
+        "type": "debug",
+        "z": "6f6736f937cc9f44",
+        "g": "d9ad7bcd06db64f0",
+        "name": "debug 29",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "e04218a87a3d8312",
+        "type": "OPCUA-IIoT-Connector",
+        "discoveryUrl": "",
+        "endpoint": "opc.tcp://Parrot:4840/OPCUA/SimulationServer",
+        "endpointMustExist": false,
+        "keepSessionAlive": true,
+        "loginEnabled": false,
+        "name": "Prosys OPCUA Simulation Server",
+        "showErrors": false,
+        "securityPolicy": "None",
+        "securityMode": "None",
+        "individualCerts": false,
+        "publicCertificateFile": "",
+        "privateKeyFile": "",
+        "defaultSecureTokenLifetime": "",
+        "autoSelectRightEndpoint": false,
+        "strategyMaxRetry": "",
+        "strategyInitialDelay": "",
+        "strategyMaxDelay": "",
+        "strategyRandomisationFactor": "",
+        "requestedSessionTimeout": "",
+        "connectionStartDelay": "",
+        "reconnectDelay": "",
+        "maxBadSessionRequests": "10"
+    },
+    {
+        "id": "31c6b3408efb7a86",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

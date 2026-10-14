@@ -1,0 +1,95 @@
+[
+    {
+        "id": "6686935418924148",
+        "type": "tab",
+        "label": "0: OPC-UA Client",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4efe73beab6ff561",
+        "type": "inject",
+        "z": "6686935418924148",
+        "name": "Counter Read",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ns=3;i=1001;datatype=Int32",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "93fb03ca7d7a0be4"
+            ]
+        ]
+    },
+    {
+        "id": "93fb03ca7d7a0be4",
+        "type": "OpcUa-Client",
+        "z": "6686935418924148",
+        "endpoint": "19ae3629d5d6cac2",
+        "action": "read",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "folderName4PKI": "",
+        "useTransport": false,
+        "maxChunkCount": "",
+        "maxMessageSize": "",
+        "receiveBufferSize": "",
+        "sendBufferSize": "",
+        "name": "",
+        "x": 340,
+        "y": 80,
+        "wires": [
+            [
+                "24ab705cfe537698"
+            ]
+        ]
+    },
+    {
+        "id": "24ab705cfe537698",
+        "type": "debug",
+        "z": "6686935418924148",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 510,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "19ae3629d5d6cac2",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://DESKTOP-1D1P1PV:53530/localhost",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    }
+]

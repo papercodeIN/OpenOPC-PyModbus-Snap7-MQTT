@@ -1,0 +1,367 @@
+[
+    {
+        "id": "a9f34d360d77dccf",
+        "type": "tab",
+        "label": "Write 32-Bit Floating Point Values to Modbus TCP/IP Device",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1d5d9d18de6c3663",
+        "type": "modbus-read",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "0",
+        "quantity": "4",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "f68d0fe9835bdf51",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "4a69ab3d367f61ec",
+                "7122ccca71acbb52",
+                "9d968439da240df8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "4a69ab3d367f61ec",
+        "type": "modbus-response",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "registerShowMax": 20,
+        "x": 390,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7122ccca71acbb52",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Read | 32-bit Float | Little-Endian Byte Swap | LSRF |",
+        "func": "msg.payload = [msg.payload[0],msg.payload[1]];\nlet pay = msg.payload;\n\nconst buf = Buffer.allocUnsafe(4);\nbuf.writeInt16BE(pay[0],2);\nbuf.writeInt16BE(pay[1],0);\n\nmsg.payload = buf.readFloatBE(0);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 120,
+        "wires": [
+            [
+                "a3fb8dd3facc8060"
+            ]
+        ]
+    },
+    {
+        "id": "97ce26dd871c1320",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "2",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 790,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "9d968439da240df8",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Read | 32-bit Float | Big-Endian  | MSRF |",
+        "func": "msg.payload = [msg.payload[1],msg.payload[0]];\nlet pay = msg.payload;\n\nconst buf = Buffer.allocUnsafe(4);\nbuf.writeInt16BE(pay[0],2);\nbuf.writeInt16BE(pay[1],0);\n\nmsg.payload = buf.readFloatBE(0);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 180,
+        "wires": [
+            [
+                "97ce26dd871c1320"
+            ]
+        ]
+    },
+    {
+        "id": "a3fb8dd3facc8060",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "1",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 790,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "58f46b9a704e78cd",
+        "type": "modbus-write",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "0",
+        "quantity": "2",
+        "server": "f68d0fe9835bdf51",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 820,
+        "y": 380,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a53a3eb4d89eaf7e",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Write | 32-bit Float | Big-Endian | MSRF |",
+        "func": "// Input value (replace this with your actual floating-point value)\nvar floatValue = msg.payload;\n\n// Create a Buffer to store the binary representation of the float\nvar buf = Buffer.allocUnsafe(4);\nbuf.writeFloatBE(floatValue, 0);\n\n// Extract two 16-bit integers from the Buffer in big-endian byte order\nvar holdingRegister1 = buf.readUInt16BE(0);\nvar holdingRegister2 = buf.readUInt16BE(2);\n\n// Output the two holding registers as an array\nconsole.log(\"Holding Register 1:\", holdingRegister1);\nconsole.log(\"Holding Register 2:\", holdingRegister2);\n\n// Output the two holding registers as an array\nmsg.payload = [holdingRegister1, holdingRegister2];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 380,
+        "wires": [
+            [
+                "58f46b9a704e78cd",
+                "3c0936d8769e6b3a"
+            ]
+        ]
+    },
+    {
+        "id": "ed45b5e98457612f",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Write | 32-bit Float | Little-Endian Byte Swap | LSRF |",
+        "func": "// Input value (replace this with your actual floating-point value)\nvar floatValue = msg.payload;\n\n// Create a Buffer to store the binary representation of the float\nvar buf = Buffer.allocUnsafe(4);\nbuf.writeFloatBE(floatValue, 0);\n\n// Extract two 16-bit integers from the Buffer in big-endian byte order\nvar holdingRegister1 = buf.readUInt16BE(0);\nvar holdingRegister2 = buf.readUInt16BE(2);\n\n// Output the two holding registers as an array\nconsole.log(\"Holding Register 1:\", holdingRegister1);\nconsole.log(\"Holding Register 2:\", holdingRegister2);\n\n// Output the two holding registers as an array\nmsg.payload = [holdingRegister2, holdingRegister1];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "f8e68d4e42d96f0c",
+                "ed1cf777e179bd2f"
+            ]
+        ]
+    },
+    {
+        "id": "f8e68d4e42d96f0c",
+        "type": "modbus-write",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "0",
+        "quantity": "2",
+        "server": "f68d0fe9835bdf51",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 820,
+        "y": 260,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "6828b33754dfbffa",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "60.5",
+        "payloadType": "num",
+        "x": 170,
+        "y": 380,
+        "wires": [
+            [
+                "a53a3eb4d89eaf7e",
+                "852bd6dfaecb9229"
+            ]
+        ]
+    },
+    {
+        "id": "9d0d8053b1653654",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "60.5",
+        "payloadType": "num",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "ed45b5e98457612f",
+                "2f5b144361cf4520"
+            ]
+        ]
+    },
+    {
+        "id": "ed1cf777e179bd2f",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 800,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "3c0936d8769e6b3a",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 800,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "2f5b144361cf4520",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "1",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 170,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "852bd6dfaecb9229",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "1",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 170,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "f68d0fe9835bdf51",
+        "type": "modbus-client",
+        "name": "Modbus Slave",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": "10502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true,
+        "showWarnings": true,
+        "showLogs": true
+    }
+]

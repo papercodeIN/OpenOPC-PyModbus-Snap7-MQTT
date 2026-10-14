@@ -1,0 +1,787 @@
+[
+    {
+        "id": "9cce94a44590cd7f",
+        "type": "tab",
+        "label": "Room Simulator BACnet Device Dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ebee058bb5d23d2d",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Inject Parameters",
+        "func": "// BACnet Device ID\nmsg.deviceId = 1867817; \n// If you use it without port then there is a chance that it will not work\nmsg.address = \"192.168.1.7:60173\"; \nmsg.apduTimeout = 20000;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 280,
+        "wires": [
+            [
+                "46c4433506b431e9"
+            ]
+        ]
+    },
+    {
+        "id": "1d3e60e4bad3bdfa",
+        "type": "inject",
+        "z": "9cce94a44590cd7f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1.5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 240,
+        "wires": [
+            [
+                "ebee058bb5d23d2d"
+            ]
+        ]
+    },
+    {
+        "id": "46c4433506b431e9",
+        "type": "read-single-device",
+        "z": "9cce94a44590cd7f",
+        "name": "",
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "b107d8a9ac048ac7",
+                "90d634d28e2faa38",
+                "412617e48f4f066e",
+                "a82f5c8829b32855",
+                "ae88a24c2f3e7ef2",
+                "fa552f167d443f4b",
+                "b5687f20df5ac07e",
+                "08bc7223c206108b",
+                "a9c66a8738b02adb",
+                "b440d194216808b0"
+            ]
+        ]
+    },
+    {
+        "id": "76ec9a60e851138c",
+        "type": "inject",
+        "z": "9cce94a44590cd7f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "3a2100c04b219ffc"
+            ]
+        ]
+    },
+    {
+        "id": "3a2100c04b219ffc",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 80,
+        "wires": [
+            [
+                "aed0dcd6c7cf8850"
+            ]
+        ]
+    },
+    {
+        "id": "aed0dcd6c7cf8850",
+        "type": "discover-devices",
+        "z": "9cce94a44590cd7f",
+        "name": "",
+        "x": 510,
+        "y": 80,
+        "wires": [
+            [
+                "04db28e614682bf6"
+            ]
+        ]
+    },
+    {
+        "id": "04db28e614682bf6",
+        "type": "debug",
+        "z": "9cce94a44590cd7f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "39f86ea2dc857613",
+        "type": "comment",
+        "z": "9cce94a44590cd7f",
+        "name": "# Discover Available BACnet Device Acorss Network",
+        "info": "",
+        "x": 230,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "ab7b67c6895a8131",
+        "type": "ui_gauge",
+        "z": "9cce94a44590cd7f",
+        "name": "Indoor Temperature",
+        "group": "b8ca7e63fbea6811",
+        "order": 4,
+        "width": "4",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Indoor Temperature",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 830,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "48f022feb4ac1ae1",
+        "type": "ui_gauge",
+        "z": "9cce94a44590cd7f",
+        "name": "Outdoor Temperature",
+        "group": "b8ca7e63fbea6811",
+        "order": 5,
+        "width": "4",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Outdoor Temperature",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 840,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "b107d8a9ac048ac7",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Water Temperature",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find \"Temperature.Water\"\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n    \n    // Check if the object has OBJECT_NAME property and its value is \"Temperature.Water\"\n    if (object[\"OBJECT_NAME(77)\"] === \"Temperature.Water\") {\n      // Extract the value and round it to 2 decimal places\n      var pointValue = parseFloat(object[\"PRESENT_VALUE(85)\"]).toFixed(2);\n      \n      // Create a new message object with the extracted value\n      msg.payload = parseFloat(pointValue);\n      \n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"Temperature.Water\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 280,
+        "wires": [
+            [
+                "ace65ef2095246f3",
+                "be5a4edb8e6ac96c"
+            ]
+        ]
+    },
+    {
+        "id": "ace65ef2095246f3",
+        "type": "ui_gauge",
+        "z": "9cce94a44590cd7f",
+        "name": "Water Temperature",
+        "group": "b8ca7e63fbea6811",
+        "order": 6,
+        "width": "4",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Water Temperature",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 830,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "90d634d28e2faa38",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Indoor Temperature",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find \"Temperature.Water\"\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n    \n    // Check if the object has OBJECT_NAME property and its value is \"Temperature.Water\"\n    if (object[\"OBJECT_NAME(77)\"] === \"Temperature.Indoor\") {\n      // Extract the value and round it to 2 decimal places\n      var pointValue = parseFloat(object[\"PRESENT_VALUE(85)\"]).toFixed(2);\n      \n      // Create a new message object with the extracted value\n      msg.payload = parseFloat(pointValue);\n      \n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"Temperature.Water\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 240,
+        "wires": [
+            [
+                "ab7b67c6895a8131",
+                "2c174f6917e6e05f"
+            ]
+        ]
+    },
+    {
+        "id": "412617e48f4f066e",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Outdoor Temperature",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find \"Temperature.Water\"\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n    \n    // Check if the object has OBJECT_NAME property and its value is \"Temperature.Water\"\n    if (object[\"OBJECT_NAME(77)\"] === \"Temperature.Outdoor\") {\n      // Extract the value and round it to 2 decimal places\n      var pointValue = parseFloat(object[\"PRESENT_VALUE(85)\"]).toFixed(2);\n      \n      // Create a new message object with the extracted value\n      msg.payload = parseFloat(pointValue);\n      \n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"Temperature.Water\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 320,
+        "wires": [
+            [
+                "48f022feb4ac1ae1",
+                "76fcaecb8d76ae25"
+            ]
+        ]
+    },
+    {
+        "id": "a82f5c8829b32855",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Effective SetPoint",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find \"Temperature.Water\"\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n    \n    // Check if the object has OBJECT_NAME property and its value is \"Temperature.Water\"\n    if (object[\"OBJECT_NAME(77)\"] === \"SetPoint.Value\") {\n      // Extract the value and round it to 2 decimal places\n      var pointValue = parseFloat(object[\"PRESENT_VALUE(85)\"]).toFixed(2);\n      \n      // Create a new message object with the extracted value\n      msg.payload = parseFloat(pointValue);\n      \n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"Temperature.Water\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 360,
+        "wires": [
+            [
+                "d2f872afd5f97bc1"
+            ]
+        ]
+    },
+    {
+        "id": "ae88a24c2f3e7ef2",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Setoint 1: Comfort Mode",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find \"Temperature.Water\"\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n    \n    // Check if the object has OBJECT_NAME property and its value is \"Temperature.Water\"\n    if (object[\"OBJECT_NAME(77)\"] === \"Setpoint.1\") {\n      // Extract the value and round it to 2 decimal places\n      var pointValue = parseFloat(object[\"PRESENT_VALUE(85)\"]).toFixed(2);\n      \n      // Create a new message object with the extracted value\n      msg.payload = parseFloat(pointValue);\n      \n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"Temperature.Water\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 420,
+        "wires": [
+            [
+                "443b1c35fb7e8bdb"
+            ]
+        ]
+    },
+    {
+        "id": "fa552f167d443f4b",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Setoint 2: Eco+ Mode",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find \"Temperature.Water\"\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n    \n    // Check if the object has OBJECT_NAME property and its value is \"Temperature.Water\"\n    if (object[\"OBJECT_NAME(77)\"] === \"Setpoint.2\") {\n      // Extract the value and round it to 2 decimal places\n      var pointValue = parseFloat(object[\"PRESENT_VALUE(85)\"]).toFixed(2);\n      \n      // Create a new message object with the extracted value\n      msg.payload = parseFloat(pointValue);\n      \n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"Temperature.Water\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 460,
+        "wires": [
+            [
+                "054e515df72bef45"
+            ]
+        ]
+    },
+    {
+        "id": "b5687f20df5ac07e",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Setoint 3: Vacancy Mode",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find \"Temperature.Water\"\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n    \n    // Check if the object has OBJECT_NAME property and its value is \"Temperature.Water\"\n    if (object[\"OBJECT_NAME(77)\"] === \"Setpoint.3\") {\n      // Extract the value and round it to 2 decimal places\n      var pointValue = parseFloat(object[\"PRESENT_VALUE(85)\"]).toFixed(2);\n      \n      // Create a new message object with the extracted value\n      msg.payload = parseFloat(pointValue);\n      \n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"Temperature.Water\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 500,
+        "wires": [
+            [
+                "30d1ee4779c78a1d"
+            ]
+        ]
+    },
+    {
+        "id": "443b1c35fb7e8bdb",
+        "type": "ui_text",
+        "z": "9cce94a44590cd7f",
+        "group": "be5c5ae887cfaff4",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Setoint 1: Comfort Mode",
+        "label": "Setoint 1: Comfort Mode",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 850,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "054e515df72bef45",
+        "type": "ui_text",
+        "z": "9cce94a44590cd7f",
+        "group": "be5c5ae887cfaff4",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Setoint 2: Eco+ Mode",
+        "label": "Setoint 2: Eco+ Mode",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 840,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "30d1ee4779c78a1d",
+        "type": "ui_text",
+        "z": "9cce94a44590cd7f",
+        "group": "be5c5ae887cfaff4",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Setoint 3: Vacancy Mode",
+        "label": "Setoint 3: Vacancy Mode",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 850,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "08bc7223c206108b",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Heater Status",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find the specified pointName\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n\n    // Check if the object has OBJECT_NAME property and its value is the specified pointName\n    if (object[\"OBJECT_NAME(77)\"] === \"State.Heater\") {\n      // Extract the value and convert to boolean (true for \"ACTIVE(1)\", false for \"INACTIVE(0)\")\n      var isActive = object[\"PRESENT_VALUE(85)\"] === \"ACTIVE(1)\";\n\n      // Create a new message object with the extracted boolean value\n      msg.payload = isActive;\n\n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"State.Heater\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 560,
+        "wires": [
+            [
+                "0573f3a361fc69a2"
+            ]
+        ]
+    },
+    {
+        "id": "a9c66a8738b02adb",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "Chiller Status",
+        "func": "// Input payload containing the provided data\nvar inputPayload = msg.payload;\n\n// Check if the payload has the required structure\nif (\n  inputPayload &&\n  inputPayload[\"OBJECT_LIST(76)\"] &&\n  Array.isArray(inputPayload[\"OBJECT_LIST(76)\"])\n) {\n  // Iterate through the OBJECT_LIST array to find the specified pointName\n  for (var i = 0; i < inputPayload[\"OBJECT_LIST(76)\"].length; i++) {\n    var object = inputPayload[\"OBJECT_LIST(76)\"][i];\n\n    // Check if the object has OBJECT_NAME property and its value is the specified pointName\n    if (object[\"OBJECT_NAME(77)\"] === \"State.Chiller\") {\n      // Extract the value and convert to boolean (true for \"ACTIVE(1)\", false for \"INACTIVE(0)\")\n      var isActive = object[\"PRESENT_VALUE(85)\"] === \"ACTIVE(1)\";\n\n      // Create a new message object with the extracted boolean value\n      msg.payload = isActive;\n\n      // Send the message to the next node in the flow\n      return msg;\n    }\n  }\n}\n\n// If \"State.Heater\" is not found, return an empty payload\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 600,
+        "wires": [
+            [
+                "97e0ac954d708d2e"
+            ]
+        ]
+    },
+    {
+        "id": "d2f872afd5f97bc1",
+        "type": "ui_digital_display",
+        "z": "9cce94a44590cd7f",
+        "name": "Effective SetPoint",
+        "group": "be5c5ae887cfaff4",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "digits": "3",
+        "decimals": "0",
+        "x": 830,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b440d194216808b0",
+        "type": "debug",
+        "z": "9cce94a44590cd7f",
+        "name": "debug 33",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "0573f3a361fc69a2",
+        "type": "ui_led",
+        "z": "9cce94a44590cd7f",
+        "order": 1,
+        "group": "b8ca7e63fbea6811",
+        "width": "6",
+        "height": "1",
+        "label": "Heater Status",
+        "labelPlacement": "right",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 790,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "97e0ac954d708d2e",
+        "type": "ui_led",
+        "z": "9cce94a44590cd7f",
+        "order": 3,
+        "group": "b8ca7e63fbea6811",
+        "width": "6",
+        "height": "1",
+        "label": "Chiller Status",
+        "labelPlacement": "right",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 790,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "d41ee62cec6bb5f9",
+        "type": "ui_chart",
+        "z": "9cce94a44590cd7f",
+        "name": "",
+        "group": "2c6d5e42a7315927",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1470,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2c174f6917e6e05f",
+        "type": "change",
+        "z": "9cce94a44590cd7f",
+        "name": "Indoor Temperature",
+        "rules": [
+            {
+                "t": "set",
+                "p": "IndoorTemperature",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1090,
+        "y": 240,
+        "wires": [
+            [
+                "244da52ed707994e"
+            ]
+        ]
+    },
+    {
+        "id": "be5a4edb8e6ac96c",
+        "type": "change",
+        "z": "9cce94a44590cd7f",
+        "name": "Water Temperature",
+        "rules": [
+            {
+                "t": "set",
+                "p": "WaterTemperature",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1090,
+        "y": 280,
+        "wires": [
+            [
+                "244da52ed707994e"
+            ]
+        ]
+    },
+    {
+        "id": "76fcaecb8d76ae25",
+        "type": "change",
+        "z": "9cce94a44590cd7f",
+        "name": "Outdoor Temperature",
+        "rules": [
+            {
+                "t": "set",
+                "p": "OutdoorTemperature",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1080,
+        "y": 320,
+        "wires": [
+            [
+                "244da52ed707994e"
+            ]
+        ]
+    },
+    {
+        "id": "244da52ed707994e",
+        "type": "function",
+        "z": "9cce94a44590cd7f",
+        "name": "function 7",
+        "func": "// Input messages containing temperature values\nvar indoorTemperature = msg.IndoorTemperature;\nvar waterTemperature = msg.WaterTemperature;\nvar outdoorTemperature = msg.OutdoorTemperature;\n\n// Create separate messages for each temperature value\nvar indoorMsg = { payload: indoorTemperature, topic: \"Indoor Temperature\" };\nvar waterMsg = { payload: waterTemperature, topic: \"Water Temperature\" };\nvar outdoorMsg = { payload: outdoorTemperature, topic: \"Outdoor Temperature\" };\n\n// Send each message to the next node in the flow\nreturn [indoorMsg, waterMsg, outdoorMsg];\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 280,
+        "wires": [
+            [
+                "d41ee62cec6bb5f9"
+            ],
+            [
+                "d41ee62cec6bb5f9"
+            ],
+            [
+                "d41ee62cec6bb5f9"
+            ]
+        ]
+    },
+    {
+        "id": "b8ca7e63fbea6811",
+        "type": "ui_group",
+        "name": "Status",
+        "tab": "99bb9f29753326a8",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "be5c5ae887cfaff4",
+        "type": "ui_group",
+        "name": "Parameter",
+        "tab": "99bb9f29753326a8",
+        "order": 1,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2c6d5e42a7315927",
+        "type": "ui_group",
+        "name": "Trends",
+        "tab": "99bb9f29753326a8",
+        "order": 3,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "99bb9f29753326a8",
+        "type": "ui_tab",
+        "name": "Room Simulator",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

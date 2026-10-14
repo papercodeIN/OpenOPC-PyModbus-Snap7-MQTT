@@ -1,0 +1,365 @@
+[
+    {
+        "id": "a9f34d360d77dccf",
+        "type": "tab",
+        "label": "BACnet to MySQL Logger",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fa17fb916284cf19",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "08257e5542d39440"
+            ]
+        ]
+    },
+    {
+        "id": "08257e5542d39440",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 100,
+        "wires": [
+            [
+                "411aed243f057296"
+            ]
+        ]
+    },
+    {
+        "id": "411aed243f057296",
+        "type": "discover-devices",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "x": 490,
+        "y": 100,
+        "wires": [
+            [
+                "74bf69659e1974a1"
+            ]
+        ]
+    },
+    {
+        "id": "74bf69659e1974a1",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "b609ba7673ff6360",
+        "type": "change-of-value",
+        "z": "a9f34d360d77dccf",
+        "d": true,
+        "name": "",
+        "address": "192.168.1.7:56045",
+        "inputType": "0",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 120,
+        "y": 260,
+        "wires": [
+            [
+                "5859cc046dd334ea"
+            ]
+        ]
+    },
+    {
+        "id": "5859cc046dd334ea",
+        "type": "change",
+        "z": "a9f34d360d77dccf",
+        "name": "Temperature Indoor",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "Temperature Indoor",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 260,
+        "wires": [
+            [
+                "9e56170e09795686"
+            ]
+        ]
+    },
+    {
+        "id": "04d4f95924cbd764",
+        "type": "change-of-value",
+        "z": "a9f34d360d77dccf",
+        "d": true,
+        "name": "",
+        "address": "192.168.1.7:56045",
+        "inputType": "0",
+        "bacnetId": "1",
+        "COVtimeout": "120000",
+        "x": 120,
+        "y": 320,
+        "wires": [
+            [
+                "0946cbde25d9b141"
+            ]
+        ]
+    },
+    {
+        "id": "0946cbde25d9b141",
+        "type": "change",
+        "z": "a9f34d360d77dccf",
+        "name": "Glycol Water Temperature",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "Glycol Water Temperature",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 320,
+        "wires": [
+            [
+                "9e56170e09795686"
+            ]
+        ]
+    },
+    {
+        "id": "c488e5f8ecafffa7",
+        "type": "change-of-value",
+        "z": "a9f34d360d77dccf",
+        "d": true,
+        "name": "",
+        "address": "192.168.1.7:56045",
+        "inputType": "2",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 120,
+        "y": 380,
+        "wires": [
+            [
+                "5d5206bb588f79aa"
+            ]
+        ]
+    },
+    {
+        "id": "5d5206bb588f79aa",
+        "type": "change",
+        "z": "a9f34d360d77dccf",
+        "name": "Effective SetPoint",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "Effective SetPoint",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 380,
+        "wires": [
+            [
+                "9e56170e09795686"
+            ]
+        ]
+    },
+    {
+        "id": "2edd90aaf0602a93",
+        "type": "comment",
+        "z": "a9f34d360d77dccf",
+        "name": "# Discover Available BACnet Device Acorss Network",
+        "info": "",
+        "x": 210,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b38e7a9891cb35cb",
+        "type": "comment",
+        "z": "a9f34d360d77dccf",
+        "name": "# Log BACnet Device Data on Value Change",
+        "info": "",
+        "x": 190,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9e56170e09795686",
+        "type": "template",
+        "z": "a9f34d360d77dccf",
+        "d": true,
+        "name": "Set SQL Topic",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "sql",
+        "syntax": "mustache",
+        "template": "INSERT INTO `BACnet_Data` (`Tag`,`TagValue`) VALUES (\"{{tag}}\",\"{{value}}\")",
+        "output": "str",
+        "x": 620,
+        "y": 320,
+        "wires": [
+            [
+                "d95f06e8ac81c6a1"
+            ]
+        ],
+        "icon": "font-awesome/fa-database"
+    },
+    {
+        "id": "eda0ad19c3df62b7",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "Create Table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE BACnet_Data (ID INT AUTO_INCREMENT PRIMARY KEY, TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, Tag TEXT, TagValue REAL);",
+        "payload": "",
+        "payloadType": "date",
+        "x": 630,
+        "y": 360,
+        "wires": [
+            [
+                "d95f06e8ac81c6a1"
+            ]
+        ]
+    },
+    {
+        "id": "4213014f86270577",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "Delete Table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DROP TABLE IF EXISTS BACnet_Data;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 630,
+        "y": 400,
+        "wires": [
+            [
+                "d95f06e8ac81c6a1"
+            ]
+        ]
+    },
+    {
+        "id": "d95f06e8ac81c6a1",
+        "type": "mysql",
+        "z": "a9f34d360d77dccf",
+        "mydb": "ee29beb1191c7f2e",
+        "name": "DB",
+        "x": 830,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ee29beb1191c7f2e",
+        "type": "MySQLdatabase",
+        "name": "DB",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "test",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]

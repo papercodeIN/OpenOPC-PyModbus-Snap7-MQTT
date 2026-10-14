@@ -1,0 +1,367 @@
+[
+    {
+        "id": "a9f34d360d77dccf",
+        "type": "tab",
+        "label": "Write 64-Bit Floating Point Values to Modbus TCP/IP Device",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "58f46b9a704e78cd",
+        "type": "modbus-write",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "0",
+        "quantity": "4",
+        "server": "f68d0fe9835bdf51",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 640,
+        "y": 520,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a53a3eb4d89eaf7e",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Write | 64-bit Float | Double Float | Little-Endian Byte Swap  | LSRF |",
+        "func": "// Input value (replace this with your actual 64-bit float value)\nvar float64Input = msg.payload;\n\n// Create a Typed Array for the 64-bit float\nvar float64Array = new Float64Array(1);\nfloat64Array[0] = float64Input;\n\n// Extract the 64-bit integer as a BigInt from the Typed Array\nvar combinedValue = BigInt(new BigInt64Array(float64Array.buffer)[0]);\n\n// Extract individual 16-bit integers from the combined 64-bit integer\nvar holdingRegister4 = (combinedValue >> 48n) & 0xFFFFn;\nvar holdingRegister3 = (combinedValue >> 32n) & 0xFFFFn;\nvar holdingRegister2 = (combinedValue >> 16n) & 0xFFFFn;\nvar holdingRegister1 = combinedValue & 0xFFFFn;\n\n// Output the individual 16-bit integers\nmsg.payload = [Number(holdingRegister1), Number(holdingRegister2), Number(holdingRegister3), Number(holdingRegister4)];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 480,
+        "wires": [
+            [
+                "58f46b9a704e78cd",
+                "3c0936d8769e6b3a"
+            ]
+        ]
+    },
+    {
+        "id": "ed45b5e98457612f",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Write | 64-bit Float | Double Float | Big-Endian | MSRF |",
+        "func": "// Input value (replace this with your actual 64-bit float value)\nvar float64Input = msg.payload;\n\n// Create a Typed Array for the 64-bit float\nvar float64Array = new Float64Array(1);\nfloat64Array[0] = float64Input;\n\n// Extract the 64-bit integer as a BigInt from the Typed Array\nvar combinedValue = BigInt(new BigInt64Array(float64Array.buffer)[0]);\n\n// Extract individual 16-bit integers from the combined 64-bit integer\nvar holdingRegister1 = (combinedValue >> 48n) & 0xFFFFn;\nvar holdingRegister2 = (combinedValue >> 32n) & 0xFFFFn;\nvar holdingRegister3 = (combinedValue >> 16n) & 0xFFFFn;\nvar holdingRegister4 = combinedValue & 0xFFFFn;\n\n// Output the individual 16-bit integers\nmsg.payload = [Number(holdingRegister1), Number(holdingRegister2), Number(holdingRegister3), Number(holdingRegister4)];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "f8e68d4e42d96f0c",
+                "ed1cf777e179bd2f"
+            ]
+        ]
+    },
+    {
+        "id": "f8e68d4e42d96f0c",
+        "type": "modbus-write",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "0",
+        "quantity": "4",
+        "server": "f68d0fe9835bdf51",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 640,
+        "y": 360,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "6828b33754dfbffa",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "123.56",
+        "payloadType": "num",
+        "x": 110,
+        "y": 480,
+        "wires": [
+            [
+                "a53a3eb4d89eaf7e",
+                "852bd6dfaecb9229"
+            ]
+        ]
+    },
+    {
+        "id": "9d0d8053b1653654",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "123.56",
+        "payloadType": "num",
+        "x": 110,
+        "y": 320,
+        "wires": [
+            [
+                "ed45b5e98457612f",
+                "2f5b144361cf4520"
+            ]
+        ]
+    },
+    {
+        "id": "ed1cf777e179bd2f",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 820,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "3c0936d8769e6b3a",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 820,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "2f5b144361cf4520",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "1",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 110,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "852bd6dfaecb9229",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "1",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 110,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "2aca8894af62d5db",
+        "type": "modbus-read",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "0",
+        "quantity": "4",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "f68d0fe9835bdf51",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 140,
+        "y": 140,
+        "wires": [
+            [
+                "4ca12bb10165ccb1",
+                "05faca5ce73ed7e1",
+                "64befe14c492d461"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "4ca12bb10165ccb1",
+        "type": "modbus-response",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "registerShowMax": 20,
+        "x": 390,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "a2382358e1cdb5bf",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "3",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 710,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "05faca5ce73ed7e1",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Read | 64-bit Float | Double Float | Big-Endian | MSRF |",
+        "func": "// Input values (replace these with your actual Modbus holding register values)\nvar holdingRegister1 = msg.payload[0];\nvar holdingRegister2 = msg.payload[1];\nvar holdingRegister3 = msg.payload[2];\nvar holdingRegister4 = msg.payload[3];\n\n// Combine 16-bit integers into a single 64-bit integer (big-endian byte order)\nvar combinedValue = BigInt(holdingRegister1) << 48n |\n                    BigInt(holdingRegister2) << 32n |\n                    BigInt(holdingRegister3) << 16n |\n                    BigInt(holdingRegister4);\n\n// Convert the combined value to a 64-bit float\nvar float64 = new Float64Array(new BigInt64Array([combinedValue]).buffer)[0];\n\n// Output the result\nmsg.payload = float64;\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 100,
+        "wires": [
+            [
+                "a2382358e1cdb5bf"
+            ]
+        ]
+    },
+    {
+        "id": "64befe14c492d461",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Read | 64-bit Float | Double Float | Little-Endian Byte Swap  | LSRF |",
+        "func": "// Input values (replace these with your actual Modbus holding register values)\nvar holdingRegister1 = msg.payload[0];\nvar holdingRegister2 = msg.payload[1];\nvar holdingRegister3 = msg.payload[2];\nvar holdingRegister4 = msg.payload[3];\n\n// Combine 16-bit integers into a single 64-bit integer (little-endian byte order)\nvar combinedValue = BigInt(holdingRegister4) << 48n |\n                    BigInt(holdingRegister3) << 32n |\n                    BigInt(holdingRegister2) << 16n |\n                    BigInt(holdingRegister1);\n\n// Convert the combined value to a 64-bit float\nvar float64 = new Float64Array(new BigInt64Array([combinedValue]).buffer)[0];\n\n// Output the result\nmsg.payload = float64;\n\n// Send the modified message to the next node\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 200,
+        "wires": [
+            [
+                "61dd298eeacba2b3"
+            ]
+        ]
+    },
+    {
+        "id": "61dd298eeacba2b3",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "4",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 710,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "f68d0fe9835bdf51",
+        "type": "modbus-client",
+        "name": "Modbus Slave",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": "10502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true,
+        "showWarnings": true,
+        "showLogs": true
+    }
+]

@@ -1,0 +1,233 @@
+[
+    {
+        "id": "a9f34d360d77dccf",
+        "type": "tab",
+        "label": "Modbus Integer to Float Conversion",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1d5d9d18de6c3663",
+        "type": "modbus-read",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "0",
+        "quantity": "4",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "f68d0fe9835bdf51",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 130,
+        "y": 180,
+        "wires": [
+            [
+                "4a69ab3d367f61ec",
+                "7122ccca71acbb52",
+                "9d968439da240df8",
+                "cc1ac0257f77f292",
+                "1a3cb1a1e1371f6d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "4a69ab3d367f61ec",
+        "type": "modbus-response",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "registerShowMax": 20,
+        "x": 390,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7122ccca71acbb52",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Read | 32-bit Float | Little-Endian Byte Swap | LSRF |",
+        "func": "msg.payload = [msg.payload[0],msg.payload[1]];\nlet pay = msg.payload;\n\nconst buf = Buffer.allocUnsafe(4);\nbuf.writeInt16BE(pay[0],2);\nbuf.writeInt16BE(pay[1],0);\n\nmsg.payload = buf.readFloatBE(0);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 120,
+        "wires": [
+            [
+                "a3fb8dd3facc8060"
+            ]
+        ]
+    },
+    {
+        "id": "97ce26dd871c1320",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "2",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 850,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "9d968439da240df8",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Read | 32-bit Float | Big-Endian  | MSRF |",
+        "func": "msg.payload = [msg.payload[1],msg.payload[0]];\nlet pay = msg.payload;\n\nconst buf = Buffer.allocUnsafe(4);\nbuf.writeInt16BE(pay[0],2);\nbuf.writeInt16BE(pay[1],0);\n\nmsg.payload = buf.readFloatBE(0);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 180,
+        "wires": [
+            [
+                "97ce26dd871c1320"
+            ]
+        ]
+    },
+    {
+        "id": "a3fb8dd3facc8060",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "1",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 850,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "8fc9f44ac8ec67a2",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "3",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 850,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "cc1ac0257f77f292",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Read | 64-bit Float | Double Float | Big-Endian | MSRF |",
+        "func": "// Input values (replace these with your actual Modbus holding register values)\nvar holdingRegister1 = msg.payload[0];\nvar holdingRegister2 = msg.payload[1];\nvar holdingRegister3 = msg.payload[2];\nvar holdingRegister4 = msg.payload[3];\n\n// Combine 16-bit integers into a single 64-bit integer (big-endian byte order)\nvar combinedValue = BigInt(holdingRegister1) << 48n |\n                    BigInt(holdingRegister2) << 32n |\n                    BigInt(holdingRegister3) << 16n |\n                    BigInt(holdingRegister4);\n\n// Convert the combined value to a 64-bit float\nvar float64 = new Float64Array(new BigInt64Array([combinedValue]).buffer)[0];\n\n// Output the result\nmsg.payload = float64;\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 240,
+        "wires": [
+            [
+                "8fc9f44ac8ec67a2"
+            ]
+        ]
+    },
+    {
+        "id": "1a3cb1a1e1371f6d",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Read | 64-bit Float | Double Float | Little-Endian Byte Swap  | LSRF |",
+        "func": "// Input values (replace these with your actual Modbus holding register values)\nvar holdingRegister1 = msg.payload[0];\nvar holdingRegister2 = msg.payload[1];\nvar holdingRegister3 = msg.payload[2];\nvar holdingRegister4 = msg.payload[3];\n\n// Combine 16-bit integers into a single 64-bit integer (little-endian byte order)\nvar combinedValue = BigInt(holdingRegister4) << 48n |\n                    BigInt(holdingRegister3) << 32n |\n                    BigInt(holdingRegister2) << 16n |\n                    BigInt(holdingRegister1);\n\n// Convert the combined value to a 64-bit float\nvar float64 = new Float64Array(new BigInt64Array([combinedValue]).buffer)[0];\n\n// Output the result\nmsg.payload = float64;\n\n// Send the modified message to the next node\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 300,
+        "wires": [
+            [
+                "bb33c2505474aacd"
+            ]
+        ]
+    },
+    {
+        "id": "bb33c2505474aacd",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "4",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 850,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "f68d0fe9835bdf51",
+        "type": "modbus-client",
+        "name": "Modbus Slave",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": "10502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true,
+        "showWarnings": true,
+        "showLogs": true
+    }
+]

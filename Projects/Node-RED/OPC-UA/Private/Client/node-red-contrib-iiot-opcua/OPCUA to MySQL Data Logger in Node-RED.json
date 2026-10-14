@@ -1,0 +1,476 @@
+[
+    {
+        "id": "8182b732.c2d69",
+        "type": "tab",
+        "label": "Data Logging of Multiple OPC-UA Server Tags to MySQL Database ",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b20d7f0c.12c48",
+        "type": "OPCUA-IIoT-Read",
+        "z": "8182b732.c2d69",
+        "attributeId": "13",
+        "maxAge": 1,
+        "depth": 1,
+        "connector": "2d10c5aa.d2ce8a",
+        "name": "Read Value",
+        "justValue": true,
+        "showStatusActivities": false,
+        "showErrors": false,
+        "parseStrings": false,
+        "historyDays": "",
+        "x": 310,
+        "y": 160,
+        "wires": [
+            [
+                "bf1e29f6.254788"
+            ]
+        ]
+    },
+    {
+        "id": "bf1e29f6.254788",
+        "type": "OPCUA-IIoT-Response",
+        "z": "8182b732.c2d69",
+        "name": "",
+        "compressStructure": true,
+        "showStatusActivities": false,
+        "showErrors": false,
+        "activateUnsetFilter": false,
+        "activateFilters": false,
+        "negateFilter": false,
+        "filters": [],
+        "x": 310,
+        "y": 220,
+        "wires": [
+            [
+                "d24cc3f78c7b13ab"
+            ]
+        ]
+    },
+    {
+        "id": "32f4720d.ed835e",
+        "type": "OPCUA-IIoT-Inject",
+        "z": "8182b732.c2d69",
+        "injectType": "read",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "startDelay": "",
+        "name": "",
+        "addressSpaceItems": [
+            {
+                "name": "Counter",
+                "nodeId": "ns=3;i=1002",
+                "datatypeName": ""
+            },
+            {
+                "name": "Random",
+                "nodeId": "ns=3;i=1003",
+                "datatypeName": ""
+            },
+            {
+                "name": "Sawtooth",
+                "nodeId": "ns=3;i=1004",
+                "datatypeName": ""
+            },
+            {
+                "name": "Sinusoid",
+                "nodeId": "ns=3;i=1005",
+                "datatypeName": ""
+            },
+            {
+                "name": "Square",
+                "nodeId": "ns=3;i=1006",
+                "datatypeName": ""
+            },
+            {
+                "name": "Triangle",
+                "nodeId": "ns=3;i=1007",
+                "datatypeName": ""
+            }
+        ],
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "b20d7f0c.12c48"
+            ]
+        ]
+    },
+    {
+        "id": "d24cc3f78c7b13ab",
+        "type": "function",
+        "z": "8182b732.c2d69",
+        "name": "function 14",
+        "func": "// Input JSON array\nvar inputArray = msg.payload.value;\n\n// Create output objects\nvar output1 = { payload: { value: inputArray[0].value, name: inputArray[0].nodeId ? inputArray[0].nodeId.name : \"Unknown\" } };\nvar output2 = { payload: { value: inputArray[1].value, name: inputArray[1].nodeId ? inputArray[1].nodeId.name : \"Unknown\" } };\nvar output3 = { payload: { value: inputArray[2].value, name: inputArray[2].nodeId ? inputArray[2].nodeId.name : \"Unknown\" } };\nvar output4 = { payload: { value: inputArray[3].value, name: inputArray[3].nodeId ? inputArray[3].nodeId.name : \"Unknown\" } };\nvar output5 = { payload: { value: inputArray[4].value, name: inputArray[4].nodeId ? inputArray[4].nodeId.name : \"Unknown\" } };\nvar output6 = { payload: { value: inputArray[5].value, name: inputArray[5].nodeId ? inputArray[5].nodeId.name : \"Unknown\" } };\n\n// Send the outputs as an array\nnode.send([output1, output2, output3, output4, output5, output6]);\n",
+        "outputs": 6,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 220,
+        "wires": [
+            [
+                "43617a3104e6e964"
+            ],
+            [
+                "3e8c1734af48bff5"
+            ],
+            [
+                "bca1d1a78e7c62ba"
+            ],
+            [
+                "307849d07627c375"
+            ],
+            [
+                "42bc388ed71b17da"
+            ],
+            [
+                "305d45473404ccd0"
+            ]
+        ]
+    },
+    {
+        "id": "43617a3104e6e964",
+        "type": "change",
+        "z": "8182b732.c2d69",
+        "name": "Counter",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "payload.name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 120,
+        "wires": [
+            [
+                "6e47d699d5a6a5d1"
+            ]
+        ]
+    },
+    {
+        "id": "3e8c1734af48bff5",
+        "type": "change",
+        "z": "8182b732.c2d69",
+        "name": "Random",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "payload.name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 160,
+        "wires": [
+            [
+                "6e47d699d5a6a5d1"
+            ]
+        ]
+    },
+    {
+        "id": "bca1d1a78e7c62ba",
+        "type": "change",
+        "z": "8182b732.c2d69",
+        "name": "Sawtooth",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "payload.name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 200,
+        "wires": [
+            [
+                "6e47d699d5a6a5d1"
+            ]
+        ]
+    },
+    {
+        "id": "307849d07627c375",
+        "type": "change",
+        "z": "8182b732.c2d69",
+        "name": "Sinusoid",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "payload.name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 240,
+        "wires": [
+            [
+                "6e47d699d5a6a5d1"
+            ]
+        ]
+    },
+    {
+        "id": "42bc388ed71b17da",
+        "type": "change",
+        "z": "8182b732.c2d69",
+        "name": "Square",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "payload.name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 280,
+        "wires": [
+            [
+                "6e47d699d5a6a5d1"
+            ]
+        ]
+    },
+    {
+        "id": "305d45473404ccd0",
+        "type": "change",
+        "z": "8182b732.c2d69",
+        "name": "Triangle",
+        "rules": [
+            {
+                "t": "set",
+                "p": "value",
+                "pt": "msg",
+                "to": "payload.value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tag",
+                "pt": "msg",
+                "to": "payload.name",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 320,
+        "wires": [
+            [
+                "6e47d699d5a6a5d1"
+            ]
+        ]
+    },
+    {
+        "id": "6e47d699d5a6a5d1",
+        "type": "template",
+        "z": "8182b732.c2d69",
+        "name": "Set SQL Topic",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "sql",
+        "syntax": "mustache",
+        "template": "INSERT INTO `OPC_UA_DATA` (`Tag`,`TagValue`) VALUES (\"{{tag}}\",\"{{value}}\")",
+        "output": "str",
+        "x": 940,
+        "y": 220,
+        "wires": [
+            [
+                "4485d283b67da6a1"
+            ]
+        ],
+        "icon": "font-awesome/fa-database"
+    },
+    {
+        "id": "5c1f4a3442aef93b",
+        "type": "inject",
+        "z": "8182b732.c2d69",
+        "name": "Create Table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE OPC_UA_DATA (ID INT AUTO_INCREMENT PRIMARY KEY, TimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, Tag TEXT, TagValue REAL);",
+        "payload": "",
+        "payloadType": "date",
+        "x": 950,
+        "y": 260,
+        "wires": [
+            [
+                "4485d283b67da6a1"
+            ]
+        ]
+    },
+    {
+        "id": "f9b886a72de701c9",
+        "type": "inject",
+        "z": "8182b732.c2d69",
+        "name": "Delete Table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DROP TABLE IF EXISTS OPC_UA_DATA;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 950,
+        "y": 300,
+        "wires": [
+            [
+                "4485d283b67da6a1"
+            ]
+        ]
+    },
+    {
+        "id": "4485d283b67da6a1",
+        "type": "mysql",
+        "z": "8182b732.c2d69",
+        "mydb": "ee29beb1191c7f2e",
+        "name": "DB",
+        "x": 1150,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2d10c5aa.d2ce8a",
+        "type": "OPCUA-IIoT-Connector",
+        "z": "8182b732.c2d69",
+        "discoveryUrl": "",
+        "endpoint": "opc.tcp://Parrot:4840/OPCUA/SimulationServer",
+        "endpointMustExist": false,
+        "keepSessionAlive": true,
+        "loginEnabled": false,
+        "name": "LOCAL DEMO SERVER",
+        "showErrors": false,
+        "securityPolicy": "None",
+        "securityMode": "None",
+        "individualCerts": false,
+        "publicCertificateFile": "",
+        "privateKeyFile": "",
+        "defaultSecureTokenLifetime": "60000",
+        "autoSelectRightEndpoint": false,
+        "strategyMaxRetry": "",
+        "strategyInitialDelay": "",
+        "strategyMaxDelay": "",
+        "strategyRandomisationFactor": "",
+        "requestedSessionTimeout": "",
+        "connectionStartDelay": "",
+        "reconnectDelay": "",
+        "maxBadSessionRequests": ""
+    },
+    {
+        "id": "ee29beb1191c7f2e",
+        "type": "MySQLdatabase",
+        "name": "DB",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "test",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]

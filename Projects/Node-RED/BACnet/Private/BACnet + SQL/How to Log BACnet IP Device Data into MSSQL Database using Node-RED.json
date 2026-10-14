@@ -1,0 +1,329 @@
+[
+    {
+        "id": "5c81feef98a4d9d1",
+        "type": "tab",
+        "label": "BACnet to MSSQL Logger",
+        "disabled": false,
+        "info": "",
+        "env": [],
+        "_mcu": {
+            "mcu": false
+        }
+    },
+    {
+        "id": "589e0665126a0a85",
+        "type": "debug",
+        "z": "5c81feef98a4d9d1",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 780,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "56a2cdf279d7bff6",
+        "type": "inject",
+        "z": "5c81feef98a4d9d1",
+        "name": "CREATE Table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='BACnet_Data' AND xtype='U') BEGIN     CREATE TABLE BACnet_Data (         ID INT IDENTITY(1,1) PRIMARY KEY,         TimeStamp DATETIME DEFAULT CURRENT_TIMESTAMP, Tag NVARCHAR(MAX), TagValue NVARCHAR(MAX)); END",
+        "payloadType": "str",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 440,
+        "y": 280,
+        "wires": [
+            [
+                "5435255b8bcea4fb"
+            ]
+        ]
+    },
+    {
+        "id": "5435255b8bcea4fb",
+        "type": "MSSQL",
+        "z": "5c81feef98a4d9d1",
+        "mssqlCN": "7bfaa1b5276d6ed6",
+        "name": "",
+        "query": "",
+        "outField": "payload",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 640,
+        "y": 280,
+        "wires": [
+            [
+                "589e0665126a0a85"
+            ]
+        ]
+    },
+    {
+        "id": "47920d9f49dc7fcd",
+        "type": "inject",
+        "z": "5c81feef98a4d9d1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "84f49b3b246434fb"
+            ]
+        ]
+    },
+    {
+        "id": "84f49b3b246434fb",
+        "type": "function",
+        "z": "5c81feef98a4d9d1",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 350,
+        "y": 100,
+        "wires": [
+            [
+                "ae8a103f0feb1c29"
+            ]
+        ]
+    },
+    {
+        "id": "ae8a103f0feb1c29",
+        "type": "discover-devices",
+        "z": "5c81feef98a4d9d1",
+        "name": "",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 550,
+        "y": 100,
+        "wires": [
+            [
+                "f74012d8bc55b265"
+            ]
+        ]
+    },
+    {
+        "id": "f74012d8bc55b265",
+        "type": "debug",
+        "z": "5c81feef98a4d9d1",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 730,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "094aa2105a9ccc4b",
+        "type": "comment",
+        "z": "5c81feef98a4d9d1",
+        "name": "# Discover Available BACnet Device Acorss Network",
+        "info": "",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 270,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "03d2e5617f77f90e",
+        "type": "function",
+        "z": "5c81feef98a4d9d1",
+        "name": "Inject Parameters",
+        "func": "// BACnet Device ID\nmsg.deviceId = 1867817; \n// If you use it without port then there is a chance that it will not work\nmsg.address = \"192.168.1.9:56409\"; \nmsg.apduTimeout = 20000;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 170,
+        "y": 280,
+        "wires": [
+            [
+                "c42c6abecf688c51"
+            ]
+        ]
+    },
+    {
+        "id": "ace00215916e65e8",
+        "type": "inject",
+        "z": "5c81feef98a4d9d1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 200,
+        "y": 240,
+        "wires": [
+            [
+                "03d2e5617f77f90e"
+            ]
+        ]
+    },
+    {
+        "id": "c42c6abecf688c51",
+        "type": "read-single-device",
+        "z": "5c81feef98a4d9d1",
+        "name": "",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "f41aa05062b8ca37"
+            ]
+        ]
+    },
+    {
+        "id": "f41aa05062b8ca37",
+        "type": "function",
+        "z": "5c81feef98a4d9d1",
+        "name": "Build INSERT Query",
+        "func": "// Initialize an object to store the extracted data\nvar extractedData = {};\n\n// Check if msg.payload has the necessary structure\nif (msg.payload && msg.payload.hasOwnProperty(\"OBJECT_LIST(76)\")) {\n    msg.payload[\"OBJECT_LIST(76)\"].forEach(function (obj) {\n        if (obj.hasOwnProperty(\"OBJECT_NAME(77)\") && obj.hasOwnProperty(\"PRESENT_VALUE(85)\")) {\n            var objectName = obj[\"OBJECT_NAME(77)\"];\n            var presentValue = obj[\"PRESENT_VALUE(85)\"];\n            var key = objectName.replace(/\\s/g, \"_\"); // Replace spaces with underscores\n            extractedData[key] = presentValue;\n        }\n    });\n}\n\n// Get the current timestamp\nvar timestamp = new Date().toISOString(); // Converts to ISO string for MSSQL DATETIME format\n\n// Initialize an array to store SQL queries\nvar sqlQueries = [];\n\n// Function to escape single quotes\nfunction escapeSingleQuotes(str) {\n    return str.replace(/'/g, \"''\");\n}\n\n// Iterate over the extractedData object to build INSERT SQL queries\nfor (var key in extractedData) {\n    if (extractedData.hasOwnProperty(key)) {\n        var value = extractedData[key];\n        var sqlValue = typeof value === 'string' ? `'${escapeSingleQuotes(value)}'` : value; // Handle string escaping\n\n        var sqlQuery = `\n            INSERT INTO BACnet_Data (TimeStamp, Tag, TagValue) \n            VALUES ('${timestamp}', '${escapeSingleQuotes(key)}', ${sqlValue});\n        `;\n        sqlQueries.push(sqlQuery);\n    }\n}\n\n// Join all SQL queries into a single string\nvar sqlString = sqlQueries.join(\" \");\n\n// Log the SQL string for debugging\nconsole.log(\"Generated SQL Query:\", sqlString);\n\n// Set the SQL query as the payload\nmsg.payload = sqlString;\nmsg.topic = \"SQL/Insert\"; // Set your topic\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 420,
+        "y": 320,
+        "wires": [
+            [
+                "5435255b8bcea4fb"
+            ]
+        ]
+    },
+    {
+        "id": "7c2bc7902c856d36",
+        "type": "inject",
+        "z": "5c81feef98a4d9d1",
+        "name": "Delete Table",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "DROP TABLE BACnet_Data",
+        "payloadType": "str",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 450,
+        "y": 240,
+        "wires": [
+            [
+                "5435255b8bcea4fb"
+            ]
+        ]
+    },
+    {
+        "id": "243e115386ec593f",
+        "type": "comment",
+        "z": "5c81feef98a4d9d1",
+        "name": "# Log Entire Device Data to MSSQL Database",
+        "info": "",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 250,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7bfaa1b5276d6ed6",
+        "type": "MSSQL-CN",
+        "name": "MSSQL",
+        "server": "PARROT\\SQLEXPRESS",
+        "encyption": true,
+        "database": "Test"
+    }
+]

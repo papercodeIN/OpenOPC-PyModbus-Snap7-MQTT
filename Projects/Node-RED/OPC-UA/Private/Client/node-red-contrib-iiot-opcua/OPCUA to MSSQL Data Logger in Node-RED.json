@@ -1,0 +1,343 @@
+[
+    {
+        "id": "7ffb1eea340734af",
+        "type": "tab",
+        "label": "OPCUA to MSSQL Data Logger",
+        "disabled": false,
+        "info": "",
+        "env": [],
+        "_mcu": {
+            "mcu": false
+        }
+    },
+    {
+        "id": "19fe61354e1f9607",
+        "type": "group",
+        "z": "7ffb1eea340734af",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "04b76bbb618622a7",
+            "ae98bc2f10e4f549",
+            "03c3029ebea8fd39",
+            "535664a78c09f9f5",
+            "9c02bebb068d5f3c",
+            "243a0765963003d3",
+            "679ffa73c82eecbc",
+            "cc8a2e271fc2b97c",
+            "acfb3de22387f43d"
+        ],
+        "x": 54,
+        "y": 59,
+        "w": 1032,
+        "h": 202
+    },
+    {
+        "id": "04b76bbb618622a7",
+        "type": "OPCUA-IIoT-Read",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "attributeId": "0",
+        "maxAge": 1,
+        "depth": 1,
+        "connector": "61f08a720a128a9d",
+        "name": "Read Value",
+        "justValue": false,
+        "showStatusActivities": false,
+        "showErrors": false,
+        "parseStrings": false,
+        "historyDays": "",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 330,
+        "y": 180,
+        "wires": [
+            [
+                "243a0765963003d3",
+                "679ffa73c82eecbc"
+            ]
+        ]
+    },
+    {
+        "id": "ae98bc2f10e4f549",
+        "type": "OPCUA-IIoT-Inject",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "injectType": "read",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "startDelay": "",
+        "name": "",
+        "addressSpaceItems": [
+            {
+                "name": "Counter",
+                "nodeId": "ns=3;i=1002",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Random",
+                "nodeId": "ns=3;i=1003",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Sawtooth",
+                "nodeId": "ns=3;i=1004",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Sinusoid",
+                "nodeId": "ns=3;i=1005",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Square",
+                "nodeId": "ns=3;i=1006",
+                "datatypeName": "Double"
+            },
+            {
+                "name": "Triangle",
+                "nodeId": "ns=3;i=1007",
+                "datatypeName": "Double"
+            }
+        ],
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "04b76bbb618622a7"
+            ]
+        ]
+    },
+    {
+        "id": "03c3029ebea8fd39",
+        "type": "inject",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "name": "Delete Table",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "DROP TABLE OPCUA_Data",
+        "payloadType": "str",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 550,
+        "y": 100,
+        "wires": [
+            [
+                "9c02bebb068d5f3c"
+            ]
+        ]
+    },
+    {
+        "id": "535664a78c09f9f5",
+        "type": "inject",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "name": "CREATE Table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='OPCUA_Data' AND xtype='U')  BEGIN      CREATE TABLE OPCUA_Data (         ID INT IDENTITY(1,1) PRIMARY KEY,          TimeStamp DATETIME DEFAULT GETDATE(),          Tag NVARCHAR(MAX),          TagValue NVARCHAR(MAX)     );  END",
+        "payloadType": "str",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 540,
+        "y": 140,
+        "wires": [
+            [
+                "9c02bebb068d5f3c"
+            ]
+        ]
+    },
+    {
+        "id": "9c02bebb068d5f3c",
+        "type": "MSSQL",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "mssqlCN": "7bfaa1b5276d6ed6",
+        "name": "",
+        "query": "",
+        "outField": "payload",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 800,
+        "y": 140,
+        "wires": [
+            [
+                "acfb3de22387f43d"
+            ]
+        ]
+    },
+    {
+        "id": "243a0765963003d3",
+        "type": "debug",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 540,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "679ffa73c82eecbc",
+        "type": "function",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "name": "Create INSERT Query",
+        "func": "// Extract the results from the payload\nvar data = msg.payload.value.results;\n\n// Initialize an array to store multiple SQL queries\nvar queries = [];\n\n// Loop through the array of results\nfor (var i = 0; i < data.length; i++) {\n    // Check if the necessary fields (browseName and value) exist\n    if (data[i] && data[i].browseName && typeof data[i].value !== 'undefined') {\n        var tag = data[i].browseName.name; // Extract the 'name' (now 'Tag')\n        var tagValue = data[i].value; // Extract the 'value' (now 'TagValue')\n\n        // Construct the SQL query for insertion into OPCUA_Data table\n        var query = `INSERT INTO OPCUA_Data (Tag, TagValue) VALUES (N'${tag}', N'${tagValue}');`;\n\n        // Add the query to the array\n        queries.push(query);\n    } else {\n        // If data is invalid, log it for debugging\n        node.warn(`Invalid data at index ${i}: ${JSON.stringify(data[i])}`);\n    }\n}\n\n// If there are valid queries, join them and pass the final query\nif (queries.length > 0) {\n    msg.payload = queries.join(' '); // Combine queries into one string\n    return msg;\n} else {\n    // No valid data, do not pass anything to avoid MSSQL node crash\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 580,
+        "y": 180,
+        "wires": [
+            [
+                "cc8a2e271fc2b97c",
+                "9c02bebb068d5f3c"
+            ]
+        ]
+    },
+    {
+        "id": "cc8a2e271fc2b97c",
+        "type": "debug",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 800,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "acfb3de22387f43d",
+        "type": "debug",
+        "z": "7ffb1eea340734af",
+        "g": "19fe61354e1f9607",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 980,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "60b2cf6325d75cba",
+        "type": "comment",
+        "z": "7ffb1eea340734af",
+        "name": "OPCUA to MSSQL Data Logger",
+        "info": "",
+        "_mcu": {
+            "mcu": false
+        },
+        "x": 190,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "61f08a720a128a9d",
+        "type": "OPCUA-IIoT-Connector",
+        "discoveryUrl": "",
+        "endpoint": "opc.tcp://Parrot:4840/OPCUA/SimulationServer",
+        "endpointMustExist": false,
+        "keepSessionAlive": true,
+        "loginEnabled": false,
+        "name": "LOCAL SERVER",
+        "showErrors": false,
+        "securityPolicy": "None",
+        "securityMode": "None",
+        "individualCerts": false,
+        "publicCertificateFile": "",
+        "privateKeyFile": "",
+        "defaultSecureTokenLifetime": "",
+        "autoSelectRightEndpoint": false,
+        "strategyMaxRetry": "",
+        "strategyInitialDelay": "",
+        "strategyMaxDelay": "",
+        "strategyRandomisationFactor": "",
+        "requestedSessionTimeout": "",
+        "connectionStartDelay": "",
+        "reconnectDelay": "",
+        "maxBadSessionRequests": "10",
+        "_mcu": {
+            "mcu": false
+        }
+    },
+    {
+        "id": "7bfaa1b5276d6ed6",
+        "type": "MSSQL-CN",
+        "name": "MSSQL",
+        "server": "PARROT\\SQLEXPRESS",
+        "encyption": true,
+        "database": "Test"
+    }
+]

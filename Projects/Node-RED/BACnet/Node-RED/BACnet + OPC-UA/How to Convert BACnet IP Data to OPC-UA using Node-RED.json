@@ -1,0 +1,371 @@
+[
+    {
+        "id": "f640838076cf5ad9",
+        "type": "tab",
+        "label": "BACnet IP Data to OPC-UA Converter",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "350a10df2f86f7d6",
+        "type": "function",
+        "z": "f640838076cf5ad9",
+        "d": true,
+        "name": "Set flow context for Temperature_Indoor",
+        "func": "flow.set('Temperature_Indoor', msg.payload.values[0].value[0].value);\nmsg.payload = [flow.get('Temperature_Indoor')]\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "290b898cc299fe11",
+        "type": "comment",
+        "z": "f640838076cf5ad9",
+        "name": "Node-RED OPC-UA Server",
+        "info": "",
+        "x": 160,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "186d6506b755e6f9",
+        "type": "comment",
+        "z": "f640838076cf5ad9",
+        "name": "Read BACnet IP Device Data and Set Values to OPC-UA Server",
+        "info": "",
+        "x": 270,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "28b605eca8c96eb0",
+        "type": "opcua-compact-server",
+        "z": "f640838076cf5ad9",
+        "port": "4840",
+        "endpoint": "",
+        "productUri": "",
+        "acceptExternalCommands": true,
+        "maxAllowedSessionNumber": "10",
+        "maxConnectionsPerEndpoint": "10",
+        "maxAllowedSubscriptionNumber": "100",
+        "alternateHostname": "",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": true,
+        "allowAnonymous": true,
+        "individualCerts": false,
+        "isAuditing": false,
+        "serverDiscovery": true,
+        "users": [],
+        "xmlsetsOPCUA": [],
+        "publicCertificateFile": "",
+        "privateCertificateFile": "",
+        "registerServerMethod": "3",
+        "discoveryServerEndpointUrl": "opc.tcp://localhost:4840",
+        "capabilitiesForMDNS": "",
+        "maxNodesPerRead": 1000,
+        "maxNodesPerWrite": 1000,
+        "maxNodesPerHistoryReadData": 100,
+        "maxNodesPerBrowse": 3000,
+        "maxBrowseContinuationPoints": "10",
+        "maxHistoryContinuationPoints": "10",
+        "delayToInit": "1000",
+        "delayToClose": "200",
+        "serverShutdownTimeout": "100",
+        "addressSpaceScript": "function constructAlarmAddressSpace(server, addressSpace, eventObjects, done) {\n\n\n  const opcua = coreServer.choreCompact.opcua;\n  const LocalizedText = opcua.LocalizedText;\n  const namespace = addressSpace.getOwnNamespace();\n\n  const Variant = opcua.Variant;\n  const DataType = opcua.DataType;\n  const DataValue = opcua.DataValue;\n\n  var flexServerInternals = this;\n\n  this.sandboxFlowContext.set(\"Temperature_Indoor\", 0);\n  this.sandboxFlowContext.set(\"Glycol_Water_Temperature\", 0);\n  this.sandboxFlowContext.set(\"Effective_SetPoint\", 0);\n\n\n  coreServer.debugLog(\"init dynamic address space\");\n  const rootFolder = addressSpace.findNode(\"RootFolder\");\n\n  node.warn(\"construct new address space for OPC UA\");\n\n  const myDevice = namespace.addFolder(rootFolder.objects, { \"browseName\": \"BACnet Device\" });\n  const gpioFolder = namespace.addFolder(myDevice, { \"browseName\": \"GPIO\" });\n  const isoInputs = namespace.addFolder(gpioFolder, { \"browseName\": \"Inputs\" });\n  const isoOutputs = namespace.addFolder(gpioFolder, { \"browseName\": \"Outputs\" });\n\n  const gpioIR1 = namespace.addVariable({\n    \"organizedBy\": isoInputs,\n    \"browseName\": \"Temperature_Indoor\",\n    \"nodeId\": \"ns=1;s=Temperature_Indoor_\",\n    \"dataType\": \"Double\",\n    \"value\": {\n      \"get\": function () {\n        return new Variant({\n          \"dataType\": DataType.Double,\n          \"value\": flexServerInternals.sandboxFlowContext.get(\"Temperature_Indoor\")\n        });\n      },\n      \"set\": function (variant) {\n        flexServerInternals.sandboxFlowContext.set(\"Temperature_Indoor\", parseFloat(variant.value));\n        return opcua.StatusCodes.Good;\n      }\n    }\n  });\n\n  const gpioIR2 = namespace.addVariable({\n    \"organizedBy\": isoInputs,\n    \"browseName\": \"Glycol_Water_Temperature\",\n    \"nodeId\": \"ns=1;s=Glycol_Water_Temperature_\",\n    \"dataType\": \"Double\",\n    \"value\": {\n      \"get\": function () {\n        return new Variant({\n          \"dataType\": DataType.Double,\n          \"value\": flexServerInternals.sandboxFlowContext.get(\"Glycol_Water_Temperature\")\n        });\n      },\n      \"set\": function (variant) {\n        flexServerInternals.sandboxFlowContext.set(\n          \"Glycol_Water_Temperature\",\n          parseFloat(variant.value)\n        );\n        return opcua.StatusCodes.Good;\n      }\n    }\n  });\n\n  const gpioIR3 = namespace.addVariable({\n    \"organizedBy\": isoInputs,\n    \"browseName\": \"Effective_SetPoint\",\n    \"nodeId\": \"ns=1;s=Effective_SetPoint_\",\n    \"dataType\": \"Double\",\n    \"value\": {\n      \"get\": function () {\n        return new Variant({\n          \"dataType\": DataType.Double,\n          \"value\": flexServerInternals.sandboxFlowContext.get(\"Effective_SetPoint\")\n        });\n      },\n      \"set\": function (variant) {\n        flexServerInternals.sandboxFlowContext.set(\n          \"Effective_SetPoint\",\n          parseFloat(variant.value)\n        );\n        return opcua.StatusCodes.Good;\n      }\n    }\n  });\n\n\n  //------------------------------------------------------------------------------\n  // Add a view\n  //------------------------------------------------------------------------------\n  const viewDI = namespace.addView({\n    \"organizedBy\": rootFolder.views,\n    \"browseName\": \"RPIW0-Digital-Ins\"\n  });\n\n  const viewDO = namespace.addView({\n    \"organizedBy\": rootFolder.views,\n    \"browseName\": \"RPIW0-Digital-Outs\"\n  });\n\n  viewDI.addReference({\n    \"referenceType\": \"Organizes\",\n    \"nodeId\": gpioIR1.nodeId\n  });\n\n  viewDI.addReference({\n    \"referenceType\": \"Organizes\",\n    \"nodeId\": gpioIR2.nodeId\n  });\n\n  viewDI.addReference({\n    \"referenceType\": \"Organizes\",\n    \"nodeId\": gpioIR3.nodeId\n  });\n\n  coreServer.debugLog(\"create dynamic address space done\");\n  node.warn(\"construction of new address space for OPC UA done\");\n\n  done();\n}\n",
+        "x": 120,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "fa17fb916284cf19",
+        "type": "inject",
+        "z": "f640838076cf5ad9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "08257e5542d39440"
+            ]
+        ]
+    },
+    {
+        "id": "08257e5542d39440",
+        "type": "function",
+        "z": "f640838076cf5ad9",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 80,
+        "wires": [
+            [
+                "411aed243f057296"
+            ]
+        ]
+    },
+    {
+        "id": "411aed243f057296",
+        "type": "discover-devices",
+        "z": "f640838076cf5ad9",
+        "name": "",
+        "x": 510,
+        "y": 80,
+        "wires": [
+            [
+                "74bf69659e1974a1"
+            ]
+        ]
+    },
+    {
+        "id": "74bf69659e1974a1",
+        "type": "debug",
+        "z": "f640838076cf5ad9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "2edd90aaf0602a93",
+        "type": "comment",
+        "z": "f640838076cf5ad9",
+        "name": "# Discover Available BACnet Device Acorss Network",
+        "info": "",
+        "x": 230,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "c3f2a6cef14ddf52",
+        "type": "change-of-value",
+        "z": "f640838076cf5ad9",
+        "name": "Temperature_Indoor",
+        "address": "192.168.1.7:50225",
+        "inputType": "0",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "350a10df2f86f7d6",
+                "3498a721482c8ef7"
+            ]
+        ]
+    },
+    {
+        "id": "90439314a02bb588",
+        "type": "function",
+        "z": "f640838076cf5ad9",
+        "d": true,
+        "name": "Set flow context for Glycol_Water_Temperature",
+        "func": "flow.set('Glycol_Water_Temperature', msg.payload.values[0].value[0].value);\nmsg.payload = [flow.get('Glycol_Water_Temperature')]\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9cc522900fea69af",
+        "type": "change-of-value",
+        "z": "f640838076cf5ad9",
+        "name": "Glycol_Water_Temperature",
+        "address": "192.168.1.7:50225",
+        "inputType": "0",
+        "bacnetId": "1",
+        "COVtimeout": "120000",
+        "x": 160,
+        "y": 260,
+        "wires": [
+            [
+                "90439314a02bb588",
+                "350aa5b7461cafc0"
+            ]
+        ]
+    },
+    {
+        "id": "b7aad54d5606e93e",
+        "type": "function",
+        "z": "f640838076cf5ad9",
+        "d": true,
+        "name": "Set flow context for Effective_SetPoint",
+        "func": "flow.set('Effective_SetPoint', msg.payload.values[0].value[0].value);\nmsg.payload = [flow.get('Effective_SetPoint')]\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "573302646acfed08",
+        "type": "change-of-value",
+        "z": "f640838076cf5ad9",
+        "name": "Effective_SetPoint",
+        "address": "192.168.1.7:50225",
+        "inputType": "2",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "b7aad54d5606e93e",
+                "c8f25b60eff18f72"
+            ]
+        ]
+    },
+    {
+        "id": "3498a721482c8ef7",
+        "type": "change",
+        "z": "f640838076cf5ad9",
+        "name": "Temperature_Indoor",
+        "rules": [
+            {
+                "t": "set",
+                "p": "Temperature_Indoor",
+                "pt": "flow",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Temperature_Indoor",
+                "tot": "flow",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "350aa5b7461cafc0",
+        "type": "change",
+        "z": "f640838076cf5ad9",
+        "name": "Glycol_Water_Temperature",
+        "rules": [
+            {
+                "t": "set",
+                "p": "Glycol_Water_Temperature",
+                "pt": "flow",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Glycol_Water_Temperature",
+                "tot": "flow",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c8f25b60eff18f72",
+        "type": "change",
+        "z": "f640838076cf5ad9",
+        "name": "Effective_SetPoint",
+        "rules": [
+            {
+                "t": "set",
+                "p": "Effective_SetPoint",
+                "pt": "flow",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Effective_SetPoint",
+                "tot": "flow",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    }
+]

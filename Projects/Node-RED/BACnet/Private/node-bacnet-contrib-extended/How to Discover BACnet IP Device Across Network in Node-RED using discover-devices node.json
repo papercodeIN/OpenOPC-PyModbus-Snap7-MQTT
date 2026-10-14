@@ -1,0 +1,88 @@
+[
+    {
+        "id": "a9f34d360d77dccf",
+        "type": "tab",
+        "label": "discover-devices",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fa17fb916284cf19",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 180,
+        "wires": [
+            [
+                "08257e5542d39440"
+            ]
+        ]
+    },
+    {
+        "id": "08257e5542d39440",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 220,
+        "wires": [
+            [
+                "411aed243f057296"
+            ]
+        ]
+    },
+    {
+        "id": "411aed243f057296",
+        "type": "discover-devices",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "74bf69659e1974a1"
+            ]
+        ]
+    },
+    {
+        "id": "74bf69659e1974a1",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 260,
+        "wires": []
+    }
+]

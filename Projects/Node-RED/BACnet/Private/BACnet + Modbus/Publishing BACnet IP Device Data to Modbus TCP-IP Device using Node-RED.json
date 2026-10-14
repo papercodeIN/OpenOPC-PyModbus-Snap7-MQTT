@@ -1,0 +1,638 @@
+[
+    {
+        "id": "d4fc4d97034cb730",
+        "type": "tab",
+        "label": "BACnet to Modbus Publisher",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5a9b7686a8cbc9fe",
+        "type": "inject",
+        "z": "d4fc4d97034cb730",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 60,
+        "wires": [
+            [
+                "27905273d1a5d9cf"
+            ]
+        ]
+    },
+    {
+        "id": "27905273d1a5d9cf",
+        "type": "function",
+        "z": "d4fc4d97034cb730",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 60,
+        "wires": [
+            [
+                "771db1039de4f372"
+            ]
+        ]
+    },
+    {
+        "id": "771db1039de4f372",
+        "type": "discover-devices",
+        "z": "d4fc4d97034cb730",
+        "name": "",
+        "x": 530,
+        "y": 60,
+        "wires": [
+            [
+                "e7c3ec79c3d69b40"
+            ]
+        ]
+    },
+    {
+        "id": "e7c3ec79c3d69b40",
+        "type": "debug",
+        "z": "d4fc4d97034cb730",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "61487d74d69fc07b",
+        "type": "change-of-value",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "Glycol Water Temperature",
+        "address": "192.168.1.23:56343",
+        "inputType": "0",
+        "bacnetId": "1",
+        "COVtimeout": "120000",
+        "x": 250,
+        "y": 1180,
+        "wires": [
+            [
+                "157d8dceb2df14fe"
+            ]
+        ]
+    },
+    {
+        "id": "b8290ea4a9b54822",
+        "type": "change-of-value",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "Effective SetPoint",
+        "address": "192.168.1.23:56343",
+        "inputType": "2",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 220,
+        "y": 1240,
+        "wires": [
+            [
+                "d932b3ad4f7d2cbe"
+            ]
+        ]
+    },
+    {
+        "id": "4c8a7e9e98556926",
+        "type": "modbus-write",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "0",
+        "quantity": "2",
+        "server": "",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 840,
+        "y": 1380,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0b090c214ce8b788",
+        "type": "function",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "Write | 32-bit Float | Big-Endian | MSRF |",
+        "func": "// Input value (replace this with your actual floating-point value)\nvar floatValue = 60.5;\n\n// Create a Buffer to store the binary representation of the float\nvar buf = Buffer.allocUnsafe(4);\nbuf.writeFloatBE(floatValue, 0);\n\n// Extract two 16-bit integers from the Buffer in big-endian byte order\nvar holdingRegister1 = buf.readUInt16BE(0);\nvar holdingRegister2 = buf.readUInt16BE(2);\n\n// Output the two holding registers as an array\nconsole.log(\"Holding Register 1:\", holdingRegister1);\nconsole.log(\"Holding Register 2:\", holdingRegister2);\n\n// Output the two holding registers as an array\nmsg.payload = [holdingRegister1, holdingRegister2];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 1380,
+        "wires": [
+            [
+                "4c8a7e9e98556926"
+            ]
+        ]
+    },
+    {
+        "id": "5f85f163cb37c7d5",
+        "type": "function",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "Write | 32-bit Float | Little-Endian Byte Swap | LSRF |",
+        "func": "// Input value (replace this with your actual floating-point value)\nvar floatValue = 60.5;\n\n// Create a Buffer to store the binary representation of the float\nvar buf = Buffer.allocUnsafe(4);\nbuf.writeFloatBE(floatValue, 0);\n\n// Extract two 16-bit integers from the Buffer in big-endian byte order\nvar holdingRegister1 = buf.readUInt16BE(0);\nvar holdingRegister2 = buf.readUInt16BE(2);\n\n// Output the two holding registers as an array\nconsole.log(\"Holding Register 1:\", holdingRegister1);\nconsole.log(\"Holding Register 2:\", holdingRegister2);\n\n// Output the two holding registers as an array\nmsg.payload = [holdingRegister2, holdingRegister1];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 1320,
+        "wires": [
+            [
+                "24bb7558450086c6"
+            ]
+        ]
+    },
+    {
+        "id": "24bb7558450086c6",
+        "type": "modbus-write",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "0",
+        "quantity": "2",
+        "server": "f68d0fe9835bdf51",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 840,
+        "y": 1320,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "3ae0e6bade7a8f4d",
+        "type": "inject",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "50.5",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 190,
+        "y": 1380,
+        "wires": [
+            [
+                "0b090c214ce8b788"
+            ]
+        ]
+    },
+    {
+        "id": "d58025047ccc4eae",
+        "type": "inject",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "v": "50.5",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 190,
+        "y": 1320,
+        "wires": [
+            [
+                "5f85f163cb37c7d5"
+            ]
+        ]
+    },
+    {
+        "id": "157d8dceb2df14fe",
+        "type": "change",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "Glycol Water Temperature",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[payload.values[0].value[0].value, 2]",
+                "tot": "jsonata",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 1180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d932b3ad4f7d2cbe",
+        "type": "change",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "Effective SetPoint",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[payload.values[0].value[0].value, 2]",
+                "tot": "jsonata",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 1240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "51c3df3d3b9a1874",
+        "type": "calculator",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "",
+        "inputMsgField": "payload",
+        "outputMsgField": "payload",
+        "operation": "rdec",
+        "constant": "",
+        "round": true,
+        "truncate": false,
+        "decimals": "2",
+        "decimals2": 0,
+        "x": 790,
+        "y": 1180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "16c8a48df587fe6e",
+        "type": "calculator",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "",
+        "inputMsgField": "payload",
+        "outputMsgField": "payload",
+        "operation": "rdec",
+        "constant": "",
+        "round": true,
+        "truncate": false,
+        "decimals": "2",
+        "decimals2": 0,
+        "x": 790,
+        "y": 1240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8fd1a7514de43ec7",
+        "type": "change-of-value",
+        "z": "d4fc4d97034cb730",
+        "name": "Glycol Water Temperature",
+        "address": "192.168.1.7:62167",
+        "inputType": "0",
+        "bacnetId": "1",
+        "COVtimeout": "120000",
+        "x": 180,
+        "y": 280,
+        "wires": [
+            [
+                "0099f7d04e2b6754",
+                "ef2c87e9b9836be9",
+                "b85ee5f6a8f84849"
+            ]
+        ]
+    },
+    {
+        "id": "e915bc873fe791e9",
+        "type": "change-of-value",
+        "z": "d4fc4d97034cb730",
+        "name": "Temperature Indoor",
+        "address": "192.168.1.7:62167",
+        "inputType": "0",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 160,
+        "y": 140,
+        "wires": [
+            [
+                "bc4d788fdfc7ccb9",
+                "f32e62d33acfa3b8",
+                "9236bbd5053305f9"
+            ]
+        ]
+    },
+    {
+        "id": "bc4d788fdfc7ccb9",
+        "type": "function",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "Write | 32-bit Float | Little-Endian Byte Swap | LSRF |",
+        "func": "// Input value (replace this with your actual floating-point value)\nvar floatValue = msg.payload.values[0].value[0].value;\n\n// Round the float value to 2 decimal places\nvar roundedValue = parseFloat(floatValue.toFixed(2));\n\n// Create a Buffer to store the binary representation of the float\nvar buf = Buffer.allocUnsafe(4);\nbuf.writeFloatBE(roundedValue, 0);\n\n// Extract two 16-bit integers from the Buffer in big-endian byte order\nvar holdingRegister1 = buf.readUInt16BE(0);\nvar holdingRegister2 = buf.readUInt16BE(2);\n\n// Output the two holding registers as an array\nconsole.log(\"Holding Register 1:\", holdingRegister1);\nconsole.log(\"Holding Register 2:\", holdingRegister2);\n\n// Output the two holding registers as an array\nmsg.payload = [holdingRegister2, holdingRegister1];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 140,
+        "wires": [
+            [
+                "5d2ea97cb65c9162",
+                "d1a740af6c5c11dd"
+            ]
+        ]
+    },
+    {
+        "id": "5d2ea97cb65c9162",
+        "type": "modbus-write",
+        "z": "d4fc4d97034cb730",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "0",
+        "quantity": "2",
+        "server": "f68d0fe9835bdf51",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 860,
+        "y": 200,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "f32e62d33acfa3b8",
+        "type": "function",
+        "z": "d4fc4d97034cb730",
+        "name": "Write | 32-bit Float | Big-Endian | MSRF |",
+        "func": "// Input value (replace this with your actual floating-point value)\nvar floatValue = msg.payload.values[0].value[0].value;\n\n// Round the float value to 2 decimal places\nvar roundedValue = parseFloat(floatValue.toFixed(2));\n\n// Create a Buffer to store the binary representation of the float\nvar buf = Buffer.allocUnsafe(4);\nbuf.writeFloatBE(roundedValue, 0);\n\n// Extract two 16-bit integers from the Buffer in big-endian byte order\nvar holdingRegister1 = buf.readUInt16BE(0);\nvar holdingRegister2 = buf.readUInt16BE(2);\n\n// Output the two holding registers as an array\nconsole.log(\"Holding Register 1:\", holdingRegister1);\nconsole.log(\"Holding Register 2:\", holdingRegister2);\n\n// Output the two holding registers as an array\nmsg.payload = [holdingRegister1, holdingRegister2];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 200,
+        "wires": [
+            [
+                "d1a740af6c5c11dd",
+                "5d2ea97cb65c9162"
+            ]
+        ]
+    },
+    {
+        "id": "d1a740af6c5c11dd",
+        "type": "debug",
+        "z": "d4fc4d97034cb730",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 840,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "0099f7d04e2b6754",
+        "type": "function",
+        "z": "d4fc4d97034cb730",
+        "d": true,
+        "name": "Write | 32-bit Float | Little-Endian Byte Swap | LSRF |",
+        "func": "// Input value (replace this with your actual floating-point value)\nvar floatValue = msg.payload.values[0].value[0].value;\n\n// Round the float value to 2 decimal places\nvar roundedValue = parseFloat(floatValue.toFixed(2));\n\n// Create a Buffer to store the binary representation of the float\nvar buf = Buffer.allocUnsafe(4);\nbuf.writeFloatBE(roundedValue, 0);\n\n// Extract two 16-bit integers from the Buffer in big-endian byte order\nvar holdingRegister1 = buf.readUInt16BE(0);\nvar holdingRegister2 = buf.readUInt16BE(2);\n\n// Output the two holding registers as an array\nconsole.log(\"Holding Register 1:\", holdingRegister1);\nconsole.log(\"Holding Register 2:\", holdingRegister2);\n\n// Output the two holding registers as an array\nmsg.payload = [holdingRegister2, holdingRegister1];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 320,
+        "wires": [
+            [
+                "e178d764b036a8ae",
+                "2ea93cee925492f7"
+            ]
+        ]
+    },
+    {
+        "id": "e178d764b036a8ae",
+        "type": "modbus-write",
+        "z": "d4fc4d97034cb730",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "MHoldingRegisters",
+        "adr": "2",
+        "quantity": "2",
+        "server": "f68d0fe9835bdf51",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 860,
+        "y": 380,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "ef2c87e9b9836be9",
+        "type": "function",
+        "z": "d4fc4d97034cb730",
+        "name": "Write | 32-bit Float | Big-Endian | MSRF |",
+        "func": "// Input value (replace this with your actual floating-point value)\nvar floatValue = msg.payload.values[0].value[0].value;\n\n// Round the float value to 2 decimal places\nvar roundedValue = parseFloat(floatValue.toFixed(2));\n\n// Create a Buffer to store the binary representation of the float\nvar buf = Buffer.allocUnsafe(4);\nbuf.writeFloatBE(roundedValue, 0);\n\n// Extract two 16-bit integers from the Buffer in big-endian byte order\nvar holdingRegister1 = buf.readUInt16BE(0);\nvar holdingRegister2 = buf.readUInt16BE(2);\n\n// Output the two holding registers as an array\nconsole.log(\"Holding Register 1:\", holdingRegister1);\nconsole.log(\"Holding Register 2:\", holdingRegister2);\n\n// Output the two holding registers as an array\nmsg.payload = [holdingRegister1, holdingRegister2];\n\n// Send the modified message to the next node\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 380,
+        "wires": [
+            [
+                "2ea93cee925492f7",
+                "e178d764b036a8ae"
+            ]
+        ]
+    },
+    {
+        "id": "2ea93cee925492f7",
+        "type": "debug",
+        "z": "d4fc4d97034cb730",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 840,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "9236bbd5053305f9",
+        "type": "debug",
+        "z": "d4fc4d97034cb730",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 120,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "b85ee5f6a8f84849",
+        "type": "debug",
+        "z": "d4fc4d97034cb730",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 120,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "f68d0fe9835bdf51",
+        "type": "modbus-client",
+        "name": "Modbus Slave",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": "10502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true,
+        "showWarnings": true,
+        "showLogs": true
+    }
+]

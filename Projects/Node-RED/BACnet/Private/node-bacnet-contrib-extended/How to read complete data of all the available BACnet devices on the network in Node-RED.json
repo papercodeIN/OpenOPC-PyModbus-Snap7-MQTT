@@ -1,0 +1,88 @@
+[
+    {
+        "id": "8f163798293036b1",
+        "type": "tab",
+        "label": "read-all-devices",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3eecc0c9baf5b834",
+        "type": "debug",
+        "z": "8f163798293036b1",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "e942e51ca4b4090f",
+        "type": "read-all-devices",
+        "z": "8f163798293036b1",
+        "name": "",
+        "x": 160,
+        "y": 200,
+        "wires": [
+            [
+                "3eecc0c9baf5b834"
+            ]
+        ]
+    },
+    {
+        "id": "62bd1186e7eaad41",
+        "type": "function",
+        "z": "8f163798293036b1",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n// msg.apduTimeout = 7000;\n// msg.reuseAddr = true;\n// msg.getAllPropertiesManually = \"true\";\n\n//msg.transportClosedDuration = 90000;\n\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "e942e51ca4b4090f"
+            ]
+        ]
+    },
+    {
+        "id": "c2c992dcda54245d",
+        "type": "inject",
+        "z": "8f163798293036b1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 80,
+        "wires": [
+            [
+                "62bd1186e7eaad41"
+            ]
+        ]
+    }
+]

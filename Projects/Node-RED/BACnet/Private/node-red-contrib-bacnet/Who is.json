@@ -1,0 +1,186 @@
+[
+    {
+        "id": "839a89fa3ff4c321",
+        "type": "tab",
+        "label": "Who is?",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "0356672bcb4a95cc",
+        "type": "BACnet-Command",
+        "z": "839a89fa3ff4c321",
+        "name": "Who is?",
+        "commandType": "whoIs",
+        "timeDuration": 0,
+        "enableDisable": 0,
+        "deviceState": 0,
+        "isUtc": true,
+        "lowLimit": "1",
+        "highLimit": "254",
+        "device": "ce28e9a612f1416c",
+        "server": "ec35d3f5c223bc9a",
+        "x": 360,
+        "y": 60,
+        "wires": [
+            [
+                "2a6ba27897c754bf"
+            ]
+        ]
+    },
+    {
+        "id": "2a6ba27897c754bf",
+        "type": "debug",
+        "z": "839a89fa3ff4c321",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 490,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "ec9a9cfb23241a80",
+        "type": "inject",
+        "z": "839a89fa3ff4c321",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 60,
+        "wires": [
+            [
+                "0356672bcb4a95cc"
+            ]
+        ]
+    },
+    {
+        "id": "f395d970bafcf1b8",
+        "type": "BACnet-Write",
+        "z": "839a89fa3ff4c321",
+        "name": "",
+        "objectType": "40",
+        "instance": "0d2bee198f471706",
+        "valueTag": "7",
+        "valueValue": "Comfort",
+        "propertyId": "85",
+        "priority": "8",
+        "device": "ce28e9a612f1416c",
+        "server": "ec35d3f5c223bc9a",
+        "multipleWrite": false,
+        "x": 600,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "faeb272e92a0ee34",
+        "type": "inject",
+        "z": "839a89fa3ff4c321",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 580,
+        "wires": [
+            [
+                "f395d970bafcf1b8"
+            ]
+        ]
+    },
+    {
+        "id": "5ea27838d19cb8d1",
+        "type": "comment",
+        "z": "839a89fa3ff4c321",
+        "name": "Device: Windows VM | IP Address: System IP Address(192.168.1.7)",
+        "info": "System IP Address:\n - Run ipconfig command in cmd and you will get the system IP Address",
+        "x": 380,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "d3972dab9a763838",
+        "type": "comment",
+        "z": "839a89fa3ff4c321",
+        "name": "Client: Local BACnet | Interface: System IP Address(192.168.1.7)",
+        "info": "System IP Address:\n - Run ipconfig command in cmd and you will get the system IP Address",
+        "x": 370,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e543311438a4efc3",
+        "type": "comment",
+        "z": "839a89fa3ff4c321",
+        "name": "Client: Local BACnet |  Broadcast: System IP Address(192.168.1.255)",
+        "info": "System IP Address:\n - Run ipconfig command in cmd and you will get the system IP Address\n\nFor Broadcast:\n -  if your system ip is 192.168.1.7\n -  then Broadcast will be 192.168.1.254\n -  replace last digit of IP with 254",
+        "x": 380,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "f45f7c54ceaf14c6",
+        "type": "comment",
+        "z": "839a89fa3ff4c321",
+        "name": "First: Start your BACnet Room Simulator",
+        "info": "System IP Address:\n - Run ipconfig command in cmd and you will get the system IP Address\n\nFor Broadcast:\n -  if your system ip is 192.168.1.7\n -  then Broadcast will be 192.168.1.254\n -  replace last digit of IP with 254",
+        "x": 300,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "61b11ea46d306751",
+        "type": "comment",
+        "z": "839a89fa3ff4c321",
+        "name": "Client: Local BACnet | Port: Standard BACnet Port(BAC0 = 47808)",
+        "info": "System IP Address:\n - Run ipconfig command in cmd and you will get the system IP Address",
+        "x": 380,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ce28e9a612f1416c",
+        "type": "BACnet-Device",
+        "name": "Windows VM",
+        "deviceAddress": "192.168.1.7"
+    },
+    {
+        "id": "ec35d3f5c223bc9a",
+        "type": "BACnet-Client",
+        "z": "839a89fa3ff4c321",
+        "name": "Local BACnet",
+        "adpuTimeout": "3000",
+        "port": "47808",
+        "interface": "192.168.1.7",
+        "broadcastAddress": "192.168.1.255"
+    },
+    {
+        "id": "0d2bee198f471706",
+        "type": "BACnet-Instance",
+        "name": "Text 1",
+        "instanceAddress": "1"
+    }
+]

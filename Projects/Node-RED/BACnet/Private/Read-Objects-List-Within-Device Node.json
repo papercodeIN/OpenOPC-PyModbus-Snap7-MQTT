@@ -1,0 +1,88 @@
+[
+    {
+        "id": "d73c5d89b04c598f",
+        "type": "tab",
+        "label": "Read-Objects-List-Within-Device",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d4e184b3ed27c65c",
+        "type": "read-objects-list-within-device",
+        "z": "d73c5d89b04c598f",
+        "name": "",
+        "x": 450,
+        "y": 100,
+        "wires": [
+            [
+                "e2c2a2fd6e536531"
+            ]
+        ]
+    },
+    {
+        "id": "d881f01805f8f779",
+        "type": "function",
+        "z": "d73c5d89b04c598f",
+        "name": "Inject Device Id and Address",
+        "func": "// BACnet Device ID\nmsg.deviceId = 3588107;\n// BACnet Device IP:PORT\nmsg.address = \"192.168.1.6:61531\";\n\n// msg.communicationPort = 47808;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 100,
+        "wires": [
+            [
+                "d4e184b3ed27c65c"
+            ]
+        ]
+    },
+    {
+        "id": "e2c2a2fd6e536531",
+        "type": "debug",
+        "z": "d73c5d89b04c598f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "42ba49ea2bb49724",
+        "type": "inject",
+        "z": "d73c5d89b04c598f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 60,
+        "wires": [
+            [
+                "d881f01805f8f779"
+            ]
+        ]
+    }
+]

@@ -1,0 +1,468 @@
+[
+    {
+        "id": "43d78e401ec59171",
+        "type": "tab",
+        "label": "Subscribe Multiple",
+        "disabled": false,
+        "info": "Code actually uses monitoredItemGroup"
+    },
+    {
+        "id": "5dc1618a9c25d31e",
+        "type": "function",
+        "z": "43d78e401ec59171",
+        "name": "NodeId Array",
+        "func": "// Tested with Prosys\nmsg.topic = \"multiple\";\nmsg.payload = [];\nmsg.payload.push({\n    // Counter\n    nodeId: \"ns=3;i=1001\"\n});\nmsg.payload.push({\n    // Random\n    nodeId: \"ns=3;i=1002\",\n});\nmsg.payload.push({\n    // Sawtooth\n    nodeId: \"ns=3;i=1003\",\n});\nmsg.payload.push({\n    // Sinusoid \n    nodeId: \"ns=3;i=1004\",\n});\nmsg.payload.push({\n    // Triangle\n    nodeId: \"ns=3;i=1006\",\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 120,
+        "wires": [
+            [
+                "2e033321b5211ced"
+            ]
+        ]
+    },
+    {
+        "id": "9f62f3cfe996c378",
+        "type": "inject",
+        "z": "43d78e401ec59171",
+        "name": "Subscribe multiple",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "multiple",
+        "payload": "",
+        "payloadType": "str",
+        "x": 230,
+        "y": 60,
+        "wires": [
+            [
+                "5dc1618a9c25d31e"
+            ]
+        ]
+    },
+    {
+        "id": "2e033321b5211ced",
+        "type": "OpcUa-Client",
+        "z": "43d78e401ec59171",
+        "endpoint": "820babbbacf2d14d",
+        "action": "subscribe",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": "1",
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "folderName4PKI": "",
+        "useTransport": false,
+        "maxChunkCount": "",
+        "maxMessageSize": "",
+        "receiveBufferSize": "",
+        "sendBufferSize": "",
+        "name": "",
+        "x": 240,
+        "y": 180,
+        "wires": [
+            [
+                "683826c32e200a61"
+            ]
+        ]
+    },
+    {
+        "id": "683826c32e200a61",
+        "type": "function",
+        "z": "43d78e401ec59171",
+        "name": "Just value",
+        "func": "if (msg.payload && msg.payload.value) {\n  var value = msg.payload.value.value;\n  msg.payload = value;\n  return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 240,
+        "wires": [
+            [
+                "d76567eff98feb63",
+                "78047a39ad8a0b49",
+                "5578cf38512e6ad0",
+                "0a953b46d1f9b8fd",
+                "a877af0b31bc0308",
+                "002af08fdba29a98"
+            ]
+        ]
+    },
+    {
+        "id": "d76567eff98feb63",
+        "type": "debug",
+        "z": "43d78e401ec59171",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ed5793037ae477fa",
+        "type": "ui_text",
+        "z": "43d78e401ec59171",
+        "group": "09ed77501b6a41a1",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Counter",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 680,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "44885bb44bb2250d",
+        "type": "ui_text",
+        "z": "43d78e401ec59171",
+        "group": "09ed77501b6a41a1",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Random",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 680,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "7f09543935021cd8",
+        "type": "ui_chart",
+        "z": "43d78e401ec59171",
+        "name": "",
+        "group": "a4d726a1a804234e",
+        "order": 1,
+        "width": "6",
+        "height": "5",
+        "label": "Sawtooth",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#ff8000",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 680,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7fcdf42fb54b227a",
+        "type": "ui_chart",
+        "z": "43d78e401ec59171",
+        "name": "",
+        "group": "a4d726a1a804234e",
+        "order": 3,
+        "width": "6",
+        "height": "5",
+        "label": "Sinusoid",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#008000",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 680,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "31de033e0487ca5d",
+        "type": "ui_chart",
+        "z": "43d78e401ec59171",
+        "name": "",
+        "group": "a4d726a1a804234e",
+        "order": 3,
+        "width": "6",
+        "height": "5",
+        "label": "Triangle",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "2",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#ff0000",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 680,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "78047a39ad8a0b49",
+        "type": "switch",
+        "z": "43d78e401ec59171",
+        "name": "Counter",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ns=3;i=1001",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 180,
+        "wires": [
+            [
+                "ed5793037ae477fa"
+            ]
+        ]
+    },
+    {
+        "id": "5578cf38512e6ad0",
+        "type": "switch",
+        "z": "43d78e401ec59171",
+        "name": "Random",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ns=3;i=1002",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 220,
+        "wires": [
+            [
+                "44885bb44bb2250d"
+            ]
+        ]
+    },
+    {
+        "id": "0a953b46d1f9b8fd",
+        "type": "switch",
+        "z": "43d78e401ec59171",
+        "name": "Sawtooth",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ns=3;i=1003",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 260,
+        "wires": [
+            [
+                "7f09543935021cd8"
+            ]
+        ]
+    },
+    {
+        "id": "a877af0b31bc0308",
+        "type": "switch",
+        "z": "43d78e401ec59171",
+        "name": "Sinusoid",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ns=3;i=1004",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 300,
+        "wires": [
+            [
+                "7fcdf42fb54b227a"
+            ]
+        ]
+    },
+    {
+        "id": "002af08fdba29a98",
+        "type": "switch",
+        "z": "43d78e401ec59171",
+        "name": "Triangle",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ns=3;i=1006",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 340,
+        "wires": [
+            [
+                "31de033e0487ca5d"
+            ]
+        ]
+    },
+    {
+        "id": "820babbbacf2d14d",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://DESKTOP-1D1P1PV:53530/localhost",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "09ed77501b6a41a1",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "a1fe352b5ce241da",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a4d726a1a804234e",
+        "type": "ui_group",
+        "name": "Trends",
+        "tab": "a1fe352b5ce241da",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a1fe352b5ce241da",
+        "type": "ui_tab",
+        "name": "Prosys OPC-UA",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

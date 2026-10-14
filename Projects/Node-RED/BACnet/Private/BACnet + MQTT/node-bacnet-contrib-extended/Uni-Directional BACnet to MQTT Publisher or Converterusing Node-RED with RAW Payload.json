@@ -1,0 +1,286 @@
+[
+    {
+        "id": "a9f34d360d77dccf",
+        "type": "tab",
+        "label": "BACnet to MQTT Publisher",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fa17fb916284cf19",
+        "type": "inject",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 40,
+        "wires": [
+            [
+                "08257e5542d39440"
+            ]
+        ]
+    },
+    {
+        "id": "08257e5542d39440",
+        "type": "function",
+        "z": "a9f34d360d77dccf",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 80,
+        "wires": [
+            [
+                "411aed243f057296"
+            ]
+        ]
+    },
+    {
+        "id": "411aed243f057296",
+        "type": "discover-devices",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "x": 190,
+        "y": 120,
+        "wires": [
+            [
+                "74bf69659e1974a1"
+            ]
+        ]
+    },
+    {
+        "id": "74bf69659e1974a1",
+        "type": "debug",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b609ba7673ff6360",
+        "type": "change-of-value",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "address": "192.168.1.23:56343",
+        "inputType": "0",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "5859cc046dd334ea"
+            ]
+        ]
+    },
+    {
+        "id": "5859cc046dd334ea",
+        "type": "change",
+        "z": "a9f34d360d77dccf",
+        "name": "Temperature Indoor",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Temperature Indoor",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 180,
+        "wires": [
+            [
+                "f0912af0fd6b30d1"
+            ]
+        ]
+    },
+    {
+        "id": "f0912af0fd6b30d1",
+        "type": "mqtt out",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7239fad3d04c7dfb",
+        "x": 650,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "04d4f95924cbd764",
+        "type": "change-of-value",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "address": "192.168.1.23:56343",
+        "inputType": "0",
+        "bacnetId": "1",
+        "COVtimeout": "120000",
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "0946cbde25d9b141"
+            ]
+        ]
+    },
+    {
+        "id": "0946cbde25d9b141",
+        "type": "change",
+        "z": "a9f34d360d77dccf",
+        "name": "Glycol Water Temperature",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Glycol Water Temperature",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "f0912af0fd6b30d1"
+            ]
+        ]
+    },
+    {
+        "id": "c488e5f8ecafffa7",
+        "type": "change-of-value",
+        "z": "a9f34d360d77dccf",
+        "name": "",
+        "address": "192.168.1.23:56343",
+        "inputType": "2",
+        "bacnetId": "0",
+        "COVtimeout": "120000",
+        "x": 160,
+        "y": 300,
+        "wires": [
+            [
+                "5d5206bb588f79aa"
+            ]
+        ]
+    },
+    {
+        "id": "5d5206bb588f79aa",
+        "type": "change",
+        "z": "a9f34d360d77dccf",
+        "name": "Effective SetPoint",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.values[0].value[0].value",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Effective SetPoint",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "f0912af0fd6b30d1"
+            ]
+        ]
+    },
+    {
+        "id": "7239fad3d04c7dfb",
+        "type": "mqtt-broker",
+        "name": "Mosquitto",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

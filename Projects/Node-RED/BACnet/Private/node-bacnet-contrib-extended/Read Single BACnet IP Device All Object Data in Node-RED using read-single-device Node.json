@@ -1,0 +1,444 @@
+[
+    {
+        "id": "c2f97f831b10833d",
+        "type": "tab",
+        "label": "Read Single BACnet Device",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4fb6bf9552d1c542",
+        "type": "function",
+        "z": "c2f97f831b10833d",
+        "name": "Inject Parameters",
+        "func": "// BACnet Device ID\nmsg.deviceId = 1867817; \n// If you use it without port then there is a chance that it will not work\nmsg.address = \"192.168.1.7:60173\"; \nmsg.apduTimeout = 20000;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 360,
+        "wires": [
+            [
+                "ede5e2d97a9ff630"
+            ]
+        ]
+    },
+    {
+        "id": "4494f2fbdd6bcf29",
+        "type": "inject",
+        "z": "c2f97f831b10833d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 320,
+        "wires": [
+            [
+                "4fb6bf9552d1c542"
+            ]
+        ]
+    },
+    {
+        "id": "ede5e2d97a9ff630",
+        "type": "read-single-device",
+        "z": "c2f97f831b10833d",
+        "name": "",
+        "x": 230,
+        "y": 400,
+        "wires": [
+            [
+                "3d5e0c1a71f80044"
+            ]
+        ]
+    },
+    {
+        "id": "3d5e0c1a71f80044",
+        "type": "function",
+        "z": "c2f97f831b10833d",
+        "name": "function 6",
+        "func": "// Assuming msg.payload contains the provided JSON data\n\n// Initialize an array to store the extracted data\nvar extractedData = [];\n\n// Check if msg.payload has the necessary structure\nif (msg.payload && msg.payload.hasOwnProperty(\"OBJECT_LIST(76)\")) {\n    // Iterate through the OBJECT_LIST(76) array\n    msg.payload[\"OBJECT_LIST(76)\"].forEach(function (obj) {\n        // Check if the object has OBJECT_NAME(77) and PRESENT_VALUE(85)\n        if (obj.hasOwnProperty(\"OBJECT_NAME(77)\") && obj.hasOwnProperty(\"PRESENT_VALUE(85)\")) {\n            // Extract OBJECT_NAME(77) and PRESENT_VALUE(85) and add to the array\n            var data = {\n                OBJECT_NAME: obj[\"OBJECT_NAME(77)\"],\n                PRESENT_VALUE: obj[\"PRESENT_VALUE(85)\"]\n            };\n            extractedData.push(data);\n        }\n    });\n}\n\n// Create separate messages for each extracted combination\nvar outputMessages = extractedData.map(function (data) {\n    // Clone the original message\n    var newMsg = RED.util.cloneMessage(msg);\n    // Set the extracted data as the payload of the new message\n    newMsg.payload = data;\n    return newMsg;\n});\n\nreturn outputMessages;\n",
+        "outputs": 14,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 400,
+        "wires": [
+            [
+                "a797e66fa2591c61"
+            ],
+            [
+                "10aab650b858a2fb"
+            ],
+            [
+                "7fc9dd840d2f6353"
+            ],
+            [
+                "de267d06adabe018"
+            ],
+            [
+                "d2367bc88cced4d4"
+            ],
+            [
+                "acf8d6754628f7e4"
+            ],
+            [
+                "7d4e20f6595f693f"
+            ],
+            [
+                "59fc47c5fc131168"
+            ],
+            [
+                "94b63fe7fbb25fa3"
+            ],
+            [
+                "2fa07bb19d481c54"
+            ],
+            [
+                "2c22612732244f5a"
+            ],
+            [
+                "e770d0059d912d85"
+            ],
+            [
+                "003f94fcb575aa5e"
+            ],
+            [
+                "2a84e1814247503b"
+            ]
+        ]
+    },
+    {
+        "id": "a797e66fa2591c61",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "10aab650b858a2fb",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 17",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7fc9dd840d2f6353",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 18",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "de267d06adabe018",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 19",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "d2367bc88cced4d4",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "2a84e1814247503b",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "003f94fcb575aa5e",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 23",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "e770d0059d912d85",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "2c22612732244f5a",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "2fa07bb19d481c54",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "94b63fe7fbb25fa3",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "59fc47c5fc131168",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 29",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "7d4e20f6595f693f",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 30",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "acf8d6754628f7e4",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "debug 31",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "db508ed750a00253",
+        "type": "inject",
+        "z": "c2f97f831b10833d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "3c2c8d7f88e234cc"
+            ]
+        ]
+    },
+    {
+        "id": "3c2c8d7f88e234cc",
+        "type": "function",
+        "z": "c2f97f831b10833d",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 80,
+        "wires": [
+            [
+                "a603607d50b9295a"
+            ]
+        ]
+    },
+    {
+        "id": "a603607d50b9295a",
+        "type": "discover-devices",
+        "z": "c2f97f831b10833d",
+        "name": "",
+        "x": 550,
+        "y": 80,
+        "wires": [
+            [
+                "5926ab6f26c03721"
+            ]
+        ]
+    },
+    {
+        "id": "5926ab6f26c03721",
+        "type": "debug",
+        "z": "c2f97f831b10833d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "2af488561fc32377",
+        "type": "comment",
+        "z": "c2f97f831b10833d",
+        "name": "# Discover Available BACnet Device Acorss Network",
+        "info": "",
+        "x": 270,
+        "y": 40,
+        "wires": []
+    }
+]

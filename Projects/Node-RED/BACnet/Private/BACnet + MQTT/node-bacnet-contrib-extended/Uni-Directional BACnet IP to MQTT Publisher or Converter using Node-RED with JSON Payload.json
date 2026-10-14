@@ -1,0 +1,257 @@
+[
+    {
+        "id": "47a3fa1776f331ee",
+        "type": "tab",
+        "label": "Uni-Directional BACnet to MQTT Publisher with JSON Payload",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4fb6bf9552d1c542",
+        "type": "function",
+        "z": "47a3fa1776f331ee",
+        "name": "Inject Parameters",
+        "func": "// BACnet Device ID\nmsg.deviceId = 1867817; \n// If you use it without port then there is a chance that it will not work\nmsg.address = \"192.168.1.8:59550\"; \nmsg.apduTimeout = 20000;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 300,
+        "wires": [
+            [
+                "ede5e2d97a9ff630"
+            ]
+        ]
+    },
+    {
+        "id": "4494f2fbdd6bcf29",
+        "type": "inject",
+        "z": "47a3fa1776f331ee",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 260,
+        "wires": [
+            [
+                "4fb6bf9552d1c542"
+            ]
+        ]
+    },
+    {
+        "id": "ede5e2d97a9ff630",
+        "type": "read-single-device",
+        "z": "47a3fa1776f331ee",
+        "name": "",
+        "x": 170,
+        "y": 340,
+        "wires": [
+            [
+                "05493092d756a262"
+            ]
+        ]
+    },
+    {
+        "id": "05493092d756a262",
+        "type": "function",
+        "z": "47a3fa1776f331ee",
+        "name": "Create JSON Payload + Topic",
+        "func": "// Initialize an object to store the extracted data\nvar extractedData = {};\n\n// Check if msg.payload has the necessary structure\nif (msg.payload && msg.payload.hasOwnProperty(\"OBJECT_LIST(76)\")) {\n    // Iterate through the OBJECT_LIST(76) array\n    msg.payload[\"OBJECT_LIST(76)\"].forEach(function (obj) {\n        // Check if the object has OBJECT_NAME(77) and PRESENT_VALUE(85)\n        if (obj.hasOwnProperty(\"OBJECT_NAME(77)\") && obj.hasOwnProperty(\"PRESENT_VALUE(85)\")) {\n            // Extract OBJECT_NAME(77) and PRESENT_VALUE(85) and add to the object\n            var objectName = obj[\"OBJECT_NAME(77)\"];\n            var presentValue = obj[\"PRESENT_VALUE(85)\"];\n\n            // Construct the key in the desired format\n            var key = objectName.replace(/\\s/g, \"_\"); // Replace spaces with underscores if necessary\n\n            // Add to the extractedData object\n            extractedData[key] = presentValue;\n        }\n    });\n}\n\n// Create a JSON string from the object\nvar jsonString = JSON.stringify(extractedData);\n\n// Publish the JSON string to MQTT\nnode.send({\n    payload: jsonString,\n    topic: \"BACnet\"  // Replace with your MQTT topic\n});\n\n// Return nothing to avoid sending multiple messages to the debug sidebar\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 340,
+        "wires": [
+            [
+                "a530ecd973a2543e",
+                "44d53019102ecc6c"
+            ]
+        ]
+    },
+    {
+        "id": "af43f25a405cfde3",
+        "type": "inject",
+        "z": "47a3fa1776f331ee",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "64b5e90f0886e0b0"
+            ]
+        ]
+    },
+    {
+        "id": "64b5e90f0886e0b0",
+        "type": "function",
+        "z": "47a3fa1776f331ee",
+        "name": "Inject Parameters",
+        "func": "// msg.communicationPort = 47808;\n// msg.interface = '0.0.0.0';\n// msg.broadcastAddress = '255.255.255.255';\n//msg.apduTimeout = 7000;\nmsg.reuseAddr = true;\nmsg.transportClosedDuration = 8000;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 100,
+        "wires": [
+            [
+                "e662e649c9f45475"
+            ]
+        ]
+    },
+    {
+        "id": "e662e649c9f45475",
+        "type": "discover-devices",
+        "z": "47a3fa1776f331ee",
+        "name": "",
+        "x": 530,
+        "y": 100,
+        "wires": [
+            [
+                "a25a3057bc8dda8e"
+            ]
+        ]
+    },
+    {
+        "id": "a25a3057bc8dda8e",
+        "type": "debug",
+        "z": "47a3fa1776f331ee",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "3c339a06b211678f",
+        "type": "comment",
+        "z": "47a3fa1776f331ee",
+        "name": "# Discover Available BACnet Device Acorss Network",
+        "info": "",
+        "x": 250,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "a530ecd973a2543e",
+        "type": "debug",
+        "z": "47a3fa1776f331ee",
+        "name": "debug 35",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "44d53019102ecc6c",
+        "type": "mqtt out",
+        "z": "47a3fa1776f331ee",
+        "name": "Publisher",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "31c6b3408efb7a86",
+        "x": 680,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "902f54033624c849",
+        "type": "comment",
+        "z": "47a3fa1776f331ee",
+        "name": "# Uni-Directional BACnet to MQTT Publisher with JSON Payload",
+        "info": "",
+        "x": 290,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "31c6b3408efb7a86",
+        "type": "mqtt-broker",
+        "name": "Mosquitto Broker",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

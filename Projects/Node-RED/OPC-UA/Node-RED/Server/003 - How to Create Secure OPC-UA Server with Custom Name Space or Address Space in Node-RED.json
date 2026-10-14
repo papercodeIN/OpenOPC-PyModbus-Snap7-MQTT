@@ -1,0 +1,195 @@
+function constructAlarmAddressSpace(server, addressSpace, eventObjects, done) {
+  // server = the created node-opcua server
+  // addressSpace = address space of the node-opcua server
+  // eventObjects = add event variables here to hold them in memory from this script
+
+  // internal sandbox objects are:
+  // node = the compact server node,
+  // coreServer = core compact server object for debug and access to NodeOPCUA
+  // this.sandboxNodeContext = node context node-red
+  // this.sandboxFlowContext = flow context node-red
+  // this.sandboxGlobalContext = global context node-red
+  // this.sandboxEnv = env variables
+  // timeout and interval functions as expected from nodejs
+
+  const opcua = coreServer.choreCompact.opcua;
+  const LocalizedText = opcua.LocalizedText;
+  const namespace = addressSpace.getOwnNamespace();
+
+  const Variant = opcua.Variant;
+  const DataType = opcua.DataType;
+  const DataValue = opcua.DataValue;
+
+  var flexServerInternals = this;
+
+  //inputs
+  this.sandboxFlowContext.set("isoInput1", 0);
+  this.sandboxFlowContext.set("isoInput2", 0);
+  //oitputs
+  this.sandboxFlowContext.set("isoOutput1", 0);
+
+
+  coreServer.debugLog("init dynamic address space");
+  const rootFolder = addressSpace.findNode("RootFolder");
+
+  node.warn("construct new address space for OPC UA");
+
+  const myDevice = namespace.addFolder(rootFolder.objects, {"browseName": "Plant"});
+  const ioFolder = namespace.addFolder(myDevice, {"browseName": "Area-1" });
+  const isoInputs = namespace.addFolder(ioFolder, {"browseName": "Inputs"});
+  const isoOutputs = namespace.addFolder(ioFolder, {"browseName": "Outputs"});
+
+  const gpioDI1 = namespace.addVariable({
+    "organizedBy": isoInputs,
+    "browseName": "I1",
+    "nodeId": "ns=1;s=Isolated_Input1",
+    "dataType": "Double",
+    "value": {
+      "get": function() {
+        return new Variant({
+          "dataType": DataType.Double,
+          "value": flexServerInternals.sandboxFlowContext.get("isoInput1")
+        });
+      },
+      "set": function(variant) {
+        flexServerInternals.sandboxFlowContext.set(
+          "isoInput1",
+          parseFloat(variant.value)
+        );
+        return opcua.StatusCodes.Good;
+      }
+    }
+  });
+
+  const gpioDI2 = namespace.addVariable({
+    "organizedBy": isoInputs,
+    "browseName": "I2",
+    "nodeId": "ns=1;s=Isolated_Input2",
+    "dataType": "Double",
+    "value": {
+      "get": function() {
+        return new Variant({
+          "dataType": DataType.Double,
+          "value": flexServerInternals.sandboxFlowContext.get("isoInput2")
+        });
+      },
+      "set": function(variant) {
+        flexServerInternals.sandboxFlowContext.set(
+          "isoInput2",
+          parseFloat(variant.value)
+        );
+        return opcua.StatusCodes.Good;
+      }
+    }
+  });
+  
+  const gpioDO1 = namespace.addVariable({
+    "organizedBy": isoOutputs,
+    "browseName": "O1",
+    "nodeId": "ns=1;s=Isolated_Output1",
+    "dataType": "Double",
+    "value": {
+      "get": function() {
+        return new Variant({
+          "dataType": DataType.Double,
+          "value": flexServerInternals.sandboxFlowContext.get("isoOutput1")
+        });
+      },
+      "set": function(variant) {
+        flexServerInternals.sandboxFlowContext.set(
+          "isoOutput1",
+          parseFloat(variant.value)
+        );
+        return opcua.StatusCodes.Good;
+      }
+    }
+  });
+  
+  // const gpioDO2 = namespace.addVariable({
+  //   "organizedBy": isoOutputs,
+  //   "browseName": "O2",
+  //   "nodeId": "ns=1;s=Isolated_Output2",
+  //   "dataType": "Double",
+  //   "value": {
+  //     "get": function() {
+  //       return new Variant({
+  //         "dataType": DataType.Double,
+  //         "value": flexServerInternals.sandboxFlowContext.get("isoOutput2")
+  //       });
+  //     },
+  //     "set": function(variant) {
+  //       flexServerInternals.sandboxFlowContext.set(
+  //         "isoOutput2",
+  //         parseFloat(variant.value)
+  //       );
+  //       return opcua.StatusCodes.Good;
+  //     }
+  //   }
+  // });
+
+  // const gpioDO3 = namespace.addVariable({
+  //   "organizedBy": isoOutputs,
+  //   "browseName": "O3",
+  //   "nodeId": "ns=1;s=Isolated_Output3",
+  //   "dataType": "Double",
+  //   "value": {
+  //     "get": function() {
+  //       return new Variant({
+  //         "dataType": DataType.Double,
+  //         "value": flexServerInternals.sandboxFlowContext.get("isoOutput3")
+  //       });
+  //     },
+  //     "set": function(variant) {
+  //       flexServerInternals.sandboxFlowContext.set(
+  //         "isoOutput3",
+  //         parseFloat(variant.value)
+  //       );
+  //       return opcua.StatusCodes.Good;
+  //     }
+  //   }
+  // });
+
+//------------------------------------------------------------------------------
+// Add a view
+//------------------------------------------------------------------------------
+const viewDI = namespace.addView({
+  "organizedBy": rootFolder.views,
+  "browseName": "RPIW0-Digital-Ins"
+});
+
+const viewDO = namespace.addView({
+  "organizedBy": rootFolder.views,
+  "browseName": "RPIW0-Digital-Outs"
+});
+
+viewDI.addReference({
+  "referenceType": "Organizes",
+  "nodeId": gpioDI1.nodeId
+});
+
+viewDI.addReference({
+  "referenceType": "Organizes",
+  "nodeId": gpioDI2.nodeId
+});
+
+
+viewDO.addReference({
+  "referenceType": "Organizes",
+  "nodeId": gpioDO1.nodeId
+});
+
+// viewDO.addReference({
+//   "referenceType": "Organizes",
+//   "nodeId": gpioDO2.nodeId
+// });
+
+// viewDO.addReference({
+//   "referenceType": "Organizes",
+//   "nodeId": gpioDO3.nodeId
+// });
+
+coreServer.debugLog("create dynamic address space done");
+node.warn("construction of new address space for OPC UA done");
+
+done();
+}
