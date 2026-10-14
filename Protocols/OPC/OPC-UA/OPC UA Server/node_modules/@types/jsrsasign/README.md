@@ -1,0 +1,15 @@
+# Installation
+> `npm install --save @types/jsrsasign`
+
+# Summary
+This package contains type definitions for jsrsasign (https://github.com/kjur/jsrsasign).
+
+# Details
+Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/jsrsasign.
+
+### Additional Details
+ * Last updated: Thu, 28 Nov 2024 06:39:18 GMT
+ * Dependencies: none
+
+# Credits
+These definitions were written by [Florian Imdahl](https://github.com/ffflorian).

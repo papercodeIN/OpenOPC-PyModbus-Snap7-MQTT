@@ -1,0 +1,36 @@
+{
+    "name": "node-opcua-assert",
+    "version": "2.139.0",
+    "description": "pure nodejs OPCUA SDK - module assert",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsc -b",
+        "test": "echo nothing to do",
+        "clean": "npx rimraf -g node_modules dist *.tsbuildinfo",
+        "lint": "eslint source/**/*.ts"
+    },
+    "dependencies": {
+        "chalk": "4.1.2"
+    },
+    "author": "Etienne Rossignon",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/node-opcua/node-opcua.git"
+    },
+    "keywords": [
+        "OPCUA",
+        "opcua",
+        "m2m",
+        "iot",
+        "opc ua",
+        "internet of things"
+    ],
+    "homepage": "http://node-opcua.github.io/",
+    "gitHead": "b7a01d31c7602d323e60a5f4a54428199a266f29",
+    "files": [
+        "dist",
+        "source"
+    ]
+}

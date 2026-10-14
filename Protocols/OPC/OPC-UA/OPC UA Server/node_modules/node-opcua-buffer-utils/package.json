@@ -1,0 +1,36 @@
+{
+    "name": "node-opcua-buffer-utils",
+    "version": "2.153.0",
+    "description": "pure nodejs OPCUA SDK - module buffer-utils",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsc -b",
+        "test": "mocha",
+        "clean": "npx rimraf -g node_modules dist *.tsbuildinfo",
+        "lint": "eslint source/**/*.ts"
+    },
+    "author": "Etienne Rossignon",
+    "license": "MIT",
+    "devDependencies": {
+        "node-opcua-benchmarker": "2.153.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/node-opcua/node-opcua.git"
+    },
+    "keywords": [
+        "OPCUA",
+        "opcua",
+        "m2m",
+        "iot",
+        "opc ua",
+        "internet of things"
+    ],
+    "homepage": "http://node-opcua.github.io/",
+    "gitHead": "2193ed025bc9aaded76338c1c76cbc0524b3a37f",
+    "files": [
+        "dist",
+        "source"
+    ]
+}

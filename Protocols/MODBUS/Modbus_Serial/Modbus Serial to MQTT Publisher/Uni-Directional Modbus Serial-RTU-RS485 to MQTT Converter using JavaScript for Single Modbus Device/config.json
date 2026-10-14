@@ -1,0 +1,40 @@
+{
+  "modbus": {
+    "serialPort": "COM2",
+    "baudRate": 9600,
+    "parity": "none",
+    "stopBits": 1,
+    "dataBits": 8,
+    "slaveID": 1,
+    "interval": 2000,
+    "registers": [
+      {
+        "type": "holding",
+        "startAddress": 0,
+        "endAddress": 2,
+        "tags": ["HRTag0", "HRTag1", "HRTag2"]
+      },
+      {
+        "type": "holding",
+        "startAddress": 5,
+        "endAddress": 7,
+        "tags": ["HRTag5", "HRTag6", "HRTag7"]
+      },
+      {
+        "type": "input",
+        "startAddress": 0,
+        "endAddress": 2,
+        "tags": ["IRTag0", "IRTag1", "IRTag2"]
+      }
+    ]
+  },
+  "mqtt": {
+    "broker": {
+      "ip": "broker.hivemq.com",
+      "port": 1883,
+      "username": "",
+      "password": ""
+    },
+    "baseTopic": "modbus/data"
+  }
+}

@@ -1,0 +1,40 @@
+{
+    "name": "node-opcua-binary-stream",
+    "version": "2.153.0",
+    "description": "pure nodejs OPCUA SDK - module binary-stream",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsc -b",
+        "test": "mocha",
+        "clean": "npx rimraf -g node_modules dist *.tsbuildinfo",
+        "lint": "eslint source/**/*.ts"
+    },
+    "dependencies": {
+        "node-opcua-assert": "2.139.0",
+        "node-opcua-buffer-utils": "2.153.0"
+    },
+    "devDependencies": {
+        "node-opcua-benchmarker": "2.153.0"
+    },
+    "author": "Etienne Rossignon",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/node-opcua/node-opcua.git"
+    },
+    "keywords": [
+        "OPCUA",
+        "opcua",
+        "m2m",
+        "iot",
+        "opc ua",
+        "internet of things"
+    ],
+    "homepage": "http://node-opcua.github.io/",
+    "gitHead": "2193ed025bc9aaded76338c1c76cbc0524b3a37f",
+    "files": [
+        "dist",
+        "source"
+    ]
+}

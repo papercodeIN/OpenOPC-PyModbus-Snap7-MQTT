@@ -1,0 +1,74 @@
+{
+  "name": "node-opcua-pki",
+  "version": "5.3.0",
+  "description": "PKI management for node-opcua",
+  "type": "commonjs",
+  "main": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
+  "scripts": {
+    "build": "npx tsc -b -f",
+    "clean": "npx rimraf node_modules .nyc_output tmp private_key.pem certificates",
+    "test": "mocha -r ./node_modules/source-map-support/register -t 700000 test/**/*.ts",
+    "cover": "npx nyc -x  bin -x tmp -x lib/misc/install* mocha",
+    "cost-of-modules": "npx cost-of-modules --no-install",
+    "release-it": "npx release-it",
+    "ncu": "npx npm-check-updates -u -x rimraf,env-paths,chalk,yargs,update-notifier",
+    "ncu2": "npx npm-check-updates -u -f rimraf,env-paths,chalk,yargs,update-notifier -t minor",
+    "pkg": "npx pkg -o pkg/pki bin/crypto_create_CA.js",
+    "tslint": "npx tslint -c tslint.json lib/**/*.ts",
+    "postinstall2": "opencollective-postinstall",
+    "postinstall3": "github-sponsors",
+    "makelinks": "npx tsx ../make-links/makelinks.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-opcua/node-opcua-pki.git"
+  },
+  "bugs": {
+    "url": "https://github.com/node-opcua/node-opcua-pki/issues"
+  },
+  "keywords": [
+    "PKI",
+    "node-opcua"
+  ],
+  "collective": {
+    "url": "https://opencollective.com/node-opcua"
+  },
+  "author": "Etienne Rossignon",
+  "license": "MIT",
+  "dependencies": {
+    "@ster5/global-mutex": "^2.0.0",
+    "byline": "^5.0.0",
+    "chalk": "4.1.2",
+    "chokidar": "4.0.3",
+    "node-opcua-crypto": "4.16.0",
+    "progress": "^2.0.3",
+    "rimraf": "4.4.1",
+    "wget-improved-2": "^3.3.0",
+    "yargs": "17.7.2",
+    "yauzl": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/async": "^3.2.24",
+    "@types/byline": "^4.2.36",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.14.0",
+    "@types/node-dir": "0.0.37",
+    "@types/progress": "^2.0.7",
+    "@types/rimraf": "^4.0.5",
+    "@types/sinon": "^17.0.4",
+    "@types/yargs": "^17.0.33",
+    "@types/yauzl": "^2.10.3",
+    "eslint": "^9.24.0",
+    "mocha": "^11.1.0",
+    "node-dir": "^0.1.17",
+    "should": "^13.2.3",
+    "sinon": "^20.0.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "bin": {
+    "pki": "./bin/crypto_create_CA.js"
+  }
+}

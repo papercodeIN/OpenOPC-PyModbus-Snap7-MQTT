@@ -1,0 +1,44 @@
+{
+    "name": "node-opcua-chunkmanager",
+    "version": "2.155.0",
+    "description": "pure nodejs OPCUA SDK - module chunkmanager",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsc -b",
+        "test": "exit 0 ",
+        "clean": "npx rimraf -g node_modules dist *.tsbuildinfo",
+        "lint": "eslint source/**/*.ts"
+    },
+    "dependencies": {
+        "node-opcua-assert": "2.139.0",
+        "node-opcua-basic-types": "2.154.0",
+        "node-opcua-binary-stream": "2.153.0",
+        "node-opcua-buffer-utils": "2.153.0",
+        "node-opcua-factory": "2.155.0",
+        "node-opcua-packet-assembler": "2.153.0"
+    },
+    "devDependencies": {
+        "node-opcua-debug": "2.153.0"
+    },
+    "author": "Etienne Rossignon",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/node-opcua/node-opcua.git"
+    },
+    "keywords": [
+        "OPCUA",
+        "opcua",
+        "m2m",
+        "iot",
+        "opc ua",
+        "internet of things"
+    ],
+    "homepage": "http://node-opcua.github.io/",
+    "gitHead": "3fa553a530bc732ad6c658dc41187769f4995b68",
+    "files": [
+        "dist",
+        "source"
+    ]
+}

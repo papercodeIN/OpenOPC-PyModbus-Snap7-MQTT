@@ -1,0 +1,42 @@
+{
+    "name": "node-opcua-nodeid",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "version": "2.153.0",
+    "description": "pure nodejs OPCUA SDK - module nodeid",
+    "scripts": {
+        "build": "tsc -b",
+        "lint": "eslint source/**/*.ts",
+        "clean": "npx rimraf -g node_modules dist *.tsbuildinfo",
+        "test": "mocha"
+    },
+    "dependencies": {
+        "node-opcua-assert": "2.139.0",
+        "node-opcua-constants": "2.139.0",
+        "node-opcua-guid": "2.139.0"
+    },
+    "devDependencies": {
+        "node-opcua-benchmarker": "2.153.0",
+        "node-opcua-debug": "2.153.0"
+    },
+    "author": "Etienne Rossignon",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/node-opcua/node-opcua.git"
+    },
+    "keywords": [
+        "OPCUA",
+        "opcua",
+        "m2m",
+        "iot",
+        "opc ua",
+        "internet of things"
+    ],
+    "homepage": "http://node-opcua.github.io/",
+    "gitHead": "2193ed025bc9aaded76338c1c76cbc0524b3a37f",
+    "files": [
+        "dist",
+        "source"
+    ]
+}

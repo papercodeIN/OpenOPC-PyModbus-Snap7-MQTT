@@ -1,0 +1,28 @@
+/**
+ * set a flag
+
+ */
+export declare function set_flag(value: number, mask: number | {
+    value: number;
+}): number;
+/**
+ * check if a set of bits are set in the values
+
+ */
+export declare function check_flag(value: number, mask: number | {
+    value: number;
+}): boolean;
+export declare function isNullOrUndefined(value: unknown | undefined): boolean;
+export { buffer_ellipsis } from "./buffer_ellipsis";
+export { capitalizeFirstLetter, lowerFirstLetter } from "./string_utils";
+export { getObjectClassName } from "./object_classname";
+export { get_clock_tick } from "./get_clock_tick";
+export { compare_buffers } from "./compare_buffers";
+export { getFunctionParameterNames } from "./get_function_parameters_name";
+export * from "./watchdog";
+export { setDeprecated } from "./set_deprecated";
+export { replaceBufferWithHexDump } from "./replace_buffer_with_hex_dump";
+export * from "./timestamp";
+export * from "./line_file";
+export * from "./match_uri";
+export { hrtime } from "./hrtime";

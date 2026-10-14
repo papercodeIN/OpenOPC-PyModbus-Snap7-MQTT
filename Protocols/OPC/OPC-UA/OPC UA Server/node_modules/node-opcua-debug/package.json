@@ -1,0 +1,42 @@
+{
+    "name": "node-opcua-debug",
+    "version": "2.153.0",
+    "description": "pure nodejs OPCUA SDK - module debug",
+    "scripts": {
+        "build": "tsc -b",
+        "clean": "npx rimraf -g node_modules dist *.tsbuildinfo",
+        "test": "mocha"
+    },
+    "dependencies": {
+        "chalk": "4.1.2",
+        "hexy": "0.3.5",
+        "node-opcua-assert": "2.139.0",
+        "node-opcua-buffer-utils": "2.153.0"
+    },
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "author": "Etienne Rossignon",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/node-opcua/node-opcua.git"
+    },
+    "keywords": [
+        "OPCUA",
+        "opcua",
+        "m2m",
+        "iot",
+        "opc ua",
+        "internet of things"
+    ],
+    "homepage": "http://node-opcua.github.io/",
+    "gitHead": "2193ed025bc9aaded76338c1c76cbc0524b3a37f",
+    "files": [
+        "dist",
+        "distNodeJS",
+        "source",
+        "nodeJS.d.ts",
+        "nodeJS.js",
+        "source_nodejs"
+    ]
+}

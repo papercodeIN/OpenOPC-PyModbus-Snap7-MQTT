@@ -1,0 +1,76 @@
+{
+    "name": "node-opcua-crypto",
+    "version": "4.16.0",
+    "description": "Crypto tools for Node-OPCUA",
+    "types": "./dist/index.d.ts",
+    "main": "./dist/index.js",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.js"
+        },
+        "./web": {
+            "types": "./dist/source/index_web.d.ts",
+            "import": "./dist/source/index_web.mjs",
+            "require": "./dist/source/index_web.js"
+        },
+        "./node": {
+            "types": "./dist/source_nodejs/index.d.ts",
+            "import": "./dist/source_nodejs/index.mjs",
+            "require": "./dist/source_nodejs/index.js"
+        }
+    },
+    "scripts": {
+        "build:tsup": "tsup  ./index.ts ./index_web.ts ./source/index.ts ./source/index_web.ts  ./source_nodejs/index.ts --shims --format esm,cjs --out-dir dist  --sourcemap  --clean --dts ",
+        "build:types": "tsc -p tsconfig.types.json",
+        "build:demo": "node web/esbuild.mjs",
+        "build:clean": "npx rimraf ./dist ./dist-* *.tsbuildinfo",
+        "build": "npm run build:tsup",
+        "prepare": "npm run build",
+        "tslint": "tslint --project . --fix",
+        "lint": "eslint . --ext .ts",
+        "makedoc": "npx typedoc  index.ts --excludeNotDocumented --exclude \"_*\" --excludePrivate --excludeProtected --excludeExternals -out doc",
+        "cost-of-modules": "npx cost-of-modules --no-install",
+        "prettier-format": "prettier --config .prettierrc.js source/**/*.ts test/**/*.ts --write",
+        "ncu": "npx npm-check-updates -u -x env-paths,chalk",
+        "experiment": "tsc test/test_peculiar_edge_case.ts -t es2021 -m nodenext"
+    },
+    "keywords": [
+        "OPCUA",
+        "opcua",
+        "m2m",
+        "iot",
+        "opc ua",
+        "internet of things"
+    ],
+    "makedoc": "npx typedoc packages/node-opcua-crypto/index.ts -out doc",
+    "author": "Etienne Rossignon",
+    "license": "MIT",
+    "engine": {
+        "node": ">15.0"
+    },
+    "devDependencies": {
+        "@types/node": "^22.12.0",
+        "lorem-ipsum": "^2.0.8"
+    },
+    "dependencies": {
+        "@peculiar/webcrypto": "^1.5.0",
+        "@peculiar/x509": "^1.12.3",
+        "@types/jsrsasign": "^10.5.15",
+        "@types/sshpk": "^1.17.4",
+        "assert": "^2.1.0",
+        "chalk": "^4.1.2",
+        "hexy": "0.3.5",
+        "jsrsasign": "^11.1.0",
+        "sshpk": "^1.18.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/node-opcua/node-opcua-crypto.git"
+    },
+    "bugs": {
+        "url": "https://github.com/node-opcua/node-opcua-crypto/issues"
+    },
+    "gitHead": "748780344e95a9750a352911ad3068c480ab9f4f"
+}

@@ -1,0 +1,11 @@
+{
+  "port": 4840,
+  "username": "user1",
+  "password": "password1",
+  "parentFolder": "MyDevices",
+  "tags": [
+    { "name": "Temperature", "dataType": "Double", "value": 25.5 },
+    { "name": "Pressure", "dataType": "Double", "value": 1.2 },
+    { "name": "Status", "dataType": "Boolean", "value": true }
+  ]
+}

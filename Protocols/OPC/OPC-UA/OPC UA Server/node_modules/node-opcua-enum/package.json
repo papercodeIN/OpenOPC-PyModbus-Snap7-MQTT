@@ -1,0 +1,37 @@
+{
+    "name": "node-opcua-enum",
+    "version": "2.153.0",
+    "description": "pure nodejs OPCUA SDK - module enum",
+    "scripts": {
+        "build": "tsc -b",
+        "lint": "eslint source/**/*.ts",
+        "clean": "npx rimraf -g node_modules dist *.tsbuildinfo",
+        "test": "mocha"
+    },
+    "main": "./dist/index.js",
+    "@types": "./dist/index.d.ts",
+    "devDependencies": {
+        "enum": "3.0.4",
+        "node-opcua-benchmarker": "2.153.0"
+    },
+    "author": "Etienne Rossignon",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/node-opcua/node-opcua.git"
+    },
+    "keywords": [
+        "OPCUA",
+        "opcua",
+        "m2m",
+        "iot",
+        "opc ua",
+        "internet of things"
+    ],
+    "homepage": "http://node-opcua.github.io/",
+    "gitHead": "2193ed025bc9aaded76338c1c76cbc0524b3a37f",
+    "files": [
+        "dist",
+        "source"
+    ]
+}
