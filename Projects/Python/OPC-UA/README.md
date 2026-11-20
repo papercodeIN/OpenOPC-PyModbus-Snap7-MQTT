@@ -53,23 +53,23 @@ client and logged automatically once the logger locks are ON.
 1. **Overview** – a four-step getting-started path with live status LEDs
    (jump straight to each page), live counters, the value feed and a system
    event log, updated in real time through `/ws`.
-2. **Learn** – an in-app OPC UA protocol guide: core concepts mapped to the
-   app's own pages, a 10-minute guided first session, the security model,
-   subscription vs polling, a glossary and troubleshooting.
-3. **OPC UA Server** – endpoint configuration (bind address, port, prefix,
+2. **OPC UA Server** – endpoint configuration (bind address, port, prefix,
    namespace URI, endpoint name, security policy/mode, user authentication and
    certificate paths), simulator speed/variation, the variable table with
    manual write and delete, and an add-variable form.
-4. **OPC UA Client** – session settings (URL, security, optional username /
+3. **OPC UA Client** – session settings (URL, security, optional username /
    password with masked persistence), subscription vs polling mode, a
    hierarchical **namespace browser** (expand the server's folders level by
    level, click any tag to read its value) and a **point monitor** table
    showing the latest client-received value for every configured point, with
    per-point **Read ↙ / Write ↗** controls (the write uses the point's
    configured datatype).
-5. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
+4. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
    paths, point selection (log all points or only the chosen ones), row/size
    counters, the daily CSV archive and a searchable record browser.
+5. **Learn** – an in-app OPC UA protocol guide: core concepts mapped to the
+   app's own pages, a 10-minute guided first session, the security model,
+   subscription vs polling, a glossary and troubleshooting.
 6. **About** – the company behind the Control Room.
 
 ---
@@ -230,3 +230,23 @@ $env:OPCUA_ENDPOINT = "opc.tcp://192.168.0.10:4840"; python examples/opcua_minim
 - Supported write datatypes: Float, Double, Int32, UInt16, Boolean and String.
 - Only the loopback interface is used by default; do not expose this local tool
   directly to an untrusted network.
+
+---
+
+## Future Enhancements
+
+The following add-ons are **planned ideas, not yet implemented**. They are recorded
+here so they can be reviewed and selected in a later project stage. The current
+server, client, logger and web UI are unaffected.
+
+| # | Enhancement | What it would add |
+|---|---|---|
+| 1 | **MQTT / Sparkplug B publisher bridge** | Forward captured OPC UA tag changes to an MQTT broker (JSON or Sparkplug B payloads), matching the other Control Room projects in this repo. |
+| 2 | **Live trend charts + historical replay** | Plot tag values in real time in the browser and replay stored history from SQLite. |
+| 3 | **Alarms & Conditions / event subscriptions** | Subscribe to OPC UA events and alarms, not just data-change notifications. |
+| 4 | **OPC UA method calls from the UI** | Invoke server methods (Call service) from the browser. |
+| 5 | **Bulk tag import/export + searchable browse tree** | Import/export variable definitions as CSV/JSON and filter/search the namespace tree. |
+| 6 | **Certificate manager** | Generate and manage certificates so Sign / SignAndEncrypt security works without manual file setup. |
+| 7 | **Multi-endpoint client** | Maintain several simultaneous client sessions to different OPC UA servers. |
+| 8 | **Quality/deadband logging** | Store real OPC UA status/quality with each value and log only meaningful changes to reduce storage. |
+| 9 | **Integration & deployment** | ODBC/REST bulk read-write endpoints, Prometheus metrics and Docker/deployment files. |
