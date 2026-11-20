@@ -1,14 +1,15 @@
 # Modbus Control Room
 
 A single, locally hosted industrial web application that puts a **Modbus TCP
-server** and a **Modbus TCP client on separate pages**, with SQLite and CSV data
-loggers and a built-in Learn course — the same control-room pattern used by the
-MQTT and IEC-104 projects.
+server**, a **Modbus TCP client** and a **Modbus RTU client** on separate pages,
+with SQLite and CSV data loggers and a built-in Learn course — the same
+control-room pattern used by the MQTT and IEC-104 projects.
 
 | Capability | What it does |
 |---|---|
 | **Modbus TCP Server** | A real pymodbus TCP listener with a built-in process simulator (coils, discrete inputs, holding registers, input registers). Start/stop it, tune the simulation, and edit or add data points live. |
 | **Modbus TCP Client** | Connect to any Modbus TCP device (the local server by default), read any of the four data areas, write a single coil/register, run an automatic polling loop, and watch coils/registers in a live monitoring table. |
+| **Modbus RTU Client** | The same read/write/poll/monitor tools over serial (RS-485/232): COM port picker with detected ports, baud rate, parity, stop bits and slave Unit ID. Runs alongside the TCP client. |
 | **Modbus Data Logger** | "Locks" every client operation and manual server write into a local **SQLite** database and/or a **CSV** file, with a filterable browser and CSV export. CSV files rotate automatically at local midnight. |
 | **Learn page** | A beginner course built into the app — data model, function codes, addressing, five guided exercises on the live simulator, and troubleshooting with exception codes. |
 
@@ -101,6 +102,28 @@ Modbus exception codes: `01` illegal function · `02` illegal data address ·
 
 ---
 
+## Modbus RTU (serial) client
+
+The Client page works over **Modbus TCP** and **Modbus RTU** alike — pick the
+transport at the top of the connection form and Read, Write, Polling and Live
+Monitoring all follow the selection. Both links can stay connected at the same
+time (e.g. a TCP gateway and a serial device in one session).
+
+| Setting | Meaning |
+|---|---|
+| Serial port | COM port of your adapter — detected ports appear as suggestions |
+| Baud rate | Line speed; 9600 and 19200 are the most common defaults |
+| Parity | None / Even / Odd — must match the slave (Even is the Modbus spec default) |
+| Stop bits | 1 or 2 — must match the slave (the spec pairs parity *None* with 2 stop bits) |
+| Unit ID | The slave address on the shared cable (1–247) |
+
+**No serial hardware?** Practise anyway: a USB-to-RS485 adapter, or a virtual
+null-modem pair such as [com0com](https://sourceforge.net/projects/com0com/)
+on Windows, creates local COM ports you can talk to. Serial support needs
+`pyserial`, which ships in `requirements.txt`.
+
+---
+
 ## Web UI sections
 
 1. **Overview** – live counters, the operation feed and a system event log,
@@ -108,10 +131,10 @@ Modbus exception codes: `01` illegal function · `02` illegal data address ·
 2. **Simulator** – the Modbus TCP server page: start/stop the listener, tune
    simulator speed/variation and manage the data-store point table (set, add,
    delete).
-3. **Client** – the Modbus TCP client page: connection, reads (FC01–FC04),
-   writes (FC05/FC06), auto-polling, a live monitoring table for watched
-   coils/registers (refreshed automatically, not written to the logger) and a
-   client activity log.
+3. **Client** – the Modbus client page (TCP **and** RTU serial transports):
+   connection, reads (FC01–FC04), writes (FC05/FC06), auto-polling, a live
+   monitoring table for watched coils/registers (refreshed automatically, not
+   written to the logger) and a client activity log.
 4. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
    paths, row/size counters, the daily CSV archive and a searchable record
    browser.
@@ -164,7 +187,7 @@ Modbus/
    ├─ csv_logger.py            # append-only CsvLogger with daily rotation
    ├─ modbus_simulator.py      # process model + pymodbus datastore
    ├─ modbus_server.py         # threaded Modbus TCP listener
-   ├─ modbus_client.py         # pymodbus TCP client facade
+   ├─ modbus_client.py         # pymodbus TCP & RTU (serial) client facades
    ├─ modbus_manager.py        # orchestration + capture pipeline
    ├─ templates/               # base.html, index.html
    └─ static/                  # style.css, app.js
@@ -198,6 +221,7 @@ Modbus/
 | POST | `/api/client/write` | Write a coil or holding register |
 | POST | `/api/client/poll/start` / `stop` | Automatic polling |
 | POST | `/api/client/monitor` | Batched live-monitor read (not logged) |
+| GET | `/api/serial/ports` | COM ports detected on this PC (for RTU) |
 | POST | `/api/points`, `PUT/DELETE /api/points/{area}/{address}` | Data-point CRUD |
 | POST | `/api/points/{area}/{address}/set?value=` | Manual write into the datastore |
 | POST | `/api/logger/settings` | Apply SQLite/CSV locks and paths |
