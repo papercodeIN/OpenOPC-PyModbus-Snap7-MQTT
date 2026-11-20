@@ -39,11 +39,12 @@ Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
 protocol with every concept mapped to the app's own pages, plus a guided
 10-minute first session, a glossary and troubleshooting.
 
-**Fastest demo:** on the **OPC UA Server** page click **Start server**
+**Fastest demo:** on the **OPC UA Server** page switch **VARIABLE-LINE
+SIMULATION** to Enabled (the app ships fully idle) and click **Start server**
 (`opc.tcp://127.0.0.1:4840`). On the **OPC UA Client** page click **Connect**
 (the URL already points at the local server) and then **Read node**. With
 *Subscription* mode selected, changes made on the server page are pushed to the
-client and logged automatically.
+client and logged automatically once the logger locks are ON.
 
 ---
 
@@ -86,9 +87,10 @@ only; stored data is never touched.
 ### Daily CSV rotation
 
 The configured CSV path is a **base name** (default `opcua_log.csv`). The active
-file is date-stamped, e.g. `opcua_log_2026-11-20.csv`. A new file is generated
-automatically **every day at 00:00 local system time** by a background timer,
-and also lazily on the first record of a new day. All daily files are listed in
+file is date-stamped, e.g. `opcua_log_2026-11-20.csv`. A new file name is
+generated automatically **every day at 00:00 local system time** by a background
+timer, and the file itself is created with the first record written to it —
+nothing appears on disk while the CSV lock is OFF. All daily files are listed in
 the **CSV Archive** section and can be downloaded or individually deleted there
 (the active day's file is protected).
 
@@ -199,6 +201,10 @@ backups) and echoed to the console.
 ## Notes
 
 - Requires Python 3.10+ and `asyncua` 1.0+.
+- **Everything starts OFF**: the simulator, the SQLite lock and the CSV lock are
+  all disabled on a fresh start, so the app works purely as an OPC UA client for
+  real equipment. Enable only what you need; the day's CSV file is created with
+  its first record.
 - Port 4840 is the standard OPC UA TCP port and does not require administrator
   privileges.
 - Supported write datatypes: Float, Double, Int32, UInt16, Boolean and String.
