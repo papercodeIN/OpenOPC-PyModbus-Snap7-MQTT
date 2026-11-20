@@ -8,7 +8,7 @@ projects.
 | Capability | What it does |
 |---|---|
 | **OPC UA Server** | A real [asyncua](https://github.com/FreeOpcUa/opcua-asyncio) OPC UA server that exposes a **variable line** of simulated tags in its own namespace. Configure the endpoint, namespace, prefix, security policy/mode, user authentication and simulation behaviour; edit or add variables live. |
-| **OPC UA Client** | Connect to any OPC UA endpoint (the local OPC UA server by default), subscribe to data changes or poll nodes, browse the address space, and read/write node values. |
+| **OPC UA Client** | Connect to any OPC UA endpoint (the local OPC UA server by default), subscribe to data changes or poll nodes, browse the whole namespace tree, and read/write node values. |
 | **OPC Data Logger** | "Locks" every captured data change and manual write into a local **SQLite** database and/or a **CSV** file, with a filterable browser and CSV export. CSV files rotate automatically at local midnight. |
 
 > Existing notebooks and examples in `Projects/Python/OPC-UA/` were left in
@@ -61,10 +61,11 @@ client and logged automatically once the logger locks are ON.
    certificate paths), simulator speed/variation, the variable table with
    manual write and delete, and an add-variable form.
 4. **OPC UA Client** – session settings (URL, security, optional username /
-   password with masked persistence), subscription vs polling mode, address
-   space browsing (click any browsed node to read it) and a **point monitor**
-   table showing the latest client-received value for every configured point,
-   with per-point **Read ↙ / Write ↗** controls (the write uses the point's
+   password with masked persistence), subscription vs polling mode, a
+   hierarchical **namespace browser** (expand the server's folders level by
+   level, click any tag to read its value) and a **point monitor** table
+   showing the latest client-received value for every configured point, with
+   per-point **Read ↙ / Write ↗** controls (the write uses the point's
    configured datatype).
 5. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
    paths, point selection (log all points or only the chosen ones), row/size
