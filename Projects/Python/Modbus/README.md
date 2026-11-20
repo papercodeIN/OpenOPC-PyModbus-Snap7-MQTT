@@ -124,6 +124,35 @@ on Windows, creates local COM ports you can talk to. Serial support needs
 
 ---
 
+## Ready for the classroom
+
+This app is a self-contained training station: every student runs it locally,
+no hardware or licence is needed, and the built-in **Learn** page carries the
+theory plus a glossary. A proven 60-minute session:
+
+| Minutes | Topic | Where |
+|---|---|---|
+| 0–10 | Modbus big picture: client/server, the four data areas | Learn page, Steps 1–2 |
+| 10–20 | Function codes and addressing (the 40001 trap) | Learn page, Steps 3–4 |
+| 20–30 | Exercises 1–2: start the simulator, read holding registers | Simulator + Client |
+| 30–40 | Exercises 3–4: write a coil, watch values in Live Monitoring | Client |
+| 40–50 | Exercise 5: data locks, record browser, CSV export | Data Logger |
+| 50–60 | Troubleshooting, exception codes, questions | Learn page, Step 6 |
+
+Classroom notes:
+
+- Every student works on `127.0.0.1`, so any number of students can train at
+  the same time without interference. If a port is taken, `run.bat` asks for a
+  free one at startup.
+- The simulator ships with a realistic process model (pump, valves, tank level,
+  temperatures) so demos look like a real plant from the first minute.
+- For an RTU lesson, hand out one USB-to-RS485 adapter per group or use a
+  virtual COM pair (com0com) to demonstrate without hardware.
+- For developer audiences, the REST API at `/docs` is the natural next step —
+  the same operations as the UI, fired as HTTP requests.
+
+---
+
 ## Web UI sections
 
 1. **Overview** – live counters, the operation feed and a system event log,
