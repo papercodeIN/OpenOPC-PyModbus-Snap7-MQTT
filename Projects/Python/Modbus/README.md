@@ -8,7 +8,7 @@ control-room pattern used by the MQTT and IEC-104 projects.
 | Capability | What it does |
 |---|---|
 | **Modbus TCP Server** | A real pymodbus TCP listener with a built-in process simulator (coils, discrete inputs, holding registers, input registers). Start/stop it, tune the simulation, and edit or add data points live. |
-| **Modbus TCP Client** | Connect to any Modbus TCP device (the local server by default), read any of the four data areas, write a single coil/register, run an automatic polling loop, and watch coils/registers in a live monitoring table. |
+| **Modbus TCP Client** | Connect to any Modbus TCP device (the local server by default), read any of the four data areas, write single (FC05/FC06) or multiple (FC15/FC16) coils/registers, run an automatic polling loop, and watch coils/registers in a live monitoring table. |
 | **Modbus RTU Client** | The same read/write/poll/monitor tools over serial (RS-485/232): COM port picker with detected ports, baud rate, parity, stop bits and slave Unit ID. Runs alongside the TCP client. |
 | **Modbus Data Logger** | "Locks" every client operation and manual server write into a local **SQLite** database and/or a **CSV** file, with a filterable browser and CSV export. CSV files rotate automatically at local midnight. |
 | **Learn page** | A beginner course built into the app — data model, function codes, addressing, five guided exercises on the live simulator, and troubleshooting with exception codes. |
@@ -85,8 +85,10 @@ routes to several slaves.
    STORE drift while simulation is on.
 2. **Read registers** — Client page → **Connect** (defaults to the local
    server) → **Read** holding registers from address 0.
-3. **Write a coil** — WRITE SINGLE VALUE → Coil, address 0, value 1 → **Write**,
-   then see it flip in the simulator's data store.
+3. **Write a coil** — **Write** card → Coil (FC05), address 0, value 1 →
+   **Write**, then see it flip in the simulator's data store. For bulk writes
+   pick **Coils (FC15)** or **Holding registers (FC16)** and enter
+   comma-separated values.
 4. **Watch it live** — add holding register 0 and coil 0 to **LIVE MONITORING**
    and watch the values update automatically.
 5. **Capture the data** — turn on the SQLite/CSV locks in the **Data Logger**,
@@ -166,9 +168,9 @@ Classroom notes:
    manage the data-store point table (set, add, delete). Server settings and
    point creation live behind the **⚙ Configure** button.
 3. **Client** – the Modbus client page (TCP **and** RTU serial transports):
-   connection, reads (FC01–FC04), writes (FC05/FC06), auto-polling, a live
-   monitoring table for watched coils/registers (refreshed automatically, not
-   written to the logger) and a client activity log.
+   connection, reads (FC01–FC04), writes (FC05/FC06 single, FC15/FC16 multiple),
+   auto-polling, a live monitoring table for watched coils/registers (refreshed
+   automatically, not written to the logger) and a client activity log.
 4. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
    paths, row/size counters, the daily CSV archive and a searchable record
    browser.
@@ -257,6 +259,7 @@ Modbus/
 | POST | `/api/client/connect` / `disconnect` | Client connection |
 | POST | `/api/client/read` | Read coils / inputs / registers |
 | POST | `/api/client/write` | Write a coil or holding register |
+| POST | `/api/client/write-multi` | Write multiple coils / registers (FC15/FC16) |
 | POST | `/api/client/poll/start` / `stop` | Automatic polling |
 | POST | `/api/client/monitor` | Batched live-monitor read (not logged) |
 | GET | `/api/serial/ports` | COM ports detected on this PC (for RTU) |
