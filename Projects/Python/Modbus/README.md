@@ -162,9 +162,9 @@ Classroom notes:
 
 1. **Overview** – live counters, the operation feed and a system event log,
    updated in real time through `/ws`.
-2. **Simulator** – the Modbus TCP server page: start/stop the listener, tune
-   simulator speed/variation and manage the data-store point table (set, add,
-   delete).
+2. **Simulator** – the Modbus TCP server page: start/stop the listener and
+   manage the data-store point table (set, add, delete). Server settings and
+   point creation live behind the **⚙ Configure** button.
 3. **Client** – the Modbus client page (TCP **and** RTU serial transports):
    connection, reads (FC01–FC04), writes (FC05/FC06), auto-polling, a live
    monitoring table for watched coils/registers (refreshed automatically, not
