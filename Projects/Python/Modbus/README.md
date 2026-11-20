@@ -2,13 +2,15 @@
 
 A single, locally hosted industrial web application that puts a **Modbus TCP
 server** and a **Modbus TCP client on separate pages**, with SQLite and CSV data
-loggers — the same control-room pattern used by the MQTT and IEC-104 projects.
+loggers and a built-in Learn course — the same control-room pattern used by the
+MQTT and IEC-104 projects.
 
 | Capability | What it does |
 |---|---|
 | **Modbus TCP Server** | A real pymodbus TCP listener with a built-in process simulator (coils, discrete inputs, holding registers, input registers). Start/stop it, tune the simulation, and edit or add data points live. |
 | **Modbus TCP Client** | Connect to any Modbus TCP device (the local server by default), read any of the four data areas, write a single coil/register, run an automatic polling loop, and watch coils/registers in a live monitoring table. |
 | **Modbus Data Logger** | "Locks" every client operation and manual server write into a local **SQLite** database and/or a **CSV** file, with a filterable browser and CSV export. CSV files rotate automatically at local midnight. |
+| **Learn page** | A beginner course built into the app — data model, function codes, addressing, five guided exercises on the live simulator, and troubleshooting with exception codes. |
 
 > The folder was previously an empty placeholder (`.gitkeep`); no existing
 > files were removed or overwritten.
@@ -39,6 +41,66 @@ registers and every operation is logged.
 
 ---
 
+## Learn Modbus in 15 minutes
+
+The app's built-in **Learn** page teaches this course with "try it" buttons.
+The short version:
+
+**Modbus TCP is a master/slave protocol.** One **client (master)** asks, one
+**server (slave)** answers. A request names a **data area**, a **starting
+address**, a **count** and a **Unit ID**; the answer is either values or a
+one-byte **exception code**.
+
+### The four data areas
+
+| Data area | Stores | Read | Write | PLC-style name |
+|---|---|---|---|---|
+| Coils | 1-bit outputs (ON/OFF) | FC01 | FC05 | 0xxxx |
+| Discrete inputs | 1-bit inputs | FC02 | read-only | 1xxxx |
+| Holding registers | 16-bit values | FC03 | FC06 | 4xxxx |
+| Input registers | 16-bit measurements | FC04 | read-only | 3xxxx |
+
+Coils and holding registers are the PLC's writable memory; discrete inputs and
+input registers are read-only field measurements. A coil is one bit; a register
+is 16 bits.
+
+### Addressing — the classic trap
+
+This app uses **0-based protocol addresses**, like pymodbus and most tools. PLC
+software often shows 1-based "4xxxx" names instead: holding register `40001` is
+protocol address `0`, `40010` is address `9`. Rule of thumb:
+`protocol address = PLC number − 40001`. The **Unit ID** selects the device
+behind the connection — `1` for this simulator; it matters most when a gateway
+routes to several slaves.
+
+### Five exercises
+
+1. **Start the simulator** — Simulator page → **Start server**, watch the DATA
+   STORE drift while simulation is on.
+2. **Read registers** — Client page → **Connect** (defaults to the local
+   server) → **Read** holding registers from address 0.
+3. **Write a coil** — WRITE SINGLE VALUE → Coil, address 0, value 1 → **Write**,
+   then see it flip in the simulator's data store.
+4. **Watch it live** — add holding register 0 and coil 0 to **LIVE MONITORING**
+   and watch the values update automatically.
+5. **Capture the data** — turn on the SQLite/CSV locks in the **Data Logger**,
+   run a few operations, then browse the records and **Export CSV**.
+
+### When it misbehaves
+
+| Symptom | Usual cause |
+|---|---|
+| Connection refused | server not started / wrong port |
+| Timeout | wrong host or firewall (use `127.0.0.1` locally) |
+| Exception 02 — illegal data address | that address does not exist on the device |
+| Exception 01 — illegal function | the device does not support that code on that area |
+| Off-by-one values | 0-based vs 1-based addressing (see above) |
+
+Modbus exception codes: `01` illegal function · `02` illegal data address ·
+`03` illegal data value · `04` device failure.
+
+---
+
 ## Web UI sections
 
 1. **Overview** – live counters, the operation feed and a system event log,
@@ -53,7 +115,9 @@ registers and every operation is logged.
 4. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
    paths, row/size counters, the daily CSV archive and a searchable record
    browser.
-5. **About** – the company behind the Control Room.
+5. **Learn** – the built-in beginner course: Modbus basics, the data model,
+   function codes, addressing, five guided exercises and troubleshooting.
+6. **About** – the company behind the Control Room.
 
 ---
 
