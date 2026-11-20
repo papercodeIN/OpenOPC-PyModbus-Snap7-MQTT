@@ -61,8 +61,10 @@ client and logged automatically once the logger locks are ON.
    manual write and delete, and an add-variable form.
 4. **OPC UA Client** – session settings (URL, security, optional username /
    password with masked persistence), subscription vs polling mode, address
-   space browsing, read/write operations and a **point monitor** table showing
-   the latest client-received value for every configured point.
+   space browsing (click any browsed node to read it) and a **point monitor**
+   table showing the latest client-received value for every configured point,
+   with per-point **Read ↙ / Write ↗** controls (the write uses the point's
+   configured datatype).
 5. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
    paths, point selection (log all points or only the chosen ones), row/size
    counters, the daily CSV archive and a searchable record browser.
