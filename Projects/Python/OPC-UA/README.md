@@ -50,8 +50,9 @@ client and logged automatically once the logger locks are ON.
 
 ## Web UI sections
 
-1. **Overview** – live counters, the value feed and a system event log, updated
-   in real time through `/ws`.
+1. **Overview** – a four-step getting-started path with live status LEDs
+   (jump straight to each page), live counters, the value feed and a system
+   event log, updated in real time through `/ws`.
 2. **Learn** – an in-app OPC UA protocol guide: core concepts mapped to the
    app's own pages, a 10-minute guided first session, the security model,
    subscription vs polling, a glossary and troubleshooting.
@@ -105,6 +106,7 @@ OPC-UA/
 ├─ run.py                      # launcher (uvicorn)
 ├─ run.bat                     # Windows launcher (asks for the port, 1-65535)
 ├─ requirements.txt
+├─ examples/                   # opcua_minimal_client.py — ready-to-run client
 ├─ tests/                      # pytest suite (API + protocol + storage)
 ├─ data/                       # created at runtime (git-ignored)
 │  ├─ settings.json            # saved server/client/logger settings
@@ -197,6 +199,21 @@ node --check opcua_web_app/static/js/app.js
 
 Service events and errors are written to `data/app.log` (rotating, 5 MB × 3
 backups) and echoed to the console.
+
+---
+
+## Code example
+
+`examples/opcua_minimal_client.py` is a ~60-line [asyncua](https://github.com/FreeOpcUa/opcua-asyncio)
+client that **reads** a tag, **writes** a value and **subscribes** to data
+changes — the three core services of OPC UA, in runnable form. Start the
+server, then:
+
+```powershell
+python examples/opcua_minimal_client.py
+# or point it at any other OPC UA server:
+$env:OPCUA_ENDPOINT = "opc.tcp://192.168.0.10:4840"; python examples/opcua_minimal_client.py
+```
 
 ---
 
