@@ -33,6 +33,11 @@ keep it local and do not bind it to `0.0.0.0` or expose it to a network. Changin
 `PORT` is supported for local use, but do not override `HOST` to make the service
 remotely reachable.
 
+The app starts completely **idle**: the server is stopped, the TCP and RTU
+clients are offline, and both data locks (SQLite/CSV) are OFF — nothing runs and
+nothing is recorded until you switch it on, so you can safely point the client
+tools at your own devices and enable only what you need.
+
 Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
 
 **Fastest demo:** open the **Simulator** page and click **Start server** (port
@@ -184,10 +189,11 @@ paths. Changing a path creates a new file and leaves the previous one untouched.
 ### Daily CSV rotation
 
 The configured CSV path is a **base name** (default `modbus_log.csv`). The active
-file is date-stamped, e.g. `modbus_log_2026-11-20.csv`. A new file is generated
-automatically **every day at 00:00 local system time** by a background timer,
-and also lazily on the first record of a new day. The app creates the current
-day's file at startup, so a CSV exists even if no traffic arrives. All daily
+file is date-stamped, e.g. `modbus_log_2026-11-20.csv`. While the CSV lock is
+ON, a new file is generated automatically **every day at 00:00 local system
+time** by a background timer, and also lazily on the first record of a new day;
+the current day's file is created as soon as the lock is applied. While the lock
+is OFF, no CSV file is created or written. All daily
 files are listed in the **CSV Archive** section and can be downloaded or
 individually deleted there (the active day's file is protected).
 
