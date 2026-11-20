@@ -234,7 +234,10 @@ Modbus/
   FastAPI keeps its own loop. The client is a normal synchronous pymodbus
   client, so reads/writes never block the web event loop.
 - Modbus addresses in the UI are **0-based** (`zero_mode=True`), matching the
-  address shown by the client and the simulator point table.
+  address shown by the client and the simulator point table. The simulator's
+  data-store table and the client's live-monitor table also show the industrial
+  PLC-style address (00001 / 10001 / 30001 / 40001 style) beside each protocol
+  address.
 - Data-point values sync into the pymodbus datastore, so the client always
   reads what the simulator or UI last wrote.
 - Events from the protocol threads are marshalled onto the asyncio loop and
