@@ -1,7 +1,7 @@
 # Modbus Control Room
 
 A single, locally hosted industrial web application that puts a **Modbus TCP
-server** and a **Modbus TCP client on the same page**, with SQLite and CSV data
+server** and a **Modbus TCP client on separate pages**, with SQLite and CSV data
 loggers — the same control-room pattern used by the MQTT and IEC-104 projects.
 
 | Capability | What it does |
@@ -32,9 +32,10 @@ remotely reachable.
 
 Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
 
-**Fastest demo:** click **Start server** (port 5020), then **Connect** in the
-client panel (already pointing at `127.0.0.1:5020`), then **Read**. The client
-reads the server's live holding registers and every operation is logged.
+**Fastest demo:** open the **Simulator** page and click **Start server** (port
+5020), then open the **Client** page and click **Connect** (already pointing at
+`127.0.0.1:5020`), then **Read**. The client reads the server's live holding
+registers and every operation is logged.
 
 ---
 
@@ -42,14 +43,15 @@ reads the server's live holding registers and every operation is logged.
 
 1. **Overview** – live counters, the operation feed and a system event log,
    updated in real time through `/ws`.
-2. **Modbus TCP** – **server and client on one page**. The server half controls
-   the listener, simulator speed/variation and the data-store point table (set,
-   add, delete). The client half handles connection, reads (FC01–FC04), writes
-   (FC05/FC06), auto-polling and a client activity log.
-3. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
+2. **Simulator** – the Modbus TCP server page: start/stop the listener, tune
+   simulator speed/variation and manage the data-store point table (set, add,
+   delete).
+3. **Client** – the Modbus TCP client page: connection, reads (FC01–FC04),
+   writes (FC05/FC06), auto-polling and a client activity log.
+4. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
    paths, row/size counters, the daily CSV archive and a searchable record
    browser.
-4. **About** – the company behind the Control Room.
+5. **About** – the company behind the Control Room.
 
 ---
 
