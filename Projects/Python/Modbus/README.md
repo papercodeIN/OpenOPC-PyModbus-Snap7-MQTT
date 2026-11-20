@@ -7,7 +7,7 @@ loggers — the same control-room pattern used by the MQTT and IEC-104 projects.
 | Capability | What it does |
 |---|---|
 | **Modbus TCP Server** | A real pymodbus TCP listener with a built-in process simulator (coils, discrete inputs, holding registers, input registers). Start/stop it, tune the simulation, and edit or add data points live. |
-| **Modbus TCP Client** | Connect to any Modbus TCP device (the local server by default), read any of the four data areas, write a single coil/register, and run an automatic polling loop. |
+| **Modbus TCP Client** | Connect to any Modbus TCP device (the local server by default), read any of the four data areas, write a single coil/register, run an automatic polling loop, and watch coils/registers in a live monitoring table. |
 | **Modbus Data Logger** | "Locks" every client operation and manual server write into a local **SQLite** database and/or a **CSV** file, with a filterable browser and CSV export. CSV files rotate automatically at local midnight. |
 
 > The folder was previously an empty placeholder (`.gitkeep`); no existing
@@ -47,7 +47,9 @@ registers and every operation is logged.
    simulator speed/variation and manage the data-store point table (set, add,
    delete).
 3. **Client** – the Modbus TCP client page: connection, reads (FC01–FC04),
-   writes (FC05/FC06), auto-polling and a client activity log.
+   writes (FC05/FC06), auto-polling, a live monitoring table for watched
+   coils/registers (refreshed automatically, not written to the logger) and a
+   client activity log.
 4. **Data Logger** – ON/OFF "lock" switches for SQLite and CSV, editable file
    paths, row/size counters, the daily CSV archive and a searchable record
    browser.
@@ -131,6 +133,7 @@ Modbus/
 | POST | `/api/client/read` | Read coils / inputs / registers |
 | POST | `/api/client/write` | Write a coil or holding register |
 | POST | `/api/client/poll/start` / `stop` | Automatic polling |
+| POST | `/api/client/monitor` | Batched live-monitor read (not logged) |
 | POST | `/api/points`, `PUT/DELETE /api/points/{area}/{address}` | Data-point CRUD |
 | POST | `/api/points/{area}/{address}/set?value=` | Manual write into the datastore |
 | POST | `/api/logger/settings` | Apply SQLite/CSV locks and paths |
