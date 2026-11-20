@@ -306,3 +306,18 @@ backups) and echoed to the console.
   change it to 502 in the UI if you specifically need the standard Modbus port.
 - Only coils and holding registers are writable from the client, matching
   standard Modbus function codes FC05 and FC06.
+
+---
+
+## Future Announcement
+
+Planned improvements and features to address in a later update:
+
+- **Modbus → MQTT publisher** — fits this repo's name and the sibling MQTT project.
+- **Alarm/threshold engine** with deadband, alarm page and live events.
+- **Trend charts** from stored SQLite records (currently tables only).
+- **Named connection profiles / device bookmarks** (currently one config).
+- **Diagnostics:** FC08/FC43 device ID + FC22/FC23 mask write.
+- **CSV replay** as a simulator data source.
+- **Config + points export/import** for classroom cloning.
+- **OPC UA / Snap7 bridge** to match the repo's other projects.
