@@ -50,9 +50,8 @@ client and logged automatically once the logger locks are ON.
 
 ## Web UI sections
 
-1. **Overview** – a four-step getting-started path with live status LEDs
-   (jump straight to each page), live counters, the value feed and a system
-   event log, updated in real time through `/ws`.
+1. **Overview** – live counters, the value feed and a system event log,
+   updated in real time through `/ws`.
 2. **OPC UA Server** – endpoint configuration (bind address, port, prefix,
    namespace URI, endpoint name, security policy/mode, user authentication and
    certificate paths), simulator speed/variation, the variable table with
