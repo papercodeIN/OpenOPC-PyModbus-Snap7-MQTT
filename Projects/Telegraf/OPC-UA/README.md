@@ -29,7 +29,7 @@ Each `.conf` file handles one destination.
 
 | File | Flow |
 | --- | --- |
-| `opcua_read.conf` | OPC UA → daily-rotating CSV |
+| `opcua_to_csv.conf` | OPC UA → daily-rotating CSV |
 | `opcua_to_sqlite.conf` | OPC UA → SQLite |
 | `opcua_to_mysql.conf` | OPC UA → MySQL |
 | `opcua_to_mssql.conf` | OPC UA → MSSQL |
