@@ -1,27 +1,32 @@
 # Telegraf OPC UA Pipelines 📊
 
-Overview of the OPC UA pipelines (demo). Runnable configuration files and source
-code are kept in the **private** repository.
+> 📌 **Public repo is documentation/demo only.** Runnable `.conf` files and `.bat` launchers are kept in the private repository (`OpenOPC-PyModbus-Snap7-MQTT-Private`).
 
-> ⚠️ **Status:** demo/documentation only in this public repository.
+Overview of the OPC UA pipelines: Telegraf acts as an OPC UA **client**, reading
+selected nodes and writing the values to a destination.
+
+| Pipeline | Status |
+| --- | --- |
+| **OPC UA → MQTT** 📤 | ✅ Tested — live Prosys server, RAW + JSON payloads |
+| **OPC UA → CSV / SQLite / SQL / InfluxDB** 💾 | ✅ Configs checked; live destination tests are deployment-specific |
 
 ---
 
 ## 🚀 Quick Start
-    
+
 1. **Prerequisites**: Telegraf installed, OPC UA server running and reachable, node IDs identified.
-2. **Setup**: Identify your server endpoint, node IDs, and credentials.
-3. **Test**: Run one collection cycle to verify node access (replace the config name):
+2. **Setup**: Identify your server endpoint, node IDs, and credentials (in the private configs).
+3. **Test**: Run one collection cycle:
    ```powershell
-   telegraf --config ".\OPC-UA\opcua_read.conf" --test
+   telegraf --config ".\OPC-UA\opcua_to_mqtt.conf" --test
    ```
-    
+
 ---
 
-## 📝 Configuration
-    
-Each `.conf` file handles one destination. Update it with your server's actual settings.
-    
+## 📝 Configurations
+
+Each `.conf` file handles one destination.
+
 | File | Flow |
 | --- | --- |
 | `opcua_read.conf` | OPC UA → daily-rotating CSV |
@@ -31,43 +36,60 @@ Each `.conf` file handles one destination. Update it with your server's actual s
 | `opcua_to_postgres.conf` | OPC UA → PostgreSQL |
 | `opcua_to_influxdb.conf` | OPC UA → InfluxDB v2 |
 | `opcua_to_mqtt.conf` | OPC UA → MQTT (RAW / JSON / Sparkplug B) |
-    
+
+## 🎯 Current demo target
+
+- Endpoint: `opc.tcp://DESKTOP-FAFB2HS:53532/OPCUA/SimulationServer`
+- Identity: `admin` / `admin`, security policy and mode `None`
+- Namespace `3`, 9 nodes: Constant (1001), Counter (1002), Random (1003),
+  Sawtooth (1004), Sinusoid (1005), Square (1006), Triangle (1007), Binary (1008), Text (1009)
+- Poll + flush interval: **1s**
+
+---
+
+## 📤 OPC UA → MQTT payload modes
+
+| Mode | Status | Topic | Payload |
+| --- | --- | --- | --- |
+| RAW (default) | ✅ Tested | `plant/opcua/raw/<field>` | One raw scalar value per topic |
+| JSON | ✅ Tested | `plant/opcua/telemetry` | All 9 nodes in one JSON message |
+| Sparkplug B | 🧪 Draft (not tested) | `spBv1.0/<group>/NDATA/<node>` | Protobuf via the companion gateway (private repo) |
+
+The MQTT client ID is random by default; a commented section in the config
+allows a fixed ID. MQTT credentials are commented out (local broker needs no login).
+
 ---
 
 ## 🛠️ Step-by-Step Configuration
-    
-1. **Edit** the selected `.conf` file.
-2. **Server Settings**:
-   - Update `endpoint` (e.g., `opc.tcp://host:4840`).
-   - Configure security policy (e.g., `Basic256Sha256`, `SignAndEncrypt`).
-3. **Nodes**: Update `node_id`s, `namespace`s, and data polling cadence to match the server.
-4. **Identity**: Configure username/password and server/client certificates.
-5. **Destination**: Update paths, database credentials, and schemas.
-6. **Run**:
-   - `--test` first to confirm connectivity and node reading.
-   - Remove `--test` to run continuously.
+
+1. **Edit** the selected `.conf` file in the private repository.
+2. **Server Settings**: set `endpoint`, security policy and mode.
+3. **Nodes**: update node IDs, namespace and polling cadence to match the server.
+4. **Identity**: configure username/password and server/client certificates.
+5. **Destination**: update paths, database credentials, and schemas.
+6. **Run**: `--test` first, then run continuously.
 
 ---
 
 ## 🔑 Security & Design
-    
-- **Secrets**: Use environment variables for passwords, keys, and DSNs. Never hardcode secrets.
-- **Access**: Use a dedicated OPC UA identity with **read-only** access.
-- **Security Policy**: Use `SignAndEncrypt` and verify server/client certificates. Never weaken security to simplify connection.
-- **Database**: Provision least-privilege users for SQL databases.
+
+- **Secrets**: use environment variables for production passwords, keys, and DSNs.
+- **Access**: use a dedicated OPC UA identity with **read-only** access.
+- **Security Policy**: use `SignAndEncrypt` and verify certificates in production.
+- **Database**: provision least-privilege users for SQL databases.
 
 ---
 
 ## 🔗 MQTT to OPC UA
-    
+
 Telegraf **cannot** host an OPC UA server. MQTT → OPC UA uses a writer gateway
 as an OPC UA client to an external server. See `../MQTT/README.md` for the
 unidirectional architecture (implementation in the private repository).
 
 ---
-    
+
 ## 📚 References
-    
+
 - [Telegraf OPC UA Input](https://docs.influxdata.com/telegraf/v1/input-plugins/opcua/)
 - [Telegraf SQL Output](https://github.com/influxdata/telegraf/blob/v1.40.3/plugins/outputs/sql/README.md)
 - [Telegraf MQTT Output](https://github.com/influxdata/telegraf/blob/v1.40.3/plugins/outputs/mqtt/README.md)
