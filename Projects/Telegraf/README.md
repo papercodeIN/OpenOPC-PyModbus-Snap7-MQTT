@@ -72,8 +72,8 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 
 | 🔌 Source | 📄 Config file | 📤 Destination / output | 📦 Payload | 👥 Devices | ✅ Status |
 | --- | --- | --- | --- | --- | --- |
-| Modbus TCP | `modbus_to_csv.conf` | CSV data logger | — | Single | ✅ Tested |
-| Modbus TCP | `modbus_to_sqlite.conf` | SQLite data logger | — | Single | ✅ Tested |
+| Modbus TCP | `modbus_to_csv.conf` | CSV data logger | All tags in one row per interval | Single | ✅ Tested |
+| Modbus TCP | `modbus_to_sqlite.conf` | SQLite data logger | All tags in one row per interval | Single | ✅ Tested |
 | Modbus TCP | `modbus_to_mqtt.conf` | MQTT | Raw payload + JSON payload | Single | ✅ Tested |
 | OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | Single | ✅ Tested |
 | OPC UA | `opcua_to_csv.conf` | CSV data logger | One row/second, 9 tag columns | Single | ✅ Tested |
