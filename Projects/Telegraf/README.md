@@ -64,7 +64,18 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_tcp.conf"
 
 Every config has a matching `.bat` launcher — **double-click it to run**. Add the `test` argument for a single test cycle. The launchers set local test defaults only; move credentials to the Telegraf service environment before plant deployment.
 
-All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3). Live device/broker/database testing is left to you.
+All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
+
+---
+
+## ✅ Testing status
+
+| 🔌 Source | 📤 Destination / output | 📦 Payload | ✅ Status |
+| --- | --- | --- | --- |
+| Modbus TCP | CSV data logger | — | ✅ Tested |
+| Modbus TCP | SQLite data logger | — | ✅ Tested |
+| Modbus TCP | MQTT | Raw payload + JSON payload | ✅ Tested |
+| OPC UA | MQTT | Raw payload + JSON payload | ✅ Tested |
 
 > **Repository rule:** this public repository contains README/demo items only. All source code and real configuration files are kept in the private repository.
 
