@@ -76,6 +76,7 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 | Modbus TCP | `modbus_to_sqlite.conf` | SQLite data logger | — | Single | ✅ Tested |
 | Modbus TCP | `modbus_to_mqtt.conf` | MQTT | Raw payload + JSON payload | Single | ✅ Tested |
 | OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | Single | ✅ Tested |
+| OPC UA | `opcua_to_sqlite.conf` | SQLite data logger | One row/second, 9 tag columns | Single | ✅ Tested |
 
 > **Repository rule:** this public repository contains README/demo items only. All source code and real configuration files are kept in the private repository.
 
