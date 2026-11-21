@@ -1,8 +1,9 @@
 # Telegraf OPC UA Pipelines 📊
 
-These configurations make Telegraf an OPC UA **client** that reads selected server nodes and writes values to a destination.
+Overview of the OPC UA pipelines (demo). Runnable configuration files and source
+code are kept in the **private** repository.
 
-> ⚠️ **Status:** These are **templates**. They have not been tested against your specific server or destination services.
+> ⚠️ **Status:** demo/documentation only in this public repository.
 
 ---
 
@@ -29,7 +30,7 @@ Each `.conf` file handles one destination. Update it with your server's actual s
 | `opcua_to_mssql.conf` | OPC UA → MSSQL |
 | `opcua_to_postgres.conf` | OPC UA → PostgreSQL |
 | `opcua_to_influxdb.conf` | OPC UA → InfluxDB v2 |
-| `opcua_to_mqtt.conf` | OPC UA → MQTT |
+| `opcua_to_mqtt.conf` | OPC UA → MQTT (RAW / JSON / Sparkplug B) |
     
 ---
 
@@ -59,7 +60,9 @@ Each `.conf` file handles one destination. Update it with your server's actual s
 
 ## 🔗 MQTT to OPC UA
     
-Telegraf **cannot** host an OPC UA server. MQTT → OPC UA integration requires an independently selected and secured external gateway. See `../MQTT/mqtt_to_opcua_server.conf` for the reference-only architecture.
+Telegraf **cannot** host an OPC UA server. MQTT → OPC UA uses a writer gateway
+as an OPC UA client to an external server. See `../MQTT/README.md` for the
+unidirectional architecture (implementation in the private repository).
 
 ---
     

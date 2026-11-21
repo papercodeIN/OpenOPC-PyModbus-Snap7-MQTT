@@ -1,8 +1,9 @@
 # Telegraf MQTT Pipelines 📥
 
-These are configuration templates for MQTT consumers and one MQTT-to-MQTT bridge.
+Overview of the MQTT pipelines (demo). Runnable configuration files and source
+code are kept in the **private** repository.
 
-> ⚠️ **Status:** These are **templates**. They have not been tested against production brokers or destination services.
+> ⚠️ **Status:** demo/documentation only in this public repository.
 
 ---
 
@@ -30,7 +31,7 @@ Each `.conf` file handles one destination. Update it with your actual broker and
 | `mqtt_to_postgres.conf` | MQTT → PostgreSQL |
 | `mqtt_to_influxdb.conf` | MQTT → InfluxDB v2 |
 | `mqtt_to_mqtt_bridge.conf` | MQTT → another broker (JSON transform) |
-| `mqtt_to_opcua_server.conf` | Reference only: MQTT → external OPC UA gateway |
+| `mqtt_to_opcua_server.conf` | MQTT (raw + JSON) → external OPC UA server via writer gateway |
     
 ---
 
@@ -60,7 +61,9 @@ Each `.conf` file handles one destination. Update it with your actual broker and
 
 ## 🔗 MQTT to OPC UA
     
-Telegraf **cannot** host an OPC UA server. `mqtt_to_opcua_server.conf` is for reference only. For this integration, select an external OPC UA gateway and secure it independently.
+Telegraf **cannot** host an OPC UA server. The solution is unidirectional:
+MQTT broker → Telegraf (raw + JSON readers) → HTTP → writer gateway → external
+OPC UA server. The gateway runs as an OPC UA client; see the private repository.
 
 ---
     

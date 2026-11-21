@@ -1,5 +1,7 @@
 # ⚡ Telegraf 2-Point Data Collection 📊
 
+> 📌 **Public repo is documentation/demo only.** Runnable `.conf` files and `.bat` launchers are kept in the private repository (`OpenOPC-PyModbus-Snap7-MQTT-Private`).
+
 Welcome! 🚀 This guide helps newcomers collect **2-point industrial data** (such as 2 sensor values or Modbus registers) quickly and easily using [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) on Windows.
 
 ---
@@ -51,8 +53,20 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_tcp.conf"
 ---
 
 ## 📁 4. Files & Structure
-- [`install-telegraf.ps1`](install-telegraf.ps1) — One-command installer
-- [`Modbus/Modbus TCP Outputs/modbus_tcp.conf`](Modbus/Modbus%20TCP%20Outputs/modbus_tcp.conf) — Configured for 2-point Modbus TCP reading
+
+| Folder | Contents |
+| --- | --- |
+| [`Modbus/Modbus TCP Outputs`](Modbus/Modbus%20TCP%20Outputs/README.md) | 9 configs + 9 `.bat` launchers (CSV, SQLite, MQTT, MySQL, MSSQL, PostgreSQL, OPC UA publisher, InfluxDB, starter) |
+| [`Modbus/Modbus RTU Output`](Modbus/Modbus%20RTU%20Output/README.md) | Same 9 solutions for serial devices (draft settings) |
+| [`MQTT`](MQTT/README.md) | MQTT pipeline overview (demo) — configs live in the private repository |
+| [`OPC-UA`](OPC-UA/README.md) | OPC UA pipeline overview (demo) — configs live in the private repository |
+| [`ConfigBuilder`](ConfigBuilder/README.md) | Demo of the web app that generates Telegraf configs (source in private repo) |
+
+Every config has a matching `.bat` launcher — **double-click it to run**. Add the `test` argument for a single test cycle. The launchers set local test defaults only; move credentials to the Telegraf service environment before plant deployment.
+
+All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3). Live device/broker/database testing is left to you.
+
+> **Repository rule:** this public repository contains README/demo items only. All source code and real configuration files are kept in the private repository.
 
 ---
 
