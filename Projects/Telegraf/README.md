@@ -76,12 +76,15 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 | Modbus TCP | `modbus_to_sqlite.conf` | SQLite data logger | All tags in one row per interval | Single | ✅ Tested |
 | Modbus TCP | `modbus_to_mqtt.conf` | MQTT | Raw payload + JSON payload | Single | ✅ Tested |
 | OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | Single | ✅ Tested |
-| OPC UA | `opcua_to_csv.conf` | CSV data logger | One row/second, 9 tag columns | Single | ✅ Tested |
-| OPC UA | `opcua_to_sqlite.conf` | SQLite data logger | One row/second, 9 tag columns | Single | ✅ Tested |
+| OPC UA | `opcua_to_csv.conf` | CSV data logger | Wide: `opcua_wide`, one row/second, 9 tag columns | Single | ✅ Tested |
+| OPC UA | `opcua_to_csv.conf` | CSV data logger | Narrow: `opcua_narrow`, timestamp + id + tag name + value | Single | ✅ Tested |
+| OPC UA | `opcua_to_sqlite.conf` | SQLite data logger | Wide: `opcua_wide`, one row/second, 9 tag columns | Single | ✅ Tested |
+| OPC UA | `opcua_to_sqlite.conf` | SQLite data logger | Narrow: `opcua_narrow`, timestamp + id + tag name + value | Single | ✅ Tested |
 
-> **Wide table structure:** both OPC UA data loggers write **one row per second** with
-> all 9 tag columns filled (Constant, Counter, Random, Sawtooth, Sinusoid, Square,
-> Triangle, Binary, Text) plus Quality — no sparse one-tag-per-row records.
+> **Two table formats:** each logger supports a **wide** table (`opcua_wide` — one row
+> per second with all 9 tag columns plus Quality) and a **narrow** table
+> (`opcua_narrow` — `timestamp`, `id`, `name`, `value`, one row per tag per second).
+> Only one output is active per config; comment/uncomment to switch.
 
 > **Repository rule:** this public repository contains README/demo items only. All source code and real configuration files are kept in the private repository.
 

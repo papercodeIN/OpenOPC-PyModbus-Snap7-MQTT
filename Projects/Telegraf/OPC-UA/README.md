@@ -47,6 +47,19 @@ Each `.conf` file handles one destination.
 
 ---
 
+## 💾 Data logger table formats
+
+The CSV and SQLite loggers support two formats; **one output is active** per config:
+
+| Format | Table | Columns | Status |
+| --- | --- | --- | --- |
+| Wide | `opcua_wide` | `timestamp`, `id`, 9 tag columns + `Quality` (one row/second) | ✅ Tested |
+| Narrow | `opcua_narrow` | `timestamp`, `id`, `name`, `value` (one row/tag/second) | ✅ Tested |
+
+Comment out the active output and uncomment the other to switch formats.
+
+---
+
 ## 📤 OPC UA → MQTT payload modes
 
 | Mode | Status | Topic | Payload |
