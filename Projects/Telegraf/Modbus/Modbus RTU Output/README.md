@@ -4,12 +4,12 @@ Telegraf 1.40.3 configurations for serial Modbus RTU (RS-485) devices.
 **Two complementary data outputs per file: wide + narrow** (same layout and
 MQTT payload-mode rules as the TCP folder).
 
-> ⚠️ **Serial settings are placeholders.** The controller, baud rate, parity,
-> stop bits, slave ID and register map must be taken from your device manual
-> before connecting real hardware. All files pass `telegraf config check`.
->
-> RTU logging itself is **untested** — no RTU hardware is connected here. The
-> identical TCP-folder configs were tested live on 2026-11-22.
+> ✅ **Tested live on 2026-11-22** against a real RTU device on **COM1**
+> (9600 baud, 8 data bits, no parity, 1 stop bit, RTU mode, slave ID 1,
+> holding registers 0–9) — CSV, SQLite, MQTT (JSON), MySQL, PostgreSQL
+> and the OPC UA bridge all passed with no duplicate data. All files pass
+> `telegraf config check`. For other devices, match the serial settings
+> from your device manual.
 
 | 📄 Config | 📤 Destination |
 | --- | --- |
@@ -47,7 +47,7 @@ cd Projects\Telegraf\Modbus
 
 | Setting | Placeholder | Action |
 | --- | --- | --- |
-| `controller` | `COM1` | Set the real port, e.g. `COM3` |
+| `controller` | `COM1` | Confirmed working; change for other ports |
 | `baud_rate` | `9600` | Match the device |
 | `data_bits` | `8` | Usually 8 |
 | `parity` | `"N"` | `N`, `E` or `O` |

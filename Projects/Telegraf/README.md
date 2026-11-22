@@ -55,7 +55,7 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf"
 | Folder | Contents |
 | --- | --- |
 | [`Modbus/Modbus TCP Outputs`](Modbus/Modbus%20TCP%20Outputs/README.md) | 8 configs + 8 `.bat` launchers (CSV, SQLite, MQTT, MySQL, MSSQL, PostgreSQL, InfluxDB, OPC UA publisher) |
-| [`Modbus/Modbus RTU Output`](Modbus/Modbus%20RTU%20Output/README.md) | Same 8 solutions for serial devices (untested draft settings) |
+| [`Modbus/Modbus RTU Output`](Modbus/Modbus%20RTU%20Output/README.md) | Same 8 solutions for serial devices (tested live on COM1) |
 | [`MQTT`](MQTT/README.md) | 8 runnable configs → CSV, SQLite, MySQL, MSSQL, PostgreSQL, InfluxDB, MQTT bridge, OPC UA server pipeline (+ writer gateway) |
 | [`OPC-UA`](OPC-UA/README.md) | 7 runnable configs → CSV, SQLite, MySQL, MSSQL, PostgreSQL, InfluxDB, MQTT (RAW/JSON/Sparkplug + gateway) |
 | [`ConfigBuilder`](ConfigBuilder/README.md) | Local web app that generates any of the above `.conf` files from a form |
@@ -68,7 +68,7 @@ All 16 Modbus configs and the updated MQTT / OPC UA configs pass `telegraf confi
 
 ## ✅ Testing status
 
-Last live test: **2026-11-22** (local simulator, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
+Last live test: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on COM1, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
 
 | 🔌 Source | 📄 Config file | 📤 Output | 📦 Payload | ✅ Status |
 | --- | --- | --- | --- | --- |
@@ -84,12 +84,12 @@ Last live test: **2026-11-22** (local simulator, MQTT broker, MySQL, PostgreSQL,
 | Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `modbus_to_csv.conf` | CSV | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `modbus_to_mqtt.conf` | MQTT | Raw + JSON | ❌&nbsp;Pending |
-| Modbus RTU | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌&nbsp;Pending |
+| Modbus RTU | `modbus_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
+| Modbus RTU | `modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
+| Modbus RTU | `modbus_to_mqtt.conf` | MQTT | JSON payload | ✅&nbsp;Tested |
+| Modbus RTU | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus RTU | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌&nbsp;Pending |
+| Modbus RTU | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus RTU | `modbus_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
 | OPC UA | `opcua_to_mysql_wide.conf` | MySQL | Wide | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_mysql_narrow.conf` | MySQL | Narrow | ✅&nbsp;Tested |

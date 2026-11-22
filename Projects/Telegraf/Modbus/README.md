@@ -7,7 +7,7 @@ passes `telegraf config check`.
 | Transport | Folder | Status |
 | --- | --- | --- |
 | Modbus TCP 🌐 | [`Modbus TCP Outputs`](Modbus%20TCP%20Outputs/README.md) | ✅ Tested live — CSV, SQLite, MySQL, PostgreSQL, MQTT (2026-11-22) |
-| Modbus RTU 🔌 | [`Modbus RTU Output`](Modbus%20RTU%20Output/README.md) | ✅ Config-checked (untested — serial settings are placeholders) |
+| Modbus RTU 🔌 | [`Modbus RTU Output`](Modbus%20RTU%20Output/README.md) | ✅ Tested live on COM1 — CSV, SQLite, MQTT, MySQL, PostgreSQL (2026-11-22) |
 
 **Contents:** 16 `.conf` files, 16 `.bat` launchers, 3 helper scripts.
 
