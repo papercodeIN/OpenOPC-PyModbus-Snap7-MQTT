@@ -12,7 +12,7 @@
 | `modbus_to_csv.conf` | Modbus TCP | Dated CSV file | Single / Multi | Logs register values into a date-stamped CSV file. |
 | `modbus_to_sqlite.conf` | Modbus TCP | SQLite database | Single / Multi | Stores readings in a local SQLite database. |
 | `modbus_to_mqtt.conf` | Modbus TCP | MQTT topics | Single / Multi | Publishes every field to its own device-scoped MQTT topic. |
-| `modbus_to_mysql.conf` | Modbus TCP | MySQL / MariaDB | Single / Multi | Stores readings in a MySQL or MariaDB table. |
+| `modbus_to_mysql.conf` | Modbus TCP | MySQL / MariaDB | Single / Multi | Stores readings in MySQL — wide (one row per interval) or narrow (one row per tag). |
 | `modbus_to_mssql.conf` | Modbus TCP | SQL Server | Single / Multi | Stores readings in a Microsoft SQL Server table. |
 | `modbus_to_postgres.conf` | Modbus TCP | PostgreSQL | Single / Multi | Stores readings in a PostgreSQL table. |
 | `modbus_to_opcua.conf` | Modbus TCP | JSON → external OPC UA gateway | Single / Multi | Feeds Modbus readings to an OPC UA gateway through JSON. |
