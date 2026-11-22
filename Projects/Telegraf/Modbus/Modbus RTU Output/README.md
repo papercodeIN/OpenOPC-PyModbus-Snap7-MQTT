@@ -65,8 +65,10 @@ health endpoint is `http://127.0.0.1:8080/health`.
 ## 🛡️ Security and operations
 
 Modbus RTU is a local serial link; protect the host machine and the physical bus.
-Database and MQTT credentials come from environment variables — see the parent
-[`README.md`](../README.md). Use `install-service.ps1` for 24/7 operation.
+Configs use literal defaults (with `CHANGE_ME` where a secret belongs); replace
+them before going live. A commented `${VAR}` line under each value lets you use
+environment variables instead — see the parent [`README.md`](../README.md).
+Use `install-service.ps1` for 24/7 operation.
 
 ---
 

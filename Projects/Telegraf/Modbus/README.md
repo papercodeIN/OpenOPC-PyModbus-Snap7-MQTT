@@ -16,8 +16,9 @@ passes `telegraf config check`.
 ## ✅ What is guaranteed
 
 - One active data output per file (health output is monitoring only).
-- No credentials in configs or launchers — secrets come from environment variables.
-- No user-specific paths (data goes to `${TELEGRAF_DATA_DIR}`).
+- Literal defaults in every config; a commented `${VAR}` line is included underneath.
+- No real credentials are shipped (values use `CHANGE_ME`).
+- No user-specific paths (data folder is `C:/ProgramData/Telegraf/Modbus`).
 - Every device metric keeps `name`, `slave_id` and `type` tags.
 - Wide layout is the default; narrow layout is a ready-to-enable commented block.
 - Internal metrics and a health endpoint are enabled in every config.
@@ -72,9 +73,14 @@ Multi-device configs are selected from the launcher menu (`2`) or by running the
 
 ## 🔐 Environment variables
 
+Every setting is a **literal default** you can edit directly, for example
+`C:/ProgramData/Telegraf/Modbus` or `tcp://127.0.0.1:1883`. If you prefer
+environment variables, the `${VAR}` version is on the commented line directly
+underneath each literal value.
+
 | Variable | Used by | Purpose |
 | --- | --- | --- |
-| `TELEGRAF_DATA_DIR` | all | Data folder. Launchers set `C:/ProgramData/Telegraf/Modbus`. |
+| `TELEGRAF_DATA_DIR` | all | Data folder. Literal default: `C:/ProgramData/Telegraf/Modbus`. |
 | `MYSQL_DSN` | MySQL | `user:password@tcp(host:3306)/database` |
 | `MSSQL_DSN` | SQL Server | `sqlserver://user:password@host:1433?database=db` |
 | `POSTGRES_DSN` | PostgreSQL | `postgres://user:password@host:5432/db` |
@@ -82,11 +88,24 @@ Multi-device configs are selected from the launcher menu (`2`) or by running the
 | `MQTT_BROKER_URL` / `MQTT_USERNAME` / `MQTT_PASSWORD` | MQTT, OPC UA | Broker connection |
 | `MQTT_TLS_CA` / `MQTT_TLS_CERT` / `MQTT_TLS_KEY` | MQTT TLS | Client certificates (optional) |
 
-Set database and broker credentials at **machine scope** so a service inherits them:
+To use an environment variable:
+
+1. Comment out the literal line in the `.conf` file.
+2. Uncomment the `${VAR}` line underneath it.
+3. Set the variable at **machine scope** in PowerShell as Administrator.
+4. Restart Telegraf or the scheduled task.
 
 ```powershell
 [Environment]::SetEnvironmentVariable('MYSQL_DSN','user:password@tcp(host:3306)/database','Machine')
 ```
+
+To remove it later:
+
+```powershell
+[Environment]::SetEnvironmentVariable('MYSQL_DSN',$null,'Machine')
+```
+
+Each config file ends with the exact Set and Remove commands for every variable it uses.
 
 ---
 

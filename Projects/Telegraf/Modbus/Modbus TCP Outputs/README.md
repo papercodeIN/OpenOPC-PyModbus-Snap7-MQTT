@@ -70,8 +70,9 @@ Modbus TCP is plaintext on port 502. Keep devices on an isolated OT VLAN,
 restrict the port with a firewall allow-list, and use read-only function codes
 where possible. Never expose port 502 to the internet.
 
-No password is stored in any config or launcher. Database and MQTT credentials
-come from environment variables — see the parent [`README.md`](../README.md).
+Configs use literal defaults (with `CHANGE_ME` where a secret belongs); replace
+them before going live. A commented `${VAR}` line under each value lets you use
+environment variables instead — see the parent [`README.md`](../README.md).
 
 ---
 
