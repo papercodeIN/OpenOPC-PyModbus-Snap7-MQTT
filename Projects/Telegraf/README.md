@@ -70,18 +70,18 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 
 ## ✅ Testing status
 
-| 🔌 Source | 📄 Config file | 📤 Destination / output | 📦 Payload | 👥 Devices | ✅ Status |
-| --- | --- | --- | --- | --- | --- |
-| Modbus TCP | `modbus_to_csv.conf` | CSV | Wide: `modbus_wide`, all registers in one row | Single | ✅ Tested |
-| Modbus TCP | `modbus_to_csv.conf` | CSV | Narrow: `modbus_narrow`, timestamp + name + tag + value | Single | ✅ Tested |
-| Modbus TCP | `modbus_to_sqlite.conf` | SQLite | Wide: `modbus_wide`, all registers in one row | Single | ✅ Tested |
-| Modbus TCP | `modbus_to_sqlite.conf` | SQLite | Narrow: `modbus_narrow`, timestamp + name + tag + value | Single | ✅ Tested |
-| Modbus TCP | `modbus_to_mqtt.conf` | MQTT | Raw payload + JSON payload | Single | ✅ Tested |
-| OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | Single | ✅ Tested |
-| OPC UA | `opcua_to_csv.conf` | CSV | Wide: `opcua_wide`, one row/second, 9 tag columns | Single | ✅ Tested |
-| OPC UA | `opcua_to_csv.conf` | CSV | Narrow: `opcua_narrow`, timestamp + id + tag name + value | Single | ✅ Tested |
-| OPC UA | `opcua_to_sqlite.conf` | SQLite | Wide: `opcua_wide`, one row/second, 9 tag columns | Single | ✅ Tested |
-| OPC UA | `opcua_to_sqlite.conf` | SQLite | Narrow: `opcua_narrow`, timestamp + id + tag name + value | Single | ✅ Tested |
+| 🔌 Source | 📄 Config file | 📤 Destination / output | 📦 Payload | ✅ Status |
+| --- | --- | --- | --- | --- |
+| Modbus TCP | `modbus_to_csv.conf` | CSV | Wide: `modbus_wide`, all registers in one row | ✅ Tested |
+| Modbus TCP | `modbus_to_csv.conf` | CSV | Narrow: `modbus_narrow`, timestamp + name + tag + value | ✅ Tested |
+| Modbus TCP | `modbus_to_sqlite.conf` | SQLite | Wide: `modbus_wide`, all registers in one row | ✅ Tested |
+| Modbus TCP | `modbus_to_sqlite.conf` | SQLite | Narrow: `modbus_narrow`, timestamp + name + tag + value | ✅ Tested |
+| Modbus TCP | `modbus_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ✅ Tested |
+| OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ✅ Tested |
+| OPC UA | `opcua_to_csv.conf` | CSV | Wide: `opcua_wide`, one row/second, 9 tag columns | ✅ Tested |
+| OPC UA | `opcua_to_csv.conf` | CSV | Narrow: `opcua_narrow`, timestamp + id + tag name + value | ✅ Tested |
+| OPC UA | `opcua_to_sqlite.conf` | SQLite | Wide: `opcua_wide`, one row/second, 9 tag columns | ✅ Tested |
+| OPC UA | `opcua_to_sqlite.conf` | SQLite | Narrow: `opcua_narrow`, timestamp + id + tag name + value | ✅ Tested |
 
 > **Two table formats:** each logger supports a **wide** table (`opcua_wide` — one row
 > per second with all 9 tag columns plus Quality) and a **narrow** table
