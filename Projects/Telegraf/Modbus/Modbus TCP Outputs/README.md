@@ -1,21 +1,84 @@
 # 🌐 Modbus TCP Outputs
 
-> 📌 Public repo = documentation/demo only. Runnable `.conf` files and `.bat` launchers live in the PRIVATE repo (`OpenOPC-PyModbus-Snap7-MQTT-Private`).
+Telegraf 1.40.3 configurations that read Modbus TCP holding registers and write
+to a file, database or broker. **One active data output per file.**
 
-⚙️ Telegraf configs that read **Modbus TCP** holding registers and deliver them to a file, a database or a broker. Pick one, set your device and destination, run its `.bat` launcher.
+| 📄 Config | 📤 Destination | 👥 Devices |
+| --- | --- | --- |
+| `modbus_tcp.conf` | Rotating CSV | Single |
+| `modbus_to_csv.conf` | Rotating CSV | Single / Multi |
+| `modbus_to_sqlite.conf` | SQLite | Single / Multi |
+| `modbus_to_mysql.conf` | MySQL / MariaDB | Single / Multi |
+| `modbus_to_mssql.conf` | SQL Server | Single / Multi |
+| `modbus_to_postgres.conf` | PostgreSQL | Single / Multi |
+| `modbus_to_influxdb.conf` | InfluxDB v2 | Single / Multi |
+| `modbus_to_mqtt.conf` | MQTT (one topic per field) | Single / Multi |
+| `modbus_to_opcua.conf` | MQTT JSON bridge for an OPC UA gateway | Single / Multi |
 
-## 📦 Project details
+Each file has a matching `.bat` launcher. Multi-device variants are named
+`multi_modbus_to_*.conf` and are selected from the launcher menu.
 
-| 📄 Config file | 📥 Source | 📤 Destination / output | 👥 Devices | 💡 What it does |
-| --- | --- | --- | --- | --- |
-| `modbus_tcp.conf` | Modbus TCP | stdout (JSON) + CSV | Single | Prints readings live and also writes them to a CSV file. |
-| `modbus_to_csv.conf` | Modbus TCP | Dated CSV file | Single / Multi | Logs register values into a date-stamped CSV file. |
-| `modbus_to_sqlite.conf` | Modbus TCP | SQLite database | Single / Multi | Stores readings in a local SQLite database. |
-| `modbus_to_mqtt.conf` | Modbus TCP | MQTT topics | Single / Multi | Publishes every field to its own device-scoped MQTT topic. |
-| `modbus_to_mysql.conf` | Modbus TCP | MySQL / MariaDB | Single / Multi | Stores readings in MySQL — wide (one row per interval) or narrow (one row per tag). |
-| `modbus_to_mssql.conf` | Modbus TCP | SQL Server | Single / Multi | Stores readings in a Microsoft SQL Server table. |
-| `modbus_to_postgres.conf` | Modbus TCP | PostgreSQL | Single / Multi | Stores readings in a PostgreSQL table. |
-| `modbus_to_opcua.conf` | Modbus TCP | JSON → external OPC UA gateway | Single / Multi | Feeds Modbus readings to an OPC UA gateway through JSON. |
-| `modbus_to_influxdb.conf` | Modbus TCP | InfluxDB v2 | Single / Multi | Sends readings to InfluxDB for charts and dashboards. |
+---
 
-▶️ **Use:** double-click the matching `.bat`, choose **[1] Single device** or **[2] Multiple devices**, then edit `controller`, `slave_id`, registers and destination inside the `.conf`.
+## 🚀 Quick start
+
+```powershell
+cd Projects\Telegraf\Modbus
+
+# One cycle on screen
+.\Modbus TCP Outputs\modbus_to_csv.bat test
+
+# Continuous collection
+.\Modbus TCP Outputs\modbus_to_csv.bat
+
+# Multi-device mode
+.\Modbus TCP Outputs\modbus_to_csv.bat
+#   then choose [2]
+```
+
+---
+
+## ⚙️ Defaults
+
+- Controller: `tcp://127.0.0.1:502` (local simulator)
+- Slave ID: `1`
+- Registers: `HR_0` … `HR_9` (`UINT16`, `AB`)
+- Poll interval: `5s`
+- Data folder: `C:/ProgramData/Telegraf/Modbus`
+- Health endpoint: `http://127.0.0.1:8080/health`
+
+Change the controller, `slave_id` and `holding_registers` for your device. The
+address rules and data-type examples are documented in each file.
+
+---
+
+## 🧩 Layouts
+
+- **Wide (default)** — one metric per poll with all registers in one row
+  (`modbus_wide`). Best for historians and SQL tables.
+- **Narrow (optional)** — one row per tag (`modbus_narrow`). Uncomment the
+  processors and narrow output at the bottom of the file. `name`, `slave_id`
+  and `type` are preserved.
+
+Only one layout should be enabled per file to avoid double writes.
+
+---
+
+## 🛡️ Security
+
+Modbus TCP is plaintext on port 502. Keep devices on an isolated OT VLAN,
+restrict the port with a firewall allow-list, and use read-only function codes
+where possible. Never expose port 502 to the internet.
+
+No password is stored in any config or launcher. Database and MQTT credentials
+come from environment variables — see the parent [`README.md`](../README.md).
+
+---
+
+## ✅ Validation
+
+```powershell
+.\validate.ps1
+```
+
+All 34 Modbus configurations pass `telegraf config check` on Telegraf 1.40.3.

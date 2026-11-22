@@ -1,58 +1,149 @@
 # Modbus with Telegraf ⚡
 
-> 📌 **Public repo is documentation/demo only.** Runnable `.conf` files and `.bat` launchers are kept in the private repository (`OpenOPC-PyModbus-Snap7-MQTT-Private`).
+Industry-ready Telegraf 1.40.3 configurations for **Modbus TCP** and **Modbus RTU**.
+Every file has exactly **one active data output**, runs wide layout by default, and
+passes `telegraf config check`.
 
-This folder contains industry-ready Telegraf configurations for collecting Modbus data over **TCP** and **RTU**, plus one-click Windows launchers for every config.
-
-| Transport | Connection | Status |
+| Transport | Folder | Status |
 | --- | --- | --- |
-| **Modbus TCP** 🌐 | Network address + TCP port | ✅ Tested (sample server) |
-| **Modbus RTU** 🔌 | Serial port + framing settings | 🧪 Draft (placeholders) |
+| Modbus TCP 🌐 | [`Modbus TCP Outputs`](Modbus%20TCP%20Outputs/README.md) | ✅ Config-checked |
+| Modbus RTU 🔌 | [`Modbus RTU Output`](Modbus%20RTU%20Output/README.md) | ✅ Config-checked (serial settings are placeholders) |
 
-All `.conf` files pass `telegraf config check`. Live device and destination tests are deployment-specific — run them with the launchers below and report the output.
-
----
-
-## 🧭 Choose a Guide
-
-- **[Modbus TCP Outputs](Modbus%20TCP%20Outputs/README.md)** — For network-connected devices.
-- **[Modbus RTU Output](Modbus%20RTU%20Output/README.md)** — For serial-connected devices.
+**Contents:** 34 `.conf` files, 18 `.bat` launchers, 3 helper scripts.
 
 ---
 
-## 📦 Solutions (available for both TCP and RTU)
+## ✅ What is guaranteed
 
-Each folder has the same nine configs, and each config has a matching `.bat` launcher (double-click to run; add `test` as an argument for one cycle).
+- One active data output per file (health output is monitoring only).
+- No credentials in configs or launchers — secrets come from environment variables.
+- No user-specific paths (data goes to `${TELEGRAF_DATA_DIR}`).
+- Every device metric keeps `name`, `slave_id` and `type` tags.
+- Wide layout is the default; narrow layout is a ready-to-enable commented block.
+- Internal metrics and a health endpoint are enabled in every config.
+- Automatic restart and log file when installed as a scheduled task.
 
-| Solution | Config | Destination |
+---
+
+## 🧭 Choose a guide
+
+- **[Modbus TCP Outputs](Modbus%20TCP%20Outputs/README.md)** — network devices.
+- **[Modbus RTU Output](Modbus%20RTU%20Output/README.md)** — serial devices.
+
+---
+
+## 📦 Solutions
+
+Both folders provide the same nine destinations, single-device and multi-device:
+
+| Destination | Config | Multi-device |
 | --- | --- | --- |
-| CSV data logger | `modbus_to_csv.conf` | Daily-rotating CSV |
-| SQLite data logger | `modbus_to_sqlite.conf` | Local SQLite file |
-| MQTT publisher | `modbus_to_mqtt.conf` | MQTT broker, one topic per field |
-| MySQL data logger | `modbus_to_mysql.conf` | MySQL / MariaDB |
-| MSSQL data logger | `modbus_to_mssql.conf` | Microsoft SQL Server |
-| PostgreSQL data logger | `modbus_to_postgres.conf` | PostgreSQL |
-| OPC UA publisher | `modbus_to_opcua.conf` | JSON → MQTT → **external** OPC UA gateway |
-| InfluxDB data logger | `modbus_to_influxdb.conf` | InfluxDB v2 |
-| Starter | `modbus_tcp.conf` / `modbus_rtu.conf` | Screen + daily CSV |
-
-> Telegraf **cannot** host an OPC UA server. `modbus_to_opcua.conf` publishes to `opcua/bridge/#`; a separately selected, secured gateway maps those topics to OPC UA nodes.
+| CSV file | `modbus_to_csv.conf` | `multi_modbus_to_csv.conf` |
+| SQLite | `modbus_to_sqlite.conf` | `multi_modbus_to_sqlite.conf` |
+| MySQL / MariaDB | `modbus_to_mysql.conf` | `multi_modbus_to_mysql.conf` |
+| SQL Server | `modbus_to_mssql.conf` | `multi_modbus_to_mssql.conf` |
+| PostgreSQL | `modbus_to_postgres.conf` | `multi_modbus_to_postgres.conf` |
+| InfluxDB v2 | `modbus_to_influxdb.conf` | `multi_modbus_to_influxdb.conf` |
+| MQTT | `modbus_to_mqtt.conf` | `multi_modbus_to_mqtt.conf` |
+| OPC UA gateway | `modbus_to_opcua.conf` | `multi_modbus_to_opcua.conf` |
+| Starter (CSV) | `modbus_tcp.conf` / `modbus_rtu.conf` | — |
 
 ---
 
-## 🛠️ General Notes
+## 🚀 Quick start
 
-1. **Install Telegraf** first using the [setup guide](../README.md).
-2. **Configure**: update IP/port or serial settings, slave ID, and register map to match *your* device.
-3. **Secrets**: the configs contain no passwords or tokens. Set the environment variables listed in each guide's `.bat` (local test defaults only); for plant deployment use the Telegraf Windows service environment, TLS broker URLs and least-privilege accounts.
-4. **Provision first**: create SQL databases/logins and the InfluxDB bucket, and make sure CSV/SQLite folders exist *before* running. The SQL plugin creates tables but not databases or users.
-5. **Validate**: run a launcher with the `test` argument first, then run it normally for continuous collection.
+```powershell
+cd Projects\Telegraf\Modbus
+
+# 1. Validate every configuration
+.\validate.ps1
+
+# 2. Run one collection cycle
+.\Modbus TCP Outputs\modbus_to_csv.bat test
+
+# 3. Run continuously
+.\Modbus TCP Outputs\modbus_to_csv.bat
+```
+
+Multi-device configs are selected from the launcher menu (`2`) or by running the
+`multi_*.bat` config through Telegraf directly.
 
 ---
 
-## 📚 References
+## 🔐 Environment variables
 
-- [Telegraf Modbus Input](https://docs.influxdata.com/telegraf/v1/input-plugins/modbus/)
-- [Telegraf SQL Output](https://github.com/influxdata/telegraf/blob/v1.40.3/plugins/outputs/sql/README.md)
-- [Telegraf MQTT Output](https://github.com/influxdata/telegraf/blob/v1.40.3/plugins/outputs/mqtt/README.md)
-- [Telegraf InfluxDB v2 Output](https://docs.influxdata.com/telegraf/v1/output-plugins/influxdb_v2/)
+| Variable | Used by | Purpose |
+| --- | --- | --- |
+| `TELEGRAF_DATA_DIR` | all | Data folder. Launchers set `C:/ProgramData/Telegraf/Modbus`. |
+| `MYSQL_DSN` | MySQL | `user:password@tcp(host:3306)/database` |
+| `MSSQL_DSN` | SQL Server | `sqlserver://user:password@host:1433?database=db` |
+| `POSTGRES_DSN` | PostgreSQL | `postgres://user:password@host:5432/db` |
+| `INFLUX_URL` / `INFLUX_TOKEN` / `INFLUX_ORG` / `INFLUX_BUCKET` | InfluxDB v2 | Server and write target |
+| `MQTT_BROKER_URL` / `MQTT_USERNAME` / `MQTT_PASSWORD` | MQTT, OPC UA | Broker connection |
+| `MQTT_TLS_CA` / `MQTT_TLS_CERT` / `MQTT_TLS_KEY` | MQTT TLS | Client certificates (optional) |
+
+Set database and broker credentials at **machine scope** so a service inherits them:
+
+```powershell
+[Environment]::SetEnvironmentVariable('MYSQL_DSN','user:password@tcp(host:3306)/database','Machine')
+```
+
+---
+
+## 🏭 Production deployment
+
+Use the scheduled-task installer instead of leaving a console window open:
+
+```powershell
+.\install-service.ps1 -Config ".\Modbus TCP Outputs\modbus_to_mysql.conf"
+Get-ScheduledTask -TaskName 'Telegraf-Modbus' | Get-ScheduledTaskInfo
+.\uninstall-service.ps1
+```
+
+The task runs as `SYSTEM` at startup, restarts up to three times after a failure,
+and writes to `C:\ProgramData\Telegraf\telegraf-modbus.log`.
+
+Health endpoint: `http://127.0.0.1:8080/health`.
+
+---
+
+## 🛡️ Modbus security
+
+Modbus has **no native encryption or authentication**. Before connecting a plant
+device:
+
+1. Keep Modbus devices on an isolated OT VLAN.
+2. Allow only the required TCP port (502 by default) through the firewall.
+3. Use read-only function codes where the process allows it.
+4. Never expose port 502 to the internet.
+5. Put a Modbus-aware gateway/firewall in front of critical PLCs when required.
+
+MQTT and database outputs support TLS; enable it for any traffic that leaves the
+OT network.
+
+---
+
+## 🏷️ Naming and metadata
+
+Every metric carries the tags below, which map cleanly to an ISA-95 / UNS path:
+
+| Tag | Source |
+| --- | --- |
+| `site`, `area`, `line` | `[global_tags]` — change per plant |
+| `name` | device name in `[[inputs.modbus]]` |
+| `slave_id` | Modbus unit ID |
+| `type` | register area (`holding_register`, `coil`, ...) |
+
+Measurement names: `modbus_wide` (default) and `modbus_narrow` (optional).
+Rename `site1` / `area1` / `line1` before deployment.
+
+---
+
+## ✅ Validation
+
+```powershell
+.\validate.ps1
+```
+
+CI runs the same check on every change to this folder:
+`.github/workflows/telegraf-modbus.yml` (Telegraf 1.40.3, SHA-256 verified).
