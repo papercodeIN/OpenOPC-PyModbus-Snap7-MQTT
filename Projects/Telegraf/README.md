@@ -73,14 +73,10 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 | 🔌 Source | 📄 Config file | 📤 Output | 📦 Payload | ✅ Status |
 | --- | --- | --- | --- | --- |
 | Modbus TCP | `modbus_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
-| Modbus TCP | `modbus_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
-| Modbus TCP | `modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
