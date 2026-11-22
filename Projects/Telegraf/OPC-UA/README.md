@@ -39,6 +39,24 @@ Every config has a matching `.bat` launcher (pass `test` for a single cycle).
 
 All seven requested OPC UA data-logger/publisher solutions are present.
 
+**Defaults:** data folder `C:/ProgramData/Telegraf/OPC-UA` (literal, with a
+`${TELEGRAF_OPCUA_DATA_DIR}` alternative), logfile
+`C:/ProgramData/Telegraf/telegraf-opcua-<destination>.log`, and a health
+endpoint per destination:
+
+| Config | Health port |
+| --- | --- |
+| `opcua_to_csv` | 8280 |
+| `opcua_to_sqlite` | 8281 |
+| `opcua_to_mysql` | 8282 |
+| `opcua_to_mssql` | 8283 |
+| `opcua_to_postgres` | 8284 |
+| `opcua_to_influxdb` | 8285 |
+| `opcua_to_mqtt` | 8287 |
+
+Every config ends with an **ENVIRONMENT VARIABLES guide** explaining how to
+set and remove each `${VAR}` (PowerShell one-liners + GUI steps).
+
 ---
 
 ## 🎯 Current demo target
@@ -87,11 +105,21 @@ gateway which encodes protobuf and publishes `spBv1.0/<group>/NDATA/<node>`.
 
 ## 🔑 Security & Design
 
-- Live-lab credentials are local-only; for production use `${ENV_VAR}` references
-  and a service environment / secret store.
-- Use a read-only OPC UA identity for the logger solutions.
-- Use `SignAndEncrypt` with trusted client/server certificates in production.
-- Provision least-privilege database users.
+Every config ships **two configurations**: the current working one (active)
+and a secure one (commented, ready to uncomment):
+
+- **Active today** — `security_policy = "None"`, `security_mode = "None"`,
+  `auth_method = "Anonymous"` (matches the local ProSys server).
+- **Commented PRODUCTION SECURITY block** — `Basic256Sha256` +
+  `SignAndEncrypt`, `UserName` auth, client certificate / private key /
+  remote server certificate paths. Uncomment it when your OPC UA server has
+  certificates and a dedicated user. No real certificates exist yet, so this
+  path is untested by design.
+- Database DSNs use literal `CHANGE_ME` placeholders with `${VAR}`
+  alternatives; real secrets live only in the machine environment.
+- MQTT: credentials and `ssl://` TLS lines are commented placeholders.
+- Use a read-only OPC UA identity and least-privilege database users in
+  production.
 
 ---
 
