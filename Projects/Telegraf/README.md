@@ -70,7 +70,7 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 
 ## ✅ Testing status
 
-| 🔌 Source | 📄 Config file | 📤 Destination / output | 📦 Payload | ✅ Status |
+| 🔌 Source | 📄 Config file | 📤 Output | 📦 Payload | ✅ Status |
 | --- | --- | --- | --- | --- |
 | Modbus TCP | `modbus_to_csv.conf` | CSV | Wide: `modbus_wide`, all registers in one row | ✅ Tested |
 | Modbus TCP | `modbus_to_csv.conf` | CSV | Narrow: `modbus_narrow`, timestamp + name + tag + value | ✅ Tested |
