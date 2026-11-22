@@ -12,7 +12,7 @@ to a file, database or broker. **One active data output per file.**
 | `modbus_to_mssql.conf` | SQL Server | Single / Multi |
 | `modbus_to_postgres.conf` | PostgreSQL | Single / Multi |
 | `modbus_to_influxdb.conf` | InfluxDB v2 | Single / Multi |
-| `modbus_to_mqtt.conf` | MQTT (one topic per field) | Single / Multi |
+| `modbus_to_mqtt.conf` | MQTT (RAW payload, JSON option) | Single / Multi |
 | `modbus_to_opcua.conf` | MQTT JSON bridge for an OPC UA gateway | Single / Multi |
 
 Each file has a matching `.bat` launcher. Multi-device variants are named
@@ -61,6 +61,10 @@ address rules and data-type examples are documented in each file.
   and `type` are preserved.
 
 Only one layout should be enabled per file to avoid double writes.
+
+**MQTT is different.** The `modbus_to_mqtt.conf` files use **payload modes**,
+not wide/narrow: **RAW** (one scalar message per field, active) or **JSON** (one
+JSON message per metric, alternative). The OPC UA bridge always uses JSON.
 
 ---
 

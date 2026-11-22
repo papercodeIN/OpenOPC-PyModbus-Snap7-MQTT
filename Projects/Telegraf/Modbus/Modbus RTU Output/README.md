@@ -16,7 +16,7 @@ Telegraf 1.40.3 configurations for serial Modbus RTU (RS-485) devices.
 | `modbus_to_mssql.conf` | SQL Server | Single / Multi |
 | `modbus_to_postgres.conf` | PostgreSQL | Single / Multi |
 | `modbus_to_influxdb.conf` | InfluxDB v2 | Single / Multi |
-| `modbus_to_mqtt.conf` | MQTT (one topic per field) | Single / Multi |
+| `modbus_to_mqtt.conf` | MQTT (RAW payload, JSON option) | Single / Multi |
 | `modbus_to_opcua.conf` | MQTT JSON bridge for an OPC UA gateway | Single / Multi |
 
 ---
