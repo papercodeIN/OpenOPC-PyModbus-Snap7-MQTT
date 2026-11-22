@@ -82,21 +82,35 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 | OPC UA | `opcua_to_csv.conf` | CSV | Narrow: `opcua_narrow`, timestamp + id + tag name + value | ✅ Tested |
 | OPC UA | `opcua_to_sqlite.conf` | SQLite | Wide: `opcua_wide`, one row/second, 9 tag columns | ✅ Tested |
 | OPC UA | `opcua_to_sqlite.conf` | SQLite | Narrow: `opcua_narrow`, timestamp + id + tag name + value | ✅ Tested |
-| Modbus TCP | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌ Not Tested |
-| Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌ Not Tested |
-| Modbus TCP | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌ Not Tested |
-| Modbus TCP | `modbus_to_influxdb.conf` | InfluxDB v2 | Wide + Narrow | ❌ Not Tested |
-| Modbus RTU | `modbus_to_csv.conf` | CSV | Wide + Narrow | ❌ Not Tested |
-| Modbus RTU | `modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ❌ Not Tested |
-| Modbus RTU | `modbus_to_mqtt.conf` | MQTT | Raw + JSON | ❌ Not Tested |
-| Modbus RTU | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌ Not Tested |
-| Modbus RTU | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌ Not Tested |
-| Modbus RTU | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌ Not Tested |
-| Modbus RTU | `modbus_to_influxdb.conf` | InfluxDB v2 | Wide + Narrow | ❌ Not Tested |
-| OPC UA | `opcua_to_mysql.conf` | MySQL | Wide + Narrow | ❌ Not Tested |
-| OPC UA | `opcua_to_mssql.conf` | MSSQL | Wide + Narrow | ❌ Not Tested |
-| OPC UA | `opcua_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌ Not Tested |
-| OPC UA | `opcua_to_influxdb.conf` | InfluxDB v2 | Wide + Narrow | ❌ Not Tested |
+| Modbus TCP | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌ Pending |
+| Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌ Pending |
+| Modbus TCP | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌ Pending |
+| Modbus TCP | `modbus_to_influxdb.conf` | InfluxDB v2 | Wide + Narrow | ❌ Pending |
+| Modbus RTU | `modbus_to_csv.conf` | CSV | Wide + Narrow | ❌ Pending |
+| Modbus RTU | `modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ❌ Pending |
+| Modbus RTU | `modbus_to_mqtt.conf` | MQTT | Raw + JSON | ❌ Pending |
+| Modbus RTU | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌ Pending |
+| Modbus RTU | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌ Pending |
+| Modbus RTU | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌ Pending |
+| Modbus RTU | `modbus_to_influxdb.conf` | InfluxDB v2 | Wide + Narrow | ❌ Pending |
+| OPC UA | `opcua_to_mysql.conf` | MySQL | Wide + Narrow | ❌ Pending |
+| OPC UA | `opcua_to_mssql.conf` | MSSQL | Wide + Narrow | ❌ Pending |
+| OPC UA | `opcua_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌ Pending |
+| OPC UA | `opcua_to_influxdb.conf` | InfluxDB v2 | Wide + Narrow | ❌ Pending |
+| Modbus TCP (multi) | `multi_modbus_to_csv.conf` | CSV | Wide + Narrow | ❌ Pending |
+| Modbus TCP (multi) | `multi_modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ❌ Pending |
+| Modbus TCP (multi) | `multi_modbus_to_mqtt.conf` | MQTT | Raw + JSON | ❌ Pending |
+| Modbus TCP (multi) | `multi_modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌ Pending |
+| Modbus TCP (multi) | `multi_modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌ Pending |
+| Modbus TCP (multi) | `multi_modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌ Pending |
+| Modbus TCP (multi) | `multi_modbus_to_influxdb.conf` | InfluxDB v2 | Wide + Narrow | ❌ Pending |
+| Modbus RTU (multi) | `multi_modbus_to_csv.conf` | CSV | Wide + Narrow | ❌ Pending |
+| Modbus RTU (multi) | `multi_modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ❌ Pending |
+| Modbus RTU (multi) | `multi_modbus_to_mqtt.conf` | MQTT | Raw + JSON | ❌ Pending |
+| Modbus RTU (multi) | `multi_modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌ Pending |
+| Modbus RTU (multi) | `multi_modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌ Pending |
+| Modbus RTU (multi) | `multi_modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌ Pending |
+| Modbus RTU (multi) | `multi_modbus_to_influxdb.conf` | InfluxDB v2 | Wide + Narrow | ❌ Pending |
 
 > **Two table formats:** each logger supports a **wide** table (`opcua_wide` — one row
 > per second with all 9 tag columns plus Quality) and a **narrow** table
