@@ -95,8 +95,8 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 | OPC UA | `opcua_to_mysql_narrow.conf` | MySQL | Narrow | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_mssql_wide.conf` | MSSQL | Wide | ❌&nbsp;Pending |
 | OPC UA | `opcua_to_mssql_narrow.conf` | MSSQL | Narrow | ❌&nbsp;Pending |
-| OPC UA | `opcua_to_postgres_wide.conf` | PostgreSQL | Wide | ❌&nbsp;Pending |
-| OPC UA | `opcua_to_postgres_narrow.conf` | PostgreSQL | Narrow | ❌&nbsp;Pending |
+| OPC UA | `opcua_to_postgres_wide.conf` | PostgreSQL | Wide | ✅&nbsp;Tested |
+| OPC UA | `opcua_to_postgres_narrow.conf` | PostgreSQL | Narrow | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_influxdb_wide.conf` | InfluxDB&nbsp;v2 | Wide | ❌&nbsp;Pending |
 | OPC UA | `opcua_to_influxdb_narrow.conf` | InfluxDB&nbsp;v2 | Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `multi_modbus_to_csv.conf` | CSV | Wide + Narrow | ❌&nbsp;Pending |
