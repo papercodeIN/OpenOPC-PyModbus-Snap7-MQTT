@@ -29,12 +29,12 @@ Every config has a matching `.bat` launcher (pass `test` for a single cycle).
 
 | File | Flow | Tested live |
 | --- | --- | --- |
-| `opcua_to_csv_wide.conf` / `_narrow.conf` | OPC UA → rotating CSV | ✅ 2026-11-22 |
-| `opcua_to_sqlite_wide.conf` / `_narrow.conf` | OPC UA → SQLite | ✅ 2026-11-22 |
-| `opcua_to_mysql_wide.conf` / `_narrow.conf` | OPC UA → MySQL | ✅ 2026-11-22 |
-| `opcua_to_postgres_wide.conf` / `_narrow.conf` | OPC UA → PostgreSQL | ✅ 2026-11-22 |
-| `opcua_to_mssql_wide.conf` / `_narrow.conf` | OPC UA → MSSQL | ⏳ service not running |
-| `opcua_to_influxdb_wide.conf` / `_narrow.conf` | OPC UA → InfluxDB v2 | ⏳ service not running |
+| `opcua_to_csv.conf` | OPC UA → rotating CSV (wide + narrow together) | ✅ 2026-11-22 |
+| `opcua_to_sqlite.conf` | OPC UA → SQLite (wide + narrow together) | ✅ 2026-11-22 |
+| `opcua_to_mysql.conf` | OPC UA → MySQL (wide + narrow together) | ✅ 2026-11-22 |
+| `opcua_to_postgres.conf` | OPC UA → PostgreSQL (wide + narrow together) | ✅ 2026-11-22 |
+| `opcua_to_mssql.conf` | OPC UA → MSSQL (wide + narrow together) | ⏳ service not running |
+| `opcua_to_influxdb.conf` | OPC UA → InfluxDB v2 (wide + narrow together) | ⏳ service not running |
 | `opcua_to_mqtt.conf` | OPC UA → MQTT (JSON active; RAW alternative; Sparkplug B draft) | ✅ 2026-11-22 |
 
 All seven requested OPC UA data-logger/publisher solutions are present.
@@ -53,13 +53,16 @@ All seven requested OPC UA data-logger/publisher solutions are present.
 
 ## 💾 Data logger table formats
 
-Wide and narrow are separate config files — run the layout you want (or both,
-they write to separate tables):
+Every config writes **both layouts together** (separate tables/files — not
+duplicate data):
 
-| Format | Config | Table | Columns | Status |
+| Format | Table | Columns | Status |
 | --- | --- | --- | --- | --- |
-| Wide | `*_wide.conf` | `opcua_wide` | `timestamp`, `id`, 7 value columns + `Quality` (one row/second) | ✅ Tested live |
-| Narrow | `*_narrow.conf` | `opcua_narrow` | `timestamp`, `id`, `name`, `value` (one row/tag/second) | ✅ Tested live |
+| Wide | `opcua_wide` | `timestamp`, `id`, 7 value columns + `Quality` (one row/second) | ✅ Tested live |
+| Narrow | `opcua_narrow` | `timestamp`, `id`, `name`, `value` (one row/tag/second) | ✅ Tested live |
+
+The SQLite config enables WAL + a 10s busy timeout so its two outputs never
+lock each other. Comment one output block to log a single layout.
 
 ---
 

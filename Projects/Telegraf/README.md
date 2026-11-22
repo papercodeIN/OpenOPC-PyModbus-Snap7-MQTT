@@ -76,10 +76,12 @@ Last live test: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on 
 | Modbus TCP | `modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_csv_wide.conf` | CSV | Wide | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_csv_narrow.conf` | CSV | Narrow | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_sqlite_wide.conf` | SQLite | Wide | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_sqlite_narrow.conf` | SQLite | Narrow | ✅&nbsp;Tested |
+| OPC UA | `opcua_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
+| OPC UA | `opcua_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
+| OPC UA | `opcua_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
+| OPC UA | `opcua_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
+| OPC UA | `opcua_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
+| OPC UA | `opcua_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
@@ -91,14 +93,6 @@ Last live test: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on 
 | Modbus RTU | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus RTU | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus RTU | `modbus_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
-| OPC UA | `opcua_to_mysql_wide.conf` | MySQL | Wide | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_mysql_narrow.conf` | MySQL | Narrow | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_mssql_wide.conf` | MSSQL | Wide | ❌&nbsp;Pending |
-| OPC UA | `opcua_to_mssql_narrow.conf` | MSSQL | Narrow | ❌&nbsp;Pending |
-| OPC UA | `opcua_to_postgres_wide.conf` | PostgreSQL | Wide | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_postgres_narrow.conf` | PostgreSQL | Narrow | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_influxdb_wide.conf` | InfluxDB&nbsp;v2 | Wide | ❌&nbsp;Pending |
-| OPC UA | `opcua_to_influxdb_narrow.conf` | InfluxDB&nbsp;v2 | Narrow | ❌&nbsp;Pending |
 
 > **Wide vs narrow:** **Wide** stores one row per poll with all tags as columns
 > (`modbus_wide` / `opcua_wide`). **Narrow** stores one row per tag per poll with
