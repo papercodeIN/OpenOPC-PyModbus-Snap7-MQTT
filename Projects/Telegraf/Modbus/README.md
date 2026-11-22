@@ -9,7 +9,7 @@ passes `telegraf config check`.
 | Modbus TCP 🌐 | [`Modbus TCP Outputs`](Modbus%20TCP%20Outputs/README.md) | ✅ Config-checked |
 | Modbus RTU 🔌 | [`Modbus RTU Output`](Modbus%20RTU%20Output/README.md) | ✅ Config-checked (serial settings are placeholders) |
 
-**Contents:** 34 `.conf` files, 18 `.bat` launchers, 3 helper scripts.
+**Contents:** 16 `.conf` files, 16 `.bat` launchers, 3 helper scripts.
 
 ---
 
@@ -35,19 +35,20 @@ passes `telegraf config check`.
 
 ## 📦 Solutions
 
-Both folders provide the same nine destinations, single-device and multi-device:
+Both folders provide the same eight destinations. Every file is **single-device
+by default**; uncomment the **ADDITIONAL DEVICES** block (`Device2`) in the
+input section to collect from more devices:
 
-| Destination | Config | Multi-device |
-| --- | --- | --- |
-| CSV file | `modbus_to_csv.conf` | `multi_modbus_to_csv.conf` |
-| SQLite | `modbus_to_sqlite.conf` | `multi_modbus_to_sqlite.conf` |
-| MySQL / MariaDB | `modbus_to_mysql.conf` | `multi_modbus_to_mysql.conf` |
-| SQL Server | `modbus_to_mssql.conf` | `multi_modbus_to_mssql.conf` |
-| PostgreSQL | `modbus_to_postgres.conf` | `multi_modbus_to_postgres.conf` |
-| InfluxDB v2 | `modbus_to_influxdb.conf` | `multi_modbus_to_influxdb.conf` |
-| MQTT | `modbus_to_mqtt.conf` | `multi_modbus_to_mqtt.conf` |
-| OPC UA gateway | `modbus_to_opcua.conf` | `multi_modbus_to_opcua.conf` |
-| Starter (CSV) | `modbus_tcp.conf` / `modbus_rtu.conf` | — |
+| Destination | Config |
+| --- | --- |
+| CSV file | `modbus_to_csv.conf` |
+| SQLite | `modbus_to_sqlite.conf` |
+| MySQL / MariaDB | `modbus_to_mysql.conf` |
+| SQL Server | `modbus_to_mssql.conf` |
+| PostgreSQL | `modbus_to_postgres.conf` |
+| InfluxDB v2 | `modbus_to_influxdb.conf` |
+| MQTT | `modbus_to_mqtt.conf` |
+| OPC UA gateway | `modbus_to_opcua.conf` |
 
 ---
 
@@ -120,9 +121,15 @@ Get-ScheduledTask -TaskName 'Telegraf-Modbus' | Get-ScheduledTaskInfo
 ```
 
 The task runs as `SYSTEM` at startup, restarts up to three times after a failure,
-and writes to `C:\ProgramData\Telegraf\telegraf-modbus.log`.
+and writes to the logfile set in the config
+(`C:\ProgramData\Telegraf\telegraf-modbus-<destination>.log`).
 
-Health endpoint: `http://127.0.0.1:8080/health`.
+Health endpoint: `http://127.0.0.1:<port>/health`. Each destination has its own
+port and logfile, so the TCP and RTU folders can even run on the same host
+without colliding: Modbus TCP uses `808x` with `telegraf-modbus-<destination>.log`,
+Modbus RTU uses `818x` with `telegraf-modbus-rtu-<destination>.log`
+(x: CSV 0, SQLite 1, MySQL 2, MSSQL 3, PostgreSQL 4, InfluxDB 5, MQTT 7,
+OPC UA bridge 8).
 
 ---
 
