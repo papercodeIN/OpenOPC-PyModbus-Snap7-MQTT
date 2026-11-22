@@ -7,7 +7,7 @@ selected nodes and writing the values to a destination.
 
 | Pipeline | Status |
 | --- | --- |
-| **OPC UA → MQTT** 📤 | ✅ Tested — live Prosys server, RAW + JSON payloads |
+| **OPC UA → MQTT** 📤 | ❌ Pending — configuration bug; retest required |
 | **OPC UA → CSV / SQLite / SQL / InfluxDB** 💾 | ✅ Configs checked; live destination tests are deployment-specific |
 
 ---
@@ -53,8 +53,8 @@ The CSV and SQLite loggers support two formats; **one output is active** per con
 
 | Format | Table | Columns | Status |
 | --- | --- | --- | --- |
-| Wide | `opcua_wide` | `timestamp`, `id`, 9 tag columns + `Quality` (one row/second) | ✅ Tested |
-| Narrow | `opcua_narrow` | `timestamp`, `id`, `name`, `value` (one row/tag/second) | ✅ Tested |
+| Wide | `opcua_wide` | `timestamp`, `id`, 9 tag columns + `Quality` (one row/second) | ❌ Pending |
+| Narrow | `opcua_narrow` | `timestamp`, `id`, `name`, `value` (one row/tag/second) | ❌ Pending |
 
 Comment out the active output and uncomment the other to switch formats.
 
@@ -64,8 +64,8 @@ Comment out the active output and uncomment the other to switch formats.
 
 | Mode | Status | Topic | Payload |
 | --- | --- | --- | --- |
-| RAW (default) | ✅ Tested | `plant/opcua/raw/<field>` | One raw scalar value per topic |
-| JSON | ✅ Tested | `plant/opcua/telemetry` | All 9 nodes in one JSON message |
+| RAW (default) | ❌ Pending | `plant/opcua/raw/<field>` | One raw scalar value per topic |
+| JSON | ❌ Pending | `plant/opcua/telemetry` | All 9 nodes in one JSON message |
 | Sparkplug B | 🧪 Draft (not tested) | `spBv1.0/<group>/NDATA/<node>` | Protobuf via the companion gateway (private repo) |
 
 The MQTT client ID is random by default; a commented section in the config

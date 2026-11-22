@@ -75,9 +75,9 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 | Modbus TCP | `modbus_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
-| OPC UA | `opcua_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
+| OPC UA | `opcua_to_mqtt.conf` | MQTT | Raw payload + JSON payload | ❌&nbsp;Pending |
+| OPC UA | `opcua_to_csv.conf` | CSV | Wide + Narrow | ❌&nbsp;Pending |
+| OPC UA | `opcua_to_sqlite.conf` | SQLite | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
@@ -89,7 +89,7 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 | Modbus RTU | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus RTU | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus RTU | `modbus_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
-| OPC UA | `opcua_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
+| OPC UA | `opcua_to_mysql.conf` | MySQL | Wide + Narrow | ❌&nbsp;Pending |
 | OPC UA | `opcua_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | OPC UA | `opcua_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌&nbsp;Pending |
 | OPC UA | `opcua_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
