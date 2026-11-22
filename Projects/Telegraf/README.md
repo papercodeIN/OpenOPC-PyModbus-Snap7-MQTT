@@ -1,7 +1,5 @@
 # ⚡ Telegraf 2-Point Data Collection 📊
 
-> 📌 **Public repo is documentation/demo only.** Runnable `.conf` files and `.bat` launchers are kept in the private repository (`OpenOPC-PyModbus-Snap7-MQTT-Private`).
-
 Welcome! 🚀 This guide helps newcomers collect **2-point industrial data** (such as 2 sensor values or Modbus registers) quickly and easily using [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) on Windows.
 
 ---
@@ -26,28 +24,28 @@ telegraf --version
 
 ---
 
-## 🚀 2. Quick Start: Read 2 Data Points
-This project is configured to read **2 data points** (`HR_0` and `HR_1`) from a Modbus TCP server (e.g., local simulator on `127.0.0.1:502`).
+## 🚀 2. Quick Start: Read Modbus Registers
+This project is configured to read **10 holding registers** (`HR_0` … `HR_9`) from a Modbus TCP server (e.g., local simulator on `127.0.0.1:502`).
 
 Test a single collection cycle (reads data, writes nothing to disk):
 
 ```powershell
-telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_tcp.conf" --test
+telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf" --test
 ```
 
 ### What you will see:
 ```text
-> modbus,name=Device HR_0=42,HR_1=100 1716200000000000000
+> modbus_wide,area=area1,...,name=Device1,site=site1,slave_id=1 HR_0=42,HR_1=100,...,HR_9=9 1716200000000000000
 ```
-*(Only your 2 data points are collected!)*
+*(All 10 registers in one wide row — the narrow layout (one row per tag) is logged too.)*
 
 ---
 
 ## 🏃 3. Run Continuously & Save to CSV
-To run continuously and save your 2 data points to a daily-rotating CSV file, remove `--test`:
+To run continuously and save all values (wide + narrow layouts) to daily-rotating CSV files, remove `--test`:
 
 ```powershell
-telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_tcp.conf"
+telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf"
 ```
 
 ---
@@ -56,19 +54,21 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_tcp.conf"
 
 | Folder | Contents |
 | --- | --- |
-| [`Modbus/Modbus TCP Outputs`](Modbus/Modbus%20TCP%20Outputs/README.md) | 9 configs + 9 `.bat` launchers (CSV, SQLite, MQTT, MySQL, MSSQL, PostgreSQL, OPC UA publisher, InfluxDB, starter) |
-| [`Modbus/Modbus RTU Output`](Modbus/Modbus%20RTU%20Output/README.md) | Same 9 solutions for serial devices (draft settings) |
-| [`MQTT`](MQTT/README.md) | MQTT pipeline overview (demo) — configs live in the private repository |
-| [`OPC-UA`](OPC-UA/README.md) | OPC UA pipeline overview (demo) — configs live in the private repository |
-| [`ConfigBuilder`](ConfigBuilder/README.md) | Demo of the web app that generates Telegraf configs (source in private repo) |
+| [`Modbus/Modbus TCP Outputs`](Modbus/Modbus%20TCP%20Outputs/README.md) | 8 configs + 8 `.bat` launchers (CSV, SQLite, MQTT, MySQL, MSSQL, PostgreSQL, InfluxDB, OPC UA publisher) |
+| [`Modbus/Modbus RTU Output`](Modbus/Modbus%20RTU%20Output/README.md) | Same 8 solutions for serial devices (untested draft settings) |
+| [`MQTT`](MQTT/README.md) | 8 runnable configs → CSV, SQLite, MySQL, MSSQL, PostgreSQL, InfluxDB, MQTT bridge, OPC UA server pipeline (+ writer gateway) |
+| [`OPC-UA`](OPC-UA/README.md) | 7 runnable configs → CSV, SQLite, MySQL, MSSQL, PostgreSQL, InfluxDB, MQTT (RAW/JSON/Sparkplug + gateway) |
+| [`ConfigBuilder`](ConfigBuilder/README.md) | Local web app that generates any of the above `.conf` files from a form |
 
 Every config has a matching `.bat` launcher — **double-click it to run**. Add the `test` argument for a single test cycle. The launchers set local test defaults only; move credentials to the Telegraf service environment before plant deployment.
 
-All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
+All 16 Modbus configs and the updated MQTT / OPC UA configs pass `telegraf config check` (Telegraf 1.40.3).
 
 ---
 
 ## ✅ Testing status
+
+Last live test: **2026-11-22** (local simulator, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
 
 | 🔌 Source | 📄 Config file | 📤 Output | 📦 Payload | ✅ Status |
 | --- | --- | --- | --- | --- |
@@ -99,27 +99,13 @@ All 18 Modbus configs pass `telegraf config check` (Telegraf 1.40.3).
 | OPC UA | `opcua_to_postgres_narrow.conf` | PostgreSQL | Narrow | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_influxdb_wide.conf` | InfluxDB&nbsp;v2 | Wide | ❌&nbsp;Pending |
 | OPC UA | `opcua_to_influxdb_narrow.conf` | InfluxDB&nbsp;v2 | Narrow | ❌&nbsp;Pending |
-| Modbus TCP | `multi_modbus_to_csv.conf` | CSV | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus TCP | `multi_modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus TCP | `multi_modbus_to_mqtt.conf` | MQTT | Raw + JSON | ❌&nbsp;Pending |
-| Modbus TCP | `multi_modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus TCP | `multi_modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus TCP | `multi_modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus TCP | `multi_modbus_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `multi_modbus_to_csv.conf` | CSV | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `multi_modbus_to_sqlite.conf` | SQLite | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `multi_modbus_to_mqtt.conf` | MQTT | Raw + JSON | ❌&nbsp;Pending |
-| Modbus RTU | `multi_modbus_to_mysql.conf` | MySQL | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `multi_modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `multi_modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ❌&nbsp;Pending |
-| Modbus RTU | `multi_modbus_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
 
 > **Wide vs narrow:** **Wide** stores one row per poll with all tags as columns
 > (`modbus_wide` / `opcua_wide`). **Narrow** stores one row per tag per poll with
 > `timestamp`, tag ID/name and `value` (`modbus_narrow` / `opcua_narrow`).
-> Only one output is active per config; comment/uncomment to switch.
+> Modbus files log BOTH layouts (separate files/tables — not duplicates); OPC UA ships wide and narrow as separate `*_wide`/`*_narrow` configs. MQTT ships JSON payload mode (RAW is the commented alternative).
 
-> **Repository rule:** this public repository contains README/demo items only. All source code and real configuration files are kept in the private repository.
+> **Repository rule:** all source code and real configs live in this private repository. The public repository gets README/demo items only.
 
 ---
 

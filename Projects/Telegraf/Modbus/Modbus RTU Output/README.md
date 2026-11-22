@@ -1,11 +1,15 @@
 # 🔌 Modbus RTU Output
 
 Telegraf 1.40.3 configurations for serial Modbus RTU (RS-485) devices.
-**One active data output per file.**
+**Two complementary data outputs per file: wide + narrow** (same layout and
+MQTT payload-mode rules as the TCP folder).
 
 > ⚠️ **Serial settings are placeholders.** The controller, baud rate, parity,
 > stop bits, slave ID and register map must be taken from your device manual
 > before connecting real hardware. All files pass `telegraf config check`.
+>
+> RTU logging itself is **untested** — no RTU hardware is connected here. The
+> identical TCP-folder configs were tested live on 2026-11-22.
 
 | 📄 Config | 📤 Destination |
 | --- | --- |

@@ -6,8 +6,8 @@ passes `telegraf config check`.
 
 | Transport | Folder | Status |
 | --- | --- | --- |
-| Modbus TCP 🌐 | [`Modbus TCP Outputs`](Modbus%20TCP%20Outputs/README.md) | ✅ Config-checked |
-| Modbus RTU 🔌 | [`Modbus RTU Output`](Modbus%20RTU%20Output/README.md) | ✅ Config-checked (serial settings are placeholders) |
+| Modbus TCP 🌐 | [`Modbus TCP Outputs`](Modbus%20TCP%20Outputs/README.md) | ✅ Tested live — CSV, SQLite, MySQL, PostgreSQL, MQTT (2026-11-22) |
+| Modbus RTU 🔌 | [`Modbus RTU Output`](Modbus%20RTU%20Output/README.md) | ✅ Config-checked (untested — serial settings are placeholders) |
 
 **Contents:** 16 `.conf` files, 16 `.bat` launchers, 3 helper scripts.
 
@@ -15,12 +15,14 @@ passes `telegraf config check`.
 
 ## ✅ What is guaranteed
 
-- One active data output per file (health output is monitoring only).
+- Two complementary data outputs per file: wide (row per poll) + narrow (row per
+  tag) in separate files/tables — not duplicates (health output is monitoring only).
 - Literal defaults in every config; a commented `${VAR}` line is included underneath.
 - No real credentials are shipped (values use `CHANGE_ME`).
 - No user-specific paths (data folder is `C:/ProgramData/Telegraf/Modbus`).
 - Every device metric keeps `name`, `slave_id` and `type` tags.
-- Wide layout is the default; narrow layout is a ready-to-enable commented block.
+- Both wide and narrow layouts are active; MQTT ships with the JSON payload mode
+  (RAW is the commented alternative).
 - Internal metrics and a health endpoint are enabled in every config.
 - Automatic restart and log file when installed as a scheduled task.
 

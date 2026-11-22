@@ -1,103 +1,94 @@
 # Telegraf OPC UA Pipelines 📊
 
-> 📌 **Public repo is documentation/demo only.** Runnable `.conf` files and `.bat` launchers are kept in the private repository (`OpenOPC-PyModbus-Snap7-MQTT-Private`).
-
-Overview of the OPC UA pipelines: Telegraf acts as an OPC UA **client**, reading
-selected nodes and writing the values to a destination.
+Industry-ready Telegraf configurations that make Telegraf an OPC UA **client**,
+reading selected nodes and writing values to a destination.
 
 | Pipeline | Status |
 | --- | --- |
-| **OPC UA → MQTT** 📤 | ❌ Pending — configuration bug; retest required |
-| **OPC UA → CSV / SQLite / SQL / InfluxDB** 💾 | ✅ Configs checked; live destination tests are deployment-specific |
+| **OPC UA → MQTT** 📤 | ✅ Tested live — JSON mode (2026-11-22); RAW mode verified too |
+| **OPC UA → CSV / SQLite / MySQL / PostgreSQL** 💾 | ✅ Tested live — wide + narrow (2026-11-22) |
+| **OPC UA → MSSQL / InfluxDB** 💾 | ✅ Configs checked (services not running locally — untested) |
+
+All `.conf` files pass `telegraf config check` on Telegraf 1.40.3.
 
 ---
 
 ## 🚀 Quick Start
 
-1. **Prerequisites**: Telegraf installed, OPC UA server running and reachable, node IDs identified.
-2. **Setup**: Identify your server endpoint, node IDs, and credentials (in the private configs).
-3. **Test**: Run one collection cycle:
-   ```powershell
-   telegraf --config ".\OPC-UA\opcua_to_mqtt.conf" --test
-   ```
+```powershell
+telegraf --config ".\OPC-UA\opcua_to_mqtt.conf" config check
+telegraf --config ".\OPC-UA\opcua_to_mqtt.conf" --test
+telegraf --config ".\OPC-UA\opcua_to_mqtt.conf"
+```
+
+Every config has a matching `.bat` launcher (pass `test` for a single cycle).
 
 ---
 
 ## 📝 Configurations
 
-Each `.conf` file handles one destination.
+| File | Flow | Tested live |
+| --- | --- | --- |
+| `opcua_to_csv_wide.conf` / `_narrow.conf` | OPC UA → rotating CSV | ✅ 2026-11-22 |
+| `opcua_to_sqlite_wide.conf` / `_narrow.conf` | OPC UA → SQLite | ✅ 2026-11-22 |
+| `opcua_to_mysql_wide.conf` / `_narrow.conf` | OPC UA → MySQL | ✅ 2026-11-22 |
+| `opcua_to_postgres_wide.conf` / `_narrow.conf` | OPC UA → PostgreSQL | ✅ 2026-11-22 |
+| `opcua_to_mssql_wide.conf` / `_narrow.conf` | OPC UA → MSSQL | ⏳ service not running |
+| `opcua_to_influxdb_wide.conf` / `_narrow.conf` | OPC UA → InfluxDB v2 | ⏳ service not running |
+| `opcua_to_mqtt.conf` | OPC UA → MQTT (JSON active; RAW alternative; Sparkplug B draft) | ✅ 2026-11-22 |
 
-| File | Flow |
-| --- | --- |
-| `opcua_to_csv.conf` | OPC UA → daily-rotating CSV |
-| `opcua_to_sqlite.conf` | OPC UA → SQLite |
-| `opcua_to_mysql.conf` | OPC UA → MySQL |
-| `opcua_to_mssql.conf` | OPC UA → MSSQL |
-| `opcua_to_postgres.conf` | OPC UA → PostgreSQL |
-| `opcua_to_influxdb.conf` | OPC UA → InfluxDB v2 |
-| `opcua_to_mqtt.conf` | OPC UA → MQTT (RAW / JSON / Sparkplug B) |
+All seven requested OPC UA data-logger/publisher solutions are present.
+
+---
 
 ## 🎯 Current demo target
 
-- Endpoint: `opc.tcp://DESKTOP-FAFB2HS:53532/OPCUA/SimulationServer`
-- Identity: `admin` / `admin`, security policy and mode `None`
-- Namespace `3`, 9 nodes: Constant (1001), Counter (1002), Random (1003),
-  Sawtooth (1004), Sinusoid (1005), Square (1006), Triangle (1007), Binary (1008), Text (1009)
+- Endpoint: `opc.tcp://DESKTOP-FAFB2HS:53530/OPCUA/SimulationServer`
+- Identity: Anonymous (security policy and mode `None`; server account `admin`/`admin` available)
+- Namespace `3`, 7 nodes: Counter (1001), Random (1002), Sawtooth (1003),
+  Sinusoid (1004), Square (1005), Triangle (1006), Constant (1007)
 - Poll + flush interval: **1s**
 
 ---
 
 ## 💾 Data logger table formats
 
-The CSV and SQLite loggers support two formats; **one output is active** per config:
+Wide and narrow are separate config files — run the layout you want (or both,
+they write to separate tables):
 
-| Format | Table | Columns | Status |
-| --- | --- | --- | --- |
-| Wide | `opcua_wide` | `timestamp`, `id`, 9 tag columns + `Quality` (one row/second) | ❌ Pending |
-| Narrow | `opcua_narrow` | `timestamp`, `id`, `name`, `value` (one row/tag/second) | ❌ Pending |
-
-Comment out the active output and uncomment the other to switch formats.
+| Format | Config | Table | Columns | Status |
+| --- | --- | --- | --- | --- |
+| Wide | `*_wide.conf` | `opcua_wide` | `timestamp`, `id`, 7 value columns + `Quality` (one row/second) | ✅ Tested live |
+| Narrow | `*_narrow.conf` | `opcua_narrow` | `timestamp`, `id`, `name`, `value` (one row/tag/second) | ✅ Tested live |
 
 ---
 
 ## 📤 OPC UA → MQTT payload modes
 
-| Mode | Status | Topic | Payload |
+`opcua_to_mqtt.conf` contains three output blocks; **one** is active at a time:
+
+| Mode | Status | How | Gateway needed |
 | --- | --- | --- | --- |
-| RAW (default) | ❌ Pending | `plant/opcua/raw/<field>` | One raw scalar value per topic |
-| JSON | ❌ Pending | `plant/opcua/telemetry` | All 9 nodes in one JSON message |
-| Sparkplug B | 🧪 Draft (not tested) | `spBv1.0/<group>/NDATA/<node>` | Protobuf via the companion gateway (private repo) |
+| JSON (default) | ✅ Tested live — one message with all 7 nodes | `outputs.mqtt`, `layout = "batch"`, topic `plant/opcua/json` | no |
+| RAW (alternative) | ✅ Verified — one scalar message per field | `outputs.mqtt`, `layout = "field"`, topic `plant/opcua/raw/<field>` | no |
+| Sparkplug B | 🧪 Draft (not tested) | `outputs.http` → Sparkplug Edge Node | yes — [`gateway/README.md`](gateway/README.md) |
 
-The MQTT client ID is random by default; a commented section in the config
-allows a fixed ID. MQTT credentials are commented out (local broker needs no login).
+MQTT `client_id` is omitted so Telegraf generates a random ID; a commented
+`client_id` section is provided for a fixed ID. MQTT credentials are commented
+out because the local broker needs no login.
 
----
-
-## 🛠️ Step-by-Step Configuration
-
-1. **Edit** the selected `.conf` file in the private repository.
-2. **Server Settings**: set `endpoint`, security policy and mode.
-3. **Nodes**: update node IDs, namespace and polling cadence to match the server.
-4. **Identity**: configure username/password and server/client certificates.
-5. **Destination**: update paths, database credentials, and schemas.
-6. **Run**: `--test` first, then run continuously.
+Telegraf has no Sparkplug serializer, so MODE 3 sends JSON to the companion
+gateway which encodes protobuf and publishes `spBv1.0/<group>/NDATA/<node>`.
 
 ---
 
 ## 🔑 Security & Design
 
-- **Secrets**: use environment variables for production passwords, keys, and DSNs.
-- **Access**: use a dedicated OPC UA identity with **read-only** access.
-- **Security Policy**: use `SignAndEncrypt` and verify certificates in production.
-- **Database**: provision least-privilege users for SQL databases.
-
----
-
-## 🔗 MQTT to OPC UA
-
-Telegraf **cannot** host an OPC UA server. MQTT → OPC UA uses a writer gateway
-as an OPC UA client to an external server. See `../MQTT/README.md` for the
-unidirectional architecture (implementation in the private repository).
+- Live-lab credentials are local-only; for production use `${ENV_VAR}` references
+  and a service environment / secret store.
+- Use a read-only OPC UA identity for the logger solutions.
+- Use `SignAndEncrypt` with trusted client/server certificates in production.
+- Provision least-privilege database users.
 
 ---
 

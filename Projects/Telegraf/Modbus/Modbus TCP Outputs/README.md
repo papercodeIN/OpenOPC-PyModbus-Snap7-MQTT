@@ -1,7 +1,7 @@
 # 🌐 Modbus TCP Outputs
 
 Telegraf 1.40.3 configurations that read Modbus TCP holding registers and write
-to a file, database or broker. **One active data output per file.**
+to a file, database or broker. **Two complementary data outputs per file: wide + narrow.**
 
 | 📄 Config | 📤 Destination |
 | --- | --- |
@@ -66,17 +66,20 @@ address rules and data-type examples are documented in each file.
 
 ## 🧩 Layouts
 
-- **Wide (default)** — one metric per poll with all registers in one row
+- **Wide (active)** — one metric per poll with all registers in one row
   (`modbus_wide`). Best for historians and SQL tables.
-- **Narrow (optional)** — one row per tag (`modbus_narrow`). Uncomment the
-  processors and narrow output at the bottom of the file. `name`, `slave_id`
-  and `type` are preserved.
-
-Only one layout should be enabled per file to avoid double writes.
+- **Narrow (active)** — one row per tag (`modbus_narrow`); `name`, `slave_id`
+  and `type` are preserved. It writes to its own file/table, so the two
+  layouts are complementary — not duplicate data. To log wide only, comment
+  the narrow blocks at the bottom of the file.
 
 **MQTT is different.** The `modbus_to_mqtt.conf` files use **payload modes**,
-not wide/narrow: **RAW** (one scalar message per field, active) or **JSON** (one
-JSON message per metric, alternative). The OPC UA bridge always uses JSON.
+not wide/narrow: **JSON** (one JSON message per poll — active) or **RAW** (one
+scalar message per field — alternative). The OPC UA bridge always uses JSON.
+
+**✅ Tested live (2026-11-22)** against the local simulator/services: CSV,
+SQLite, MySQL, PostgreSQL (wide + narrow) and MQTT (JSON). `CHANGE_ME` secrets
+were substituted during testing only — no real credentials are in the repo.
 
 ---
 
