@@ -8,7 +8,7 @@ A bidirectional gateway that polls configured Modbus RTU points over a serial co
 
 - Supported transports: Modbus RTU serial source and Modbus TCP gateway.
 - Supported TCP function codes: FC1–FC6, FC15 and FC16.
-- The example configuration uses COM1, 9600 baud, 8N1, unit ID 1, and a read-only holding-register point at address 0.
+- The example configuration uses COM1, 9600 baud, 8N1, unit ID 1, and integer holding registers 0–9 named “Holding register 0” through “Holding register 9”.
 - Verified on the attached device with read-only polling: FC3 address 0 succeeded; FC1, FC2 and FC4 returned Illegal Function.
 - Write-back is disabled by default. Modbus TCP has no authentication or encryption; the gateway defaults to loopback.
 
