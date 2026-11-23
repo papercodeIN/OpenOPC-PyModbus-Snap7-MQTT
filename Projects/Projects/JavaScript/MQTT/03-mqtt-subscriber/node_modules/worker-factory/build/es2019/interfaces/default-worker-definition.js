@@ -1,0 +1,2 @@
+export {};
+//# sourceMappingURL=default-worker-definition.js.map

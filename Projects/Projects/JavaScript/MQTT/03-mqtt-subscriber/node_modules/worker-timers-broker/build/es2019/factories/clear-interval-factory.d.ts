@@ -1,0 +1,2 @@
+export declare const createClearIntervalFactory: (scheduledIntervalsState: Map<number, null | symbol>) => (clear: (timerId: number) => Promise<boolean>) => (timerId: number) => void;
+//# sourceMappingURL=clear-interval-factory.d.ts.map

@@ -1,0 +1,3 @@
+import type { generateUniqueNumber as generateUniqueNumberFunction } from 'fast-unique-numbers';
+export declare const createSetIntervalFactory: (generateUniqueNumber: typeof generateUniqueNumberFunction, scheduledIntervalsState: Map<number, null | symbol>) => (set: (delay: number, timerId: number) => Promise<boolean>) => (func: Function, delay?: number, ...args: any[]) => number;
+//# sourceMappingURL=set-interval-factory.d.ts.map

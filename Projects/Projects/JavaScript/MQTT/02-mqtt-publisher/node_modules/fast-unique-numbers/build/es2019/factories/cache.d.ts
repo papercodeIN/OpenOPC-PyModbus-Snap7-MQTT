@@ -1,0 +1,2 @@
+export declare const createCache: (lastNumberWeakMap: WeakMap<Map<number, any> | Set<number>, number>) => (collection: Map<number, any> | Set<number>, nextNumber: number) => number;
+//# sourceMappingURL=cache.d.ts.map

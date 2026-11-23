@@ -1,0 +1,2 @@
+export declare const createClearTimeoutFactory: (scheduledTimeoutsState: Map<number, null | symbol>) => (clear: (timerId: number) => Promise<boolean>) => (timerId: number) => void;
+//# sourceMappingURL=clear-timeout-factory.d.ts.map
