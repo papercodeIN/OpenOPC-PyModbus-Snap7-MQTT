@@ -1,0 +1,52 @@
+/* ============================================================
+   MQTT Publisher — project content
+   Shared design system: theme.css
+   ============================================================ */
+
+.stat-value-sm { font-size: 20px; line-height: 1.25; word-break: break-word; }
+
+/* ── Composer ──────────────────────────────────────────────── */
+#pub-payload { min-height: 150px; }
+
+.payload-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+}
+#payload-validity.ok { color: var(--green); }
+#payload-validity.warn { color: var(--amber); }
+#payload-validity.error { color: var(--red); }
+
+/* ── Burst progress ────────────────────────────────────────── */
+.burst-box { margin-top: 18px; border-top: 1px dashed var(--border); padding-top: 14px; }
+.burst-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
+.burst-head .panel-kicker { margin: 0; }
+.burst-count { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.progress {
+  height: 7px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #d8860a, var(--amber));
+  transition: width .25s ease;
+}
+.progress-fill.done { background: linear-gradient(90deg, #1e9e76, var(--green)); }
+
+/* ── Sent message table ────────────────────────────────────── */
+.data-table .num-cell { font-family: var(--mono); color: var(--dim); width: 46px; }
+.data-table .bytes-cell { font-family: var(--mono); color: var(--cyan); }
+.data-table .retain-on { color: var(--amber); font-family: var(--mono); }
+.data-table .retain-off { color: var(--dim); font-family: var(--mono); }
+
+@media (max-width: 760px) {
+  #pub-payload { min-height: 110px; }
+}

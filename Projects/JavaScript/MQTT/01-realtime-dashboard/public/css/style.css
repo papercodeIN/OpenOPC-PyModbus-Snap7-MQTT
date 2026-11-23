@@ -1,0 +1,7 @@
+/* Deprecated compatibility entry point.
+   The dashboard stylesheet is split into two files:
+     theme.css      shared MQTT Control Room design system
+     dashboard.css  dashboard-specific content
+   Both are linked directly from index.html; this file only keeps old links working. */
+@import url("theme.css");
+@import url("dashboard.css");
