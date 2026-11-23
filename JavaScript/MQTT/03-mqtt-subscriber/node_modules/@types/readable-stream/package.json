@@ -1,0 +1,38 @@
+{
+    "name": "@types/readable-stream",
+    "version": "4.0.25",
+    "description": "TypeScript definitions for readable-stream",
+    "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/readable-stream",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "TeamworkGuy2",
+            "githubUsername": "TeamworkGuy2",
+            "url": "https://github.com/TeamworkGuy2"
+        },
+        {
+            "name": "markdreyer",
+            "githubUsername": "markdreyer",
+            "url": "https://github.com/markdreyer"
+        },
+        {
+            "name": "Matteo Collina",
+            "githubUsername": "mcollina",
+            "url": "https://github.com/mcollina"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/readable-stream"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/node": "*"
+    },
+    "peerDependencies": {},
+    "typesPublisherContentHash": "e715b7f2160f658d0f56b642bfe15455bf2939a92cfe9713a9cc1642b83d1c02",
+    "typeScriptVersion": "5.6"
+}

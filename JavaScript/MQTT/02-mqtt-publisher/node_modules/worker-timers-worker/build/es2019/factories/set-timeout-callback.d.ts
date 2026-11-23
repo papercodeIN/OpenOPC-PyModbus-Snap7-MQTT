@@ -1,0 +1,3 @@
+import { TResolveSetResponseResultPromise } from '../types';
+export declare const createSetTimeoutCallback: (performance: Pick<Performance, "now">, setTimeout: (typeof globalThis)["setTimeout"]) => (expected: number, identifiersAndResolvers: Map<number, [number, TResolveSetResponseResultPromise]>, resolveSetResponseResultPromise: TResolveSetResponseResultPromise, timerId: number) => void;
+//# sourceMappingURL=set-timeout-callback.d.ts.map

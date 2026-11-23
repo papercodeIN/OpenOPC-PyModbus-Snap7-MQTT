@@ -1,0 +1,1 @@
+{"version":3,"file":"worker-implementation.d.ts","sourceRoot":"","sources":["../../../src/types/worker-implementation.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,iBAAiB,EAAE,MAAM,eAAe,CAAC;AAClD,OAAO,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AAEtD,MAAM,MAAM,qBAAqB,CAAC,gBAAgB,SAAS,iBAAiB,IAAI;KAC3E,CAAC,IAAI,MAAM,gBAAgB,GAAG,gBAAgB,CAAC,gBAAgB,CAAC,CAAC,CAAC,CAAC;CACvE,CAAC"}
