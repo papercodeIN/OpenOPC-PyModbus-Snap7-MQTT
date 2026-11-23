@@ -5,7 +5,7 @@ A standalone FastAPI control room for a **protocol-aware** Modbus converter. It 
 - **RTU → TCP:** read explicitly mapped points from one shared RTU bus into a cache and expose them through a real Modbus TCP server.
 - **TCP → RTU:** poll one or more TCP devices and expose the mapped cache through a Modbus RTU server on a serial port.
 
-Writes are accepted only for explicitly writable coil/holding-register tags and are routed back to that tag's configured source. It is **not** a transparent byte tunnel: requests are decoded, matched to configured mappings, served from the poll/cache service, and translated to source operations.
+Single-coil/register writes are accepted only for explicitly writable coil/holding-register mappings and are routed back to that tag's configured source. FC15/FC16 multi-write requests are explicitly rejected with a Modbus Illegal Function response rather than being emulated as separate writes that could partially apply. It is **not** a transparent byte tunnel: requests are decoded, matched to configured mappings, served from the poll/cache service, and translated to source operations.
 
 ## Start
 

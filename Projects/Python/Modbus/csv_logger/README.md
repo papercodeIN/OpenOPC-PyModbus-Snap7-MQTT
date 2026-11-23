@@ -11,7 +11,7 @@ This project intentionally does not share runtime state with `modbus_app` or `sq
 - Manual: create/activate a Python 3.10+ virtual environment, `pip install -r requirements.txt`, copy `.env.example` to `.env`, then `python run.py`.
 - Visit `http://127.0.0.1:8766` and set the first-run administrator credentials.
 
-Default bind is loopback only. Change `APP_HOST` only for a deliberate network deployment. Use HTTPS behind a trusted reverse proxy and set `APP_COOKIE_SECURE=true`. Set a unique `APP_SECRET_KEY` or let the service create `data/secret.key`; back up the key, catalog DB and all history epochs. `.env`, `data/` and `.venv/` are private runtime state and should not be committed.
+The launcher enforces a loopback IP (`127.0.0.1` or `::1`) and rejects non-loopback binds. For remote access, use a separately secured reverse proxy/VPN; do not expose the app directly. `APP_COOKIE_SECURE=true` only marks cookies for HTTPS and does not enable HTTPS itself. Set a unique `APP_SECRET_KEY` or let the service create `data/secret.key`; back up the key, catalog DB and all history epochs. `.env`, `data/` and `.venv/` are private runtime state and should not be committed.
 
 ## Devices, tags and polling
 
@@ -25,7 +25,7 @@ Each complete poll scan is appended as **one wide row** to an immutable schema-e
 
 When the configured set/order or metadata of points changes, the logger creates the next epoch file with its own complete header. It never appends a row with the wrong number or meaning of columns and never rewrites older epoch files. Previous files preserve the exact tag schema active when they were created. If an operator edits an active CSV header by hand, the logger detects the mismatch before the next write and rotates instead of writing values under a corrupted header. Samples are stored in CSV only; wide history reads exact cycle rows from the epoch files, while narrow history flattens each value/quality/error triple into a device/tag sample. Adding/removing tags does not cause prior data loss; old samples keep their original schema epoch and metadata.
 
-The UI **Historian** page offers narrow or wide views, and the CSV file list is available at `GET /api/history/files`. `DELETE /api/history` intentionally clears all CSV history epochs but keeps the SQLite device/tag/admin catalog.
+The UI **Historian** page offers paginated narrow or complete-cycle wide views, and `GET /api/history/export.csv` streams the full normalized sample archive without loading the entire history into memory. CSV epoch files are listed at `GET /api/history/files`. `DELETE /api/history` intentionally clears all CSV history epochs but keeps the SQLite device/tag/admin catalog. Counts and latest-per-tag status scan all epochs; large deployments should use pagination/export rather than repeated full-history page refreshes.
 
 ## Security
 
@@ -37,6 +37,6 @@ The UI **Historian** page offers narrow or wide views, and the CSV file list is 
 
 ## API and tests
 
-Key API routes: `/api/devices`, `/api/points`, `/api/points/bulk`, `/api/poll/start`, `/api/poll/stop`, `/api/poll/once`, `/api/history?layout=narrow|wide`, `/api/history/files`, and `/api/status`. Data access requires login; mutations also require CSRF. `/health` is a minimal unauthenticated liveness endpoint; `/docs` shows the API schema.
+Key API routes: `/api/devices`, `/api/points`, `/api/points/bulk`, `/api/poll/start`, `/api/poll/stop`, `/api/poll/once`, `/api/history?layout=narrow|wide&limit=&offset=`, `/api/history/export.csv`, `/api/history/files`, and `/api/status`. Data access requires login; mutations also require CSRF. `/health` is a minimal unauthenticated liveness endpoint; `/docs` shows the API schema.
 
 Run `pytest -q` from this directory. Tests cover safe schema-epoch rotation and preservation, catalog parameterization, error rows, mocked TCP/RTU multi-device polling, shared serial client/Unit IDs, narrow/wide history, authentication and CSRF, login throttling, WebSocket protection, and an in-process local TCP Modbus roundtrip. Real RTU devices require an available serial adapter and are not tested in CI.

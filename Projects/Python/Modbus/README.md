@@ -1,9 +1,12 @@
 # Modbus Control Room
 
-A single, locally hosted industrial web application that puts a **Modbus TCP
-server**, a **Modbus TCP client** and a **Modbus RTU client** on separate pages,
-with SQLite and CSV data loggers and a built-in Learn course — the same
-control-room pattern used by the MQTT and IEC-104 projects.
+This folder contains the original **Modbus Control Room** plus eight standalone
+tools for TCP↔RTU conversion, MQTT and destination-specific historians. Each new
+tool is an individual app with the industrial dark/amber theme, Fusion Automate
+About page and social links, authenticated local UI, and TCP/RTU tag monitoring.
+
+The new source apps live in their private project folders. The public showcase
+contains only their README files; demo executables are a later release step.
 
 | Capability | What it does |
 |---|---|
@@ -309,15 +312,23 @@ backups) and echoed to the console.
 
 ---
 
-## Future Announcement
+## Standalone Modbus tools
 
-Planned improvements and features to address in a later update:
+Each folder below is a separate project; the six logger apps can collect multiple
+TCP/RTU devices into one destination, with narrow (normalized) or wide output
+where supported. Public showcase folders contain documentation only.
 
-- **Modbus → MQTT publisher** — fits this repo's name and the sibling MQTT project.
-- **Alarm/threshold engine** with deadband, alarm page and live events.
-- **Trend charts** from stored SQLite records (currently tables only).
-- **Named connection profiles / device bookmarks** (currently one config).
-- **Diagnostics:** FC08/FC43 device ID + FC22/FC23 mask write.
-- **CSV replay** as a simulator data source.
-- **Config + points export/import** for classroom cloning.
-- **OPC UA / Snap7 bridge** to match the repo's other projects.
+| Project | Purpose |
+|---|---|
+| [TCP↔RTU Converter](tcp_rtu_converter/README.md) | Protocol-aware, mapped TCP/RTU conversion with a single active direction and routed writes. |
+| [MQTT Gateway](mqtt_gateway/README.md) | Multi-device polling with raw scalar, timestamped JSON, and Sparkplug B output/commands. |
+| [SQLite Historian](sqlite_logger/README.md) | Multi-device samples to SQLite; narrow or wide cycle-based history. |
+| [CSV Historian](csv_logger/README.md) | Multi-device samples to schema-epoch CSV files; narrow or wide viewing. |
+| [MySQL Logger](mysql_logger/README.md) | Multi-device logger to MySQL with selectable narrow or wide layout. |
+| [Microsoft SQL Server Logger](sql_server_logger/README.md) | Multi-device logger to Microsoft SQL Server with selectable layout. |
+| [PostgreSQL Logger](postgresql_logger/README.md) | Multi-device logger to PostgreSQL with selectable narrow or wide layout. |
+| [InfluxDB Logger](influxdb_logger/README.md) | Multi-device logger using InfluxDB measurements, tags, and fields. |
+
+These new apps do not replace the original [Modbus Control Room](README.md)'s
+simulator and single-client training workflow. Each project README documents
+its deployment, schema, security model, verification status, and known limits.

@@ -75,7 +75,7 @@ Every config writes **both layouts together** (separate tables/files — not
 duplicate data):
 
 | Format | Table | Columns | Status |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | Wide | `opcua_wide` | `timestamp`, `id`, 7 value columns + `Quality` (one row/second) | ✅ Tested live |
 | Narrow | `opcua_narrow` | `timestamp`, `id`, `name`, `value` (one row/tag/second) | ✅ Tested live |
 

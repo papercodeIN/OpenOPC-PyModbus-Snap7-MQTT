@@ -11,7 +11,7 @@ This is a separate project from the sibling `modbus_app` and `csv_logger`; its r
 - Manual: `python -m venv .venv`, activate it, `pip install -r requirements.txt`, copy `.env.example` to `.env`, then `python run.py`.
 - Open `http://127.0.0.1:8765`. First run prompts for an administrator username/password; the username and PBKDF2 hash are stored, never plaintext.
 
-The default listener is `127.0.0.1`; change `APP_HOST` only when you intend to expose the UI. Use HTTPS and set `APP_COOKIE_SECURE=true` behind a trusted reverse proxy for non-loopback use. Choose a unique `APP_SECRET_KEY` or let the app create a random private key in `data/secret.key`; preserve that key and the database together across backups. `.env`, `data/`, and virtual environments should not be committed.
+The launcher enforces a loopback IP (`127.0.0.1` or `::1`) and rejects non-loopback binds. For remote access, use a separately secured reverse proxy/VPN; do not expose the app directly. `APP_COOKIE_SECURE=true` only marks cookies for HTTPS and does not enable HTTPS itself. Choose a unique `APP_SECRET_KEY` or let the app create a random private key in `data/secret.key`; preserve that key and the database together across backups. `.env`, `data/`, and virtual environments should not be committed.
 
 ## Configure and poll
 
@@ -32,12 +32,12 @@ Each poll cycle captures one UTC timestamp and cycle ID for the scan. The normal
 
 ## Storage and API
 
-SQLite is the only measurement store for this project. It uses WAL mode, fixed schema identifiers, bound values, parameterized filters and additive `ALTER TABLE` migrations for later schema columns. Database file: `data/historian.sqlite3` (override via `APP_DATA_DIR`). The UI offers:
+SQLite is the only measurement store for this project. It uses WAL mode, fixed schema identifiers, bound values, parameterized filters and additive `ALTER TABLE` migrations for later schema columns. Database file: `data/historian.sqlite3` (override via `APP_DATA_DIR`). The UI offers paginated history browsing; wide-layout pages are measured in complete cycles so a scan with many points is never split across pages. The API returns a total sample count for narrow pages and a total cycle count for wide pages.
 
 - `GET /api/devices`, `POST /api/devices`, `DELETE /api/devices/{id}`
 - `GET /api/points`, `POST /api/points`, `POST /api/points/bulk`, `DELETE /api/points/{id}`
 - `POST /api/poll/start`, `/api/poll/stop`, `/api/poll/once`
-- `GET /api/history?layout=narrow|wide&limit=200`, `DELETE /api/history`
+- `GET /api/history?layout=narrow|wide&limit=200&offset=0`, `DELETE /api/history`
 - `GET /api/status`, `GET /api/auth/status`, `GET /health`
 
 Interactive OpenAPI is available at `/docs` after startup, but data routes require login and all mutations require the CSRF header. Health is intentionally a minimal unauthenticated liveness endpoint.

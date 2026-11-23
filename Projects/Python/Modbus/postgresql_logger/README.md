@@ -15,11 +15,11 @@ Copy `.env.example` to `.env` and edit settings. Run `run.bat` on Windows or `./
 
 `APP_HOST` defaults to `127.0.0.1`; `APP_PORT` defaults to `8080`; `APP_DATA_DIR` defaults to project `data/`; optional `APP_SECRET` must have at least 32 bytes, otherwise a signing key is created in the data directory; `COOKIE_SECURE` defaults off for local HTTP; `POLL_INTERVAL` defaults to 2 seconds (minimum 0.2); `DESTINATION_ENABLED` defaults off. PostgreSQL settings are `DB_HOST`, `DB_PORT` (5432), `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_CONNECT_TIMEOUT`, `DB_SSLMODE`, and `TABLE_LAYOUT` (`narrow`/`wide`). The UI saves destination values locally and takes precedence after save. A blank submitted password preserves the stored password. Credentials are not returned to the browser but are not encrypted in local SQLite; protect the data directory, `.env`, and backups.
 
-`DB_SSLMODE` uses psycopg's supported modes: `disable`, `allow`, `prefer`, `require`, `verify-ca`, or `verify-full`. Choose a mode appropriate for your PostgreSQL service and certificate setup. Leave the app bound to loopback; it has no built-in HTTPS. Set `COOKIE_SECURE=1` only when serving through actual HTTPS.
+`DB_SSLMODE` uses psycopg's supported modes: `disable`, `allow`, `prefer`, `require`, `verify-ca`, or `verify-full`. Choose a mode appropriate for your PostgreSQL service and certificate setup. The launcher rejects non-loopback `APP_HOST`; use an independently secured reverse proxy/VPN for remote access. The app has no built-in HTTPS. Set `COOKIE_SECURE=1` only when serving through actual HTTPS.
 
 ## Authentication and security
 
-Administrator passwords are PBKDF2-SHA256 hashes with a random salt and 310,000 rounds. Signed HttpOnly/SameSite=Strict cookies expire after eight hours. Every state-changing API request requires CSRF validation; login/setup attempts are in-memory rate-limited. WebSockets require a signed session, and same-origin is checked when Origin is supplied. The signing key in `data/.session-secret` must remain persistent to preserve sessions. This is a local training/monitoring service, not an Internet-facing hardened product.
+Administrator passwords are PBKDF2-SHA256 hashes with a random salt and 310,000 rounds. Signed HttpOnly/SameSite=Strict cookies expire after eight hours. Every state-changing API request requires CSRF validation; login/setup attempts are in-memory rate-limited. WebSockets require a signed session and a matching Origin/Host header. The signing key in `data/.session-secret` must remain persistent to preserve sessions. This is a local training/monitoring service, not an Internet-facing hardened product.
 
 ## Devices, tags and polling
 

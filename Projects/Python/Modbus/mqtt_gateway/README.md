@@ -6,7 +6,7 @@ Output modes can be used together:
 
 - **Raw scalar:** UTF-8 scalar text at `<base>/<device>/<tag>/value`.
 - **Timestamped JSON:** JSON at `<base>/<device>/<tag>/json` with value, UTC timestamp, quality, error, unit, device and tag.
-- **Sparkplug B:** standards-compliant Sparkplug Protobuf payloads using the maintained `pysparkplug` package. The Edge Node publishes NBIRTH/DBIRTH after connect, configures NDEATH as an MQTT Last Will, publishes clean NDEATH/DDEATH at shutdown/device removal, and consumes NCMD/DCMD command payloads. Only configured writable coil/holding-register tags are commandable.
+- **Sparkplug B:** standards-compliant Sparkplug Protobuf payloads using the maintained `pysparkplug` package. With device topics enabled, the Edge Node publishes NBIRTH/DBIRTH/DDATA and consumes NCMD/DCMD; with device topics disabled, it publishes node-level metrics and writable command aliases only. The Edge Node configures NDEATH as an MQTT Last Will and publishes clean death messages at shutdown. Only configured writable coil/holding-register tags are commandable.
 
 Sparkplug payloads are not JSON; the gateway does not label JSON as Sparkplug.
 
@@ -28,7 +28,7 @@ Open `http://127.0.0.1:8802` and create the administrator account on first run. 
 
 ## Sparkplug B details
 
-Dependency pins in `requirements.txt` use `pysparkplug>=0.6.1,<0.7` and `paho-mqtt>=1.6.1,<2` (the serializer currently uses the Paho 1.x API). `pysparkplug` builds Sparkplug B Protocol Buffer payloads and implements Sparkplug topic/Edge Node behavior. This app uses `EdgeNode`, `Device`, `Metric`, and the package command callbacks. It publishes device metrics as DBIRTH/DDATA, and node-level writable aliases for NCMD alongside the DCMD subscriptions. The Edge Node establishes its NDEATH Last Will and clean NDEATH; each registered device's death is emitted if it is deregistered during runtime. Sparkplug IDs must not contain MQTT topic wildcards or slashes.
+Dependency pins in `requirements.txt` use `pysparkplug>=0.6.1,<0.7` and `paho-mqtt>=1.6.1,<2` (the serializer currently uses the Paho 1.x API). `pysparkplug` builds Sparkplug B Protocol Buffer payloads and implements Sparkplug topic/Edge Node behavior. With device topics enabled, the adapter uses `EdgeNode`, `Device`, `Metric`, and package command callbacks to publish DBIRTH/DDATA plus NCMD/DCMD. Without device topics, it publishes writable command aliases as node metrics and routes NCMD writes. The Edge Node establishes its NDEATH Last Will and clean NDEATH; each registered device's death is emitted if deregistered. Sparkplug IDs must not contain MQTT topic wildcards or slashes.
 
 The included integration tests use a fake publisher and an injected fake Sparkplug Edge Node, with an additional real `pysparkplug` payload serialization/decode check. Tests require no broker. In production, enable Sparkplug only when the broker/consumer is configured for Sparkplug B.
 

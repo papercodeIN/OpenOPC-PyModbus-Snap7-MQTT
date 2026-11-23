@@ -10,7 +10,7 @@ A self-contained FastAPI application for monitoring multiple Modbus TCP/RTU devi
 - `pyodbc` is a Python dependency installed from `requirements.txt`. Depending on platform, pyodbc may require compiler/ODBC development packages. Runtime still requires the Microsoft ODBC system driver.
 - RTU polling additionally requires a serial adapter/port and OS permissions.
 
-The connection string uses `Encrypt=yes;TrustServerCertificate=yes`: data transport is encrypted, but the SQL Server certificate is not validated. Do not mistake this for certificate verification; choose a verified TLS configuration for deployments with that requirement.
+The default connection string uses `Encrypt=yes;TrustServerCertificate=yes`: traffic is encrypted but the server certificate is not validated. Configure certificate verification for deployments that require it. The example uses the least-privilege `modbus_logger` login; do not run this application with a system administrator account.
 
 ## Setup and run
 
