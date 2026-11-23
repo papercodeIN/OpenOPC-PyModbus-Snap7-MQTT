@@ -1,0 +1,7 @@
+{
+  "brokerAddress": "broker.hivemq.com",
+  "brokerPort": 1883,
+  "username": "",
+  "password": "",
+  "baseTopic": "JavaScript"
+}

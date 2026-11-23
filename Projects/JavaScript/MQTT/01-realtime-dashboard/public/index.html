@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>MQTT Control Room — Real-Time Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230d1b2a'/><path d='M20 55h15l10-25 12 45 10-30 8 10h15' fill='none' stroke='%23f5a524' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="/css/theme.css?v=20261123">
+  <link rel="stylesheet" href="/css/dashboard.css?v=20261123">
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- ── Top bar ─────────────────────────────────────────────── -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40"><path d="M3 22h7l5-13 7 25 6-17 4 8h5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">MQTT <strong>CONTROL ROOM</strong></span>
+          <span class="brand-sub">Real-time telemetry &amp; visualization</span>
+        </div>
+      </div>
+
+      <div class="topbar-status" aria-label="Connection status">
+        <div class="status-pill" id="pill-conn"><span class="led"></span><span class="pill-label">CONN</span><span class="pill-value">OFFLINE</span></div>
+        <div class="status-pill" id="pill-last"><span class="led small"></span><span class="pill-label">LAST MSG</span><span class="pill-value">--:--:--</span></div>
+        <div class="status-pill" id="pill-rate"><span class="led small"></span><span class="pill-label">RATE</span><span class="pill-value">0/min</span></div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="clock"><span class="clock-time" id="clock-time">--:--:--</span><span class="clock-date" id="clock-date">----</span></div>
+        <span class="version">v1.1.0</span>
+      </div>
+    </header>
+
+    <div class="body-grid">
+      <!-- ── Sidebar ───────────────────────────────────────────── -->
+      <nav class="sidebar" aria-label="Main navigation">
+        <div class="nav-group-label">WORKSPACE</div>
+        <button class="nav-item active" data-tab="live" type="button"><span class="nav-icon" aria-hidden="true">◈</span><span>Live View</span></button>
+        <button class="nav-item" data-tab="config" type="button"><span class="nav-icon" aria-hidden="true">⚙</span><span>Configuration</span></button>
+        <button class="nav-item" data-tab="events" type="button"><span class="nav-icon" aria-hidden="true">▤</span><span>Event Log</span></button>
+        <button class="nav-item" data-tab="about" type="button"><span class="nav-icon" aria-hidden="true">ⓘ</span><span>About</span></button>
+
+        <div class="nav-spacer"></div>
+        <div class="nav-foot">
+          <div class="nav-foot-title">CONNECTION</div>
+          <div class="nav-foot-row"><span>Broker link</span><span id="nav-ws" class="badge badge-off">WS OFF</span></div>
+          <div class="nav-foot-row"><span>Session</span><span class="badge badge-on">LOCAL</span></div>
+        </div>
+      </nav>
+
+      <!-- ── Main content ──────────────────────────────────────── -->
+      <main class="content">
+
+        <!-- ══ LIVE VIEW ═══════════════════════════════════════════ -->
+        <section class="tab-panel active" id="tab-live">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">OPERATIONS / LIVE VIEW</div>
+              <h1>Real-Time Dashboard</h1>
+              <p class="page-sub">Subscribe over MQTT — TCP through this local service, or WebSockets straight from the browser — and watch data arrive live.</p>
+            </div>
+            <div class="head-controls">
+              <span class="state-chip" id="conn-state"><span class="led"></span>DISCONNECTED</span>
+              <button class="btn btn-primary" id="btn-connect" type="button">Connect</button>
+              <button class="btn btn-danger" id="btn-disconnect" type="button" disabled>Disconnect</button>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-card accent-amber">
+              <div class="stat-label">MESSAGES RECEIVED</div>
+              <div class="stat-value" id="stat-received">0</div>
+              <div class="stat-foot">Current session</div>
+            </div>
+            <div class="stat-card accent-cyan">
+              <div class="stat-label">MESSAGE RATE</div>
+              <div class="stat-value" id="stat-rate">0<span style="font-size:14px">/min</span></div>
+              <div class="stat-foot">Last 60 seconds</div>
+            </div>
+            <div class="stat-card accent-green">
+              <div class="stat-label">LAST MESSAGE</div>
+              <div class="stat-value" id="stat-last" style="font-size:22px">--:--:--</div>
+              <div class="stat-foot">Most recent arrival</div>
+            </div>
+            <div class="stat-card accent-blue">
+              <div class="stat-label">SUBSCRIPTIONS</div>
+              <div class="stat-value" id="stat-subscriptions">0</div>
+              <div class="stat-foot">Active topic filters</div>
+            </div>
+            <div class="stat-card accent-red">
+              <div class="stat-label">PARSE ERRORS</div>
+              <div class="stat-value" id="stat-errors">0</div>
+              <div class="stat-foot">Malformed JSON payloads</div>
+            </div>
+          </div>
+
+          <div class="panel-grid two-col">
+            <div class="panel">
+              <div class="panel-head">
+                <div><span class="panel-kicker">LIVE TELEMETRY</span><h2>Signal Chart</h2></div>
+                <div class="panel-actions"><span class="badge badge-off" id="feed-badge"><span class="led small"></span>OFFLINE</span></div>
+              </div>
+              <div class="chart-toolbar">
+                <label for="metric-select" style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.5px">METRIC</label>
+                <select id="metric-select"><option value="">No numeric data yet</option></select>
+              </div>
+              <div class="chart-shell">
+                <canvas id="signal-chart" aria-label="Time series chart of the selected numeric metric"></canvas>
+                <div class="chart-empty" id="chart-empty">Waiting for numeric data…</div>
+              </div>
+              <div class="metric-grid" id="metric-grid"><div class="metric-empty">Numeric fields in JSON payloads appear here as live value cards.</div></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div><span class="panel-kicker">EVENT LOG</span><h2>Connection Events</h2></div>
+                <button class="icon-btn" id="btn-clear-events" type="button" title="Clear event log">⌫</button>
+              </div>
+              <div class="event-log" id="event-log">
+                <div class="event-item"><span class="event-time">--:--:--</span><span class="event-msg">Application ready. Configure a broker and press Connect.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div><span class="panel-kicker">INBOUND STREAM</span><h2>Message Feed</h2></div>
+              <div class="panel-actions">
+                <span class="badge" id="feed-count">0 messages</span>
+                <button class="icon-btn" id="btn-clear-feed" type="button" title="Clear the message feed">⌫</button>
+              </div>
+            </div>
+            <div class="filter-bar">
+              <div class="field"><label for="feed-filter">Topic filter <span class="hint">(local view only)</span></label><input id="feed-filter" type="text" placeholder="e.g. sensors/"></div>
+            </div>
+            <div class="table-wrap tall">
+              <table class="data-table">
+                <thead><tr><th>#</th><th>Time</th><th>Topic</th><th>QoS</th><th>Type</th><th>Payload</th></tr></thead>
+                <tbody id="message-feed"><tr class="empty-row"><td colspan="6">No messages yet — connect to a broker to begin.</td></tr></tbody>
+              </table>
+            </div>
+            <div class="table-foot"><span id="feed-foot">0 shown / 0 stored</span><span>Newest first</span></div>
+          </div>
+        </section>
+
+        <!-- ══ CONNECTION ═════════════════════════════════════════ -->
+        <section class="tab-panel" id="tab-config">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">MQTT CLIENT / CONNECTION</div>
+              <h1>Broker Connection</h1>
+              <p class="page-sub">One persistent MQTT connection — TCP through this local service, or WebSocket from the browser.</p>
+            </div>
+            <div class="head-controls"><span class="state-chip" id="conn-state-cfg"><span class="led"></span>DISCONNECTED</span></div>
+          </div>
+
+          <div class="config-error" id="config-error" role="alert"></div>
+
+          <div class="panel-grid two-col">
+            <div class="panel">
+              <div class="panel-head"><div><span class="panel-kicker">BROKER</span><h2>Broker Settings</h2></div></div>
+              <div class="form-grid">
+                <div class="field-group" id="tcp-fields">
+                  <div class="field"><label for="cfg-host">Broker host</label><input id="cfg-host" type="text" placeholder="127.0.0.1" autocomplete="off"></div>
+                  <div class="field"><label for="cfg-port">Broker port</label><input id="cfg-port" type="number" min="1" max="65535" placeholder="1883"></div>
+                  <div class="field toggle-field">
+                    <label for="cfg-tls">TLS</label>
+                    <label class="switch-row"><input id="cfg-tls" type="checkbox"><span class="switch"></span><span class="switch-text">mqtts · 8883</span></label>
+                  </div>
+                </div>
+
+                <div class="field span-2"><label for="cfg-client-id">Client ID <span class="hint">(blank = auto)</span></label><input id="cfg-client-id" type="text" placeholder="Auto-generated"></div>
+                <div class="field"><label for="cfg-username">Username <span class="hint">(optional)</span></label><input id="cfg-username" type="text" autocomplete="off"></div>
+                <div class="field"><label for="cfg-password">Password <span class="hint">(memory only)</span></label><input id="cfg-password" type="password" autocomplete="new-password"></div>
+                <div class="field"><label for="cfg-keepalive">Keep alive (s)</label><input id="cfg-keepalive" type="number" min="5" max="3600" value="60"></div>
+                <div class="field"><label for="cfg-timeout">Connect timeout (ms)</label><input id="cfg-timeout" type="number" min="1000" max="120000" step="1000" value="15000"></div>
+                <div class="field"><label for="cfg-reconnect">Reconnect period (ms)</label><input id="cfg-reconnect" type="number" min="0" max="600000" step="500" value="5000"></div>
+                <div class="field"><label for="cfg-qos">Subscription QoS</label><select id="cfg-qos"><option value="0">0 — at most once</option><option value="1">1 — at least once</option><option value="2">2 — exactly once</option></select></div>
+                <div class="field"><label for="cfg-payload-mode">Payload handling</label><select id="cfg-payload-mode"><option value="json">JSON — parsed &amp; charted</option><option value="raw">Raw — text only</option></select></div>
+              </div>
+              <div class="button-row">
+                <button class="btn btn-primary" id="btn-connect-cfg" type="button">Connect</button>
+                <button class="btn btn-danger-ghost" id="btn-disconnect-cfg" type="button" disabled>Disconnect</button>
+              </div>
+
+              <details class="advanced-block">
+                <summary>Advanced — connect over WebSocket from the browser</summary>
+                <div class="form-grid">
+                  <div class="field span-2"><label for="cfg-transport">MQTT transport</label>
+                    <select id="cfg-transport">
+                      <option value="tcp">TCP — usual port 1883 (recommended)</option>
+                      <option value="websocket">WebSocket — ws:// or wss://</option>
+                    </select>
+                  </div>
+                  <div class="field-group" id="ws-fields" hidden>
+                    <div class="field span-2"><label for="cfg-ws-url">Broker WebSocket URL</label><input id="cfg-ws-url" type="text" placeholder="ws://127.0.0.1:9001/mqtt" autocomplete="off"></div>
+                  </div>
+                </div>
+              </details>
+
+              <div class="note-block" id="tls-note">
+                <strong>How the connection is made.</strong> <em>TCP</em> keeps the MQTT connection in this local Node.js service (port 1883, or 8883 with TLS) and streams messages to the page — every broker works, including those without a WebSocket listener. <em>WebSocket</em> connects from the browser itself and needs a broker WebSocket listener (for example 9001); browsers only accept <code>wss://</code> with a certificate the operating system trusts.
+              </div>
+              <div class="note-block">
+                <strong>Credentials.</strong> In TCP mode the username and password are sent to this local service over loopback and held in memory only for the lifetime of the connection — never written to disk, never logged. In WebSocket mode they stay in this tab. Use an account with read-only access to the configured topics.
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><div><span class="panel-kicker">SUBSCRIPTIONS</span><h2>Topics</h2></div></div>
+              <div class="inline-form">
+                <input id="new-topic" type="text" placeholder="Add a topic filter…" autocomplete="off">
+                <select id="new-qos"><option value="0">QoS 0</option><option value="1">QoS 1</option><option value="2">QoS 2</option></select>
+                <button class="btn btn-secondary" id="btn-add-topic" type="button">Add</button>
+              </div>
+              <div class="chip-list" id="topic-list"></div>
+              <p class="field-note">Wildcards: <code>#</code> matches all remaining levels, <code>+</code> matches one level. Changes apply on the next Connect.</p>
+
+              <div class="sub-section">
+                <div class="sub-section-head"><span class="panel-kicker">PAYLOAD HANDLING</span></div>
+                <p class="field-note">JSON parses valid payloads and turns numeric fields into chart metrics; Raw shows every payload as text. Malformed JSON is always displayed without data loss.</p>
+              </div>
+
+              <div class="sub-section">
+                <div class="sub-section-head"><span class="panel-kicker">LOCAL TEST DATA</span></div>
+                <label class="switch-row"><input id="cfg-demo" type="checkbox"><span class="switch"></span><span class="warn-text">Simulate sample data locally</span></label>
+                <p class="field-note">Generates synthetic numeric payloads inside the browser only. No network connection, no publishing. Useful for verifying the UI without a broker.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ EVENT LOG ═══════════════════════════════════════════ -->
+        <section class="tab-panel" id="tab-events">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">DIAGNOSTICS / HISTORY</div>
+              <h1>Event Log</h1>
+              <p class="page-sub">Connection, subscription and error events for this session. Nothing is logged to the local server.</p>
+            </div>
+            <button class="btn btn-ghost" id="btn-clear-events-full" type="button">↻ Clear events</button>
+          </div>
+          <div class="panel">
+            <div class="event-log" id="event-log-full" style="height:520px">
+              <div class="event-item"><span class="event-time">--:--:--</span><span class="event-msg">Application ready. Waiting for activity...</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ ABOUT ═══════════════════════════════════════════════ -->
+        <section class="tab-panel" id="tab-about">
+          <div class="page-head">
+            <div>
+              <div class="eyebrow">REFERENCE / NOTES</div>
+              <h1>About This Dashboard</h1>
+              <p class="page-sub">MQTT over WebSockets, browser-only visualization, no cloud dependencies.</p>
+            </div>
+          </div>
+          <div class="about-grid">
+            <div class="panel">
+              <div class="panel-head"><div><span class="panel-kicker">RUNTIME</span><h2>Application</h2></div></div>
+              <dl class="kv-list">
+                <dt>Transport</dt><dd id="about-transport">MQTT 3.1.1 over TCP</dd>
+                <dt>MQTT library</dt><dd>mqtt 5.16.1 (browser bundle)</dd>
+                <dt>Server</dt><dd>Node.js built-in http (static files only)</dd>
+                <dt>Payloads</dt><dd>JSON (numeric metrics) or plain text</dd>
+                <dt>Message buffer</dt><dd id="about-buffer">200 messages / 120 points</dd>
+              </dl>
+              <div class="note-block">
+                <strong>Transports.</strong> TCP mode needs no WebSocket listener on the broker and is the default. WebSocket mode is optional and only works against a broker that exposes <code>ws://</code> or <code>wss://</code>; a raw TCP listener (1883) cannot be used directly from browser code.
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><div><span class="panel-kicker">STATUS</span><h2>Feature Verification</h2></div></div>
+              <p style="font-size:12px;color:var(--muted)">
+                <span class="tag ok">UNIT TESTED</span> config validation · payload parsing · message store · client state machine · static server<br><br>
+                <span class="tag unverified">UNVERIFIED</span> live broker connection · TLS/WSS against a real broker · long-run stability · mobile devices
+              </p>
+              <div class="note-block">
+                Only connect to brokers and topics you are authorized to use. This dashboard subscribes only; it never publishes. In TCP mode the local service holds the broker connection for this page — stop the service to force a disconnect.
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+  <script src="/vendor/mqtt.min.js"></script>
+  <script type="module" src="/js/app.js?v=20261124"></script>
+</body>
+</html>
