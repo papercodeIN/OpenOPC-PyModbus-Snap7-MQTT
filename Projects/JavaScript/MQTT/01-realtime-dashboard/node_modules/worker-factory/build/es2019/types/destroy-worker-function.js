@@ -1,0 +1,2 @@
+export {};
+//# sourceMappingURL=destroy-worker-function.js.map
