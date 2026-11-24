@@ -64,7 +64,9 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf"
 > **OPC DA and BACnet:** OPC DA setup is documented in
 > [`OPC-DA/README.md`](OPC-DA/README.md); its runnable configs, launchers and the
 > `opcda.exe` helper live in the PRIVATE repository at `Projects/Telegraf/OPC-DA/`
-> (BACnet sources are under `Projects/Telegraf/BACnet/`). Copy **both** `opcda.exe`
+> (BACnet sources are under `Projects/Telegraf/BACnet/`). The BACnet directory
+> contains all files required to use Telegraf with a BACnet device: the plugin
+> config, the Telegraf configs, the `.bat` launchers and setup notes. Copy **both** `opcda.exe`
 > and `opcda.conf` into
 > `C:\ProgramData\Telegraf\OPC-DA\` before running an OPC DA launcher. Telegraf
 > starts the exe via `[[inputs.execd]]` with `-config <that folder>\opcda.conf`;
@@ -85,7 +87,7 @@ All 16 Modbus configs and the updated MQTT / OPC UA configs pass `telegraf confi
 
 ## ✅ Testing status
 
-Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on COM1, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server) and **2026-11-24** (Matrikon OPC DA Simulation Server, 45 supported tags: CSV, SQLite, MySQL, PostgreSQL and MQTT JSON/RAW). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
+Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on COM1, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server) and **2026-11-24** (Matrikon OPC DA Simulation Server, 45 supported tags: CSV, SQLite, MySQL, PostgreSQL and MQTT JSON/RAW; Yabe BACnet Room Controller, 12 points: CSV, SQLite, MySQL, PostgreSQL and MQTT JSON/RAW). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
 
 | 🔌 Source | 📄 Config file | 📤 Output | 📦 Payload | ✅ Status |
 | --- | --- | --- | --- | --- |
@@ -105,6 +107,12 @@ Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on
 | OPC DA | `opcda_to_mqtt.conf` | MQTT | Raw payload | ✅&nbsp;Tested |
 | OPC DA | `opcda_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
 | OPC DA | `opcda_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
+| BACnet | `bacnet_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
+| BACnet | `bacnet_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
+| BACnet | `bacnet_to_mqtt.conf` | MQTT | JSON payload | ✅&nbsp;Tested |
+| BACnet | `bacnet_to_mqtt.conf` | MQTT | Raw payload | ✅&nbsp;Tested |
+| BACnet | `bacnet_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
+| BACnet | `bacnet_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
@@ -122,7 +130,7 @@ Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on
 | Modbus | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
 | OPC UA | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
 | MQTT | | | | | | | | |
-| BACnet | | | | | | | | |
+| BACnet | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
 | OPC DA | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
 
 > **OPC DA live evidence (2026-11-24):** CSV wide + narrow files; SQLite
