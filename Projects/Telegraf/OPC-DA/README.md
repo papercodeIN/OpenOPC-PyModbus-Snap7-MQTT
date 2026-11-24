@@ -19,7 +19,7 @@
 > [!TIP]
 > **In a hurry?** The [quick start](#-quick-start) gets a CSV row flowing in five steps. Deep details are folded into collapsible sections, so the page stays short.
 
-**What you get:** one `opcda.exe` per OPC DA server, one Telegraf pipeline per destination, and a tested 45-tag starter list. No custom code to maintain.
+**What you get:** one plugin config per OPC DA server, one Telegraf pipeline per destination, and a tested 45-tag starter list. Each running pipeline owns its `opcda.exe`; no custom code to maintain.
 
 > [!NOTE]
 > **Validated on Windows x64** with Telegraf **1.40.3** and the free **Matrikon OPC Simulation Server** (`Matrikon.OPC.Simulation.1`).
@@ -63,7 +63,7 @@ OPC DA server ──(COM/DCOM + wrapper)──► opcda.exe ──(line protocol
   opcda_source BB_String="" 1795548780000000000
   ```
 - Telegraf starts it through `[[inputs.execd]]`, parses stdout (`data_format = "influx"`), and applies the processors/outputs. **Telegraf never parses `opcda.conf`** — it only passes the path to the exe.
-- All seven single-server pipelines share the same `opcda.exe` + `opcda.conf`; only the output blocks differ. Change the server/tags once and every pipeline follows.
+- All seven single-server pipelines share the same `opcda.exe` + `opcda.conf`; their output and health settings differ, but the server/tags come from that one file. Change them once and every pipeline follows.
 - Only items whose OPC quality is **Good** are emitted. Bad/uncertain tags simply skip that poll.
 - **One `opcda.conf` = one OPC DA server.** The shim reads only the first `[[inputs.opcda]]` block — see [🔀 Multi-server](#-multiple-opc-da-servers).
 
@@ -477,7 +477,7 @@ If you add a non-OPC input to this file, add `namepass = ["opcda_server1", ...]`
 <summary><b>13 non-obvious findings that shaped these configs (open when something behaves oddly)</b></summary>
 
 1. **One input block only.** The shim decodes the first primitive; extra `[[inputs.opcda]]` blocks are ignored without an error. Multi-server = multiple processes.
-2. **OPC timestamps are not local time.** Matrikon reported timestamps **5h30m ahead**; the wide `aggregators.merge` discarded everything as outside its 1-second window. Every config starts with a `processors.starlark` block that sets `metric.time` to the Telegraf clock. Removing it breaks the wide layout and skews timestamps.
+2. **OPC timestamps are not local time.** On this machine, Matrikon reported timestamps **5h30m ahead**; the wide `aggregators.merge` discarded everything as outside its 1-second window. Every config starts with a `processors.starlark` block that sets `metric.time` to the Telegraf clock. Removing it breaks the wide layout and skews timestamps.
 3. **45 of 55 simulator tags.** The read loop aborts on some VARIANT types (`ArrayOfReal8`, `ArrayOfString`, `Money`, `Time`, `Qualities`). Start from the working list and add tags incrementally, testing with `opcda.exe` alone.
 4. **Quality filter.** Only `OPCQualityGood` items reach `AddFields`. A briefly Bad tag disappears for that poll; it is not a Telegraf error.
 5. **`--test` is not a test for execd.** It keeps the external process running and prints nothing useful. Use `config check` + a short real run.
