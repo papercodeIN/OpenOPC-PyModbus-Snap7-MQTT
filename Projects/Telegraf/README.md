@@ -94,7 +94,7 @@ Last live test: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on 
 | Modbus RTU | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus RTU | `modbus_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
 
-| 🔌 Protocol | 🗄️ SQLite data logging | 📄 CSV data logging | 🐬 MySQL data logging | 🪟 MSSQL | 🐘 Postgres | 📨 MQTT | 📈 InfluxDB | 🔗 OPC UA |
+| 🔌 Protocol | 🗄️ SQLite | 📄 CSV | 🐬 MySQL | 🪟 MSSQL | 🐘 Postgres | 📨 MQTT | 📈 InfluxDB | 🔗 OPC UA |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Modbus | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
 | OPC UA | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
