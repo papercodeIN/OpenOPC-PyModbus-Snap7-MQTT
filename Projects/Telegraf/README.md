@@ -78,7 +78,7 @@ All 16 Modbus configs and the updated MQTT / OPC UA configs pass `telegraf confi
 
 ## ✅ Testing status
 
-Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on COM1, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server) and **2026-11-24** (Matrikon OPC DA Simulation Server, 45 supported tags: CSV, SQLite and MQTT JSON/RAW). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
+Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on COM1, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server) and **2026-11-24** (Matrikon OPC DA Simulation Server, 45 supported tags: CSV, SQLite, MySQL, PostgreSQL and MQTT JSON/RAW). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
 
 | 🔌 Source | 📄 Config file | 📤 Output | 📦 Payload | ✅ Status |
 | --- | --- | --- | --- | --- |
@@ -96,6 +96,8 @@ Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on
 | OPC DA | `opcda_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
 | OPC DA | `opcda_to_mqtt.conf` | MQTT | JSON payload | ✅&nbsp;Tested |
 | OPC DA | `opcda_to_mqtt.conf` | MQTT | Raw payload | ✅&nbsp;Tested |
+| OPC DA | `opcda_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
+| OPC DA | `opcda_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
@@ -114,11 +116,12 @@ Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on
 | OPC UA | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
 | MQTT | | | | | | | | |
 | BACnet | | | | | | | | |
-| OPC DA | ✅ | ✅ | | | | ✅ | | |
+| OPC DA | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
 
 > **OPC DA live evidence (2026-11-24):** CSV wide + narrow files; SQLite
 > `opcda_data.db` with `opcda_wide` + `opcda_narrow`; MQTT JSON topic
-> `plant/opcda/json` and RAW topic `plant/opcda/raw/<tag>`.
+> `plant/opcda/json` and RAW topic `plant/opcda/raw/<tag>`; MySQL/PostgreSQL
+> tables `opcda_wide` (47 cols) + `opcda_narrow`.
 
 > **Wide vs narrow:** **Wide** stores one row per poll with all tags as columns
 > (`modbus_wide` / `opcua_wide`). **Narrow** stores one row per tag per poll with
