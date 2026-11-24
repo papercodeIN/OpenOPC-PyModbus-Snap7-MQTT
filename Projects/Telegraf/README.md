@@ -62,9 +62,13 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf"
 
 > **OPC DA and BACnet:** their configs, launchers and the `opcda.exe` helper
 > live in the PRIVATE repository at `Projects/Telegraf/OPC-DA/` and
-> `Projects/Telegraf/BACnet/`. If `opcda.exe` is missing, download the matching
-> release from https://github.com/lpc921/telegraf-execd-opcda/releases and copy
-> it to `C:/ProgramData/Telegraf/OPC-DA/opcda.exe` before running a launcher.
+> `Projects/Telegraf/BACnet/`. Copy **both** `opcda.exe` and `opcda.conf` into
+> `C:\ProgramData\Telegraf\OPC-DA\` before running an OPC DA launcher. Telegraf
+> starts the exe via `[[inputs.execd]]` with `-config <that folder>\opcda.conf`;
+> the exe reads the tags from the OPC DA server and prints Influx Line Protocol
+> to stdout for Telegraf. If the exe is missing, download `opcda_i386.exe` from
+> https://github.com/lpc921/telegraf-execd-opcda/releases and rename it to
+> `opcda.exe` (32-bit binary for a 32-bit OPC server).
 
 Every config has a matching `.bat` launcher — **double-click it to run**. Add the `test` argument for a single test cycle. The launchers set local test defaults only; move credentials to the Telegraf service environment before plant deployment.
 
