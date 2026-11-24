@@ -37,6 +37,7 @@ All Training Tools releases remain **free for everyone** — vendor installers, 
 
 - 📦 Browse the [**Releases**](https://github.com/papercodeIN/OpenOPC-PyModbus-Snap7-MQTT/releases) page — 9 bundles, 170+ installer assets
 - 📑 Per-protocol catalogs with SHA-256 checksums live in [`Training Software/`](Training%20Software/)
+- 📘 **Setup guides:** [Telegraf overview](Projects/Telegraf/README.md) · [Telegraf + OPC DA (Windows)](Projects/Telegraf/OPC-DA/README.md)
 
 > Third-party installers remain subject to their vendors' license terms; some require a free or commercial key. They are provided here for training and learning purposes only.
 
