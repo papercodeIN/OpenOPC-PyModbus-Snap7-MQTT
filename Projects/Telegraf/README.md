@@ -58,11 +58,14 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf"
 | [`Modbus/Modbus RTU Output`](Modbus/Modbus%20RTU%20Output/README.md) | Same 8 solutions for serial devices (tested live on COM1) |
 | [`MQTT`](MQTT/README.md) | 8 runnable configs → CSV, SQLite, MySQL, MSSQL, PostgreSQL, InfluxDB, MQTT bridge, OPC UA server pipeline (+ writer gateway) |
 | [`OPC-UA`](OPC-UA/README.md) | 7 runnable configs → CSV, SQLite, MySQL, MSSQL, PostgreSQL, InfluxDB, MQTT (RAW/JSON/Sparkplug + gateway) |
+| [`OPC-DA`](OPC-DA/README.md) | Full setup and research guide; 7 pipelines + multi-server reference (runnable files in the private repo) |
 | [`ConfigBuilder`](ConfigBuilder/README.md) | Local web app that generates any of the above `.conf` files from a form |
 
-> **OPC DA and BACnet:** their configs, launchers and the `opcda.exe` helper
-> live in the PRIVATE repository at `Projects/Telegraf/OPC-DA/` and
-> `Projects/Telegraf/BACnet/`. Copy **both** `opcda.exe` and `opcda.conf` into
+> **OPC DA and BACnet:** OPC DA setup is documented in
+> [`OPC-DA/README.md`](OPC-DA/README.md); its runnable configs, launchers and the
+> `opcda.exe` helper live in the PRIVATE repository at `Projects/Telegraf/OPC-DA/`
+> (BACnet sources are under `Projects/Telegraf/BACnet/`). Copy **both** `opcda.exe`
+> and `opcda.conf` into
 > `C:\ProgramData\Telegraf\OPC-DA\` before running an OPC DA launcher. Telegraf
 > starts the exe via `[[inputs.execd]]` with `-config <that folder>\opcda.conf`;
 > the exe reads the tags from the OPC DA server and prints Influx Line Protocol
