@@ -71,7 +71,8 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf"
 > `opcda.exe` (32-bit binary for a 32-bit OPC server). On a new system run the
 > one-shot elevated setup script `setup_opcda.ps1` from the PRIVATE OPC-DA folder;
 > it registers the wrapper DLL, starts `OpcEnum`, creates the runtime folder and
-> copies both files.
+> copies both files. A free 32-bit Graybox wrapper DLL is bundled in the
+> PRIVATE `OPC-DA/lib/` folder and registered by that script.
 
 Every config has a matching `.bat` launcher — **double-click it to run**. Add the `test` argument for a single test cycle. The launchers set local test defaults only; move credentials to the Telegraf service environment before plant deployment.
 
