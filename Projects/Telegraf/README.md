@@ -94,6 +94,14 @@ Last live test: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on 
 | Modbus RTU | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus RTU | `modbus_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
 
+| 🔌 Protocol | 🗄️ SQLite data logging | 📄 CSV data logging | 🐬 MySQL data logging | 🪟 MSSQL | 🐘 Postgres | 📨 MQTT | 📈 InfluxDB | 🔗 OPC UA |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Modbus | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
+| OPC UA | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
+| MQTT | | | | | | | | |
+| BACnet | | | | | | | | |
+| OPC DA | | | | | | | | |
+
 > **Wide vs narrow:** **Wide** stores one row per poll with all tags as columns
 > (`modbus_wide` / `opcua_wide`). **Narrow** stores one row per tag per poll with
 > `timestamp`, tag ID/name and `value` (`modbus_narrow` / `opcua_narrow`).
