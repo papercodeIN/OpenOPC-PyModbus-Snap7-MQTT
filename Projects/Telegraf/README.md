@@ -60,6 +60,12 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf"
 | [`OPC-UA`](OPC-UA/README.md) | 7 runnable configs → CSV, SQLite, MySQL, MSSQL, PostgreSQL, InfluxDB, MQTT (RAW/JSON/Sparkplug + gateway) |
 | [`ConfigBuilder`](ConfigBuilder/README.md) | Local web app that generates any of the above `.conf` files from a form |
 
+> **OPC DA and BACnet:** their configs, launchers and the `opcda.exe` helper
+> live in the PRIVATE repository at `Projects/Telegraf/OPC-DA/` and
+> `Projects/Telegraf/BACnet/`. If `opcda.exe` is missing, download the matching
+> release from https://github.com/lpc921/telegraf-execd-opcda/releases and copy
+> it to `C:/ProgramData/Telegraf/OPC-DA/opcda.exe` before running a launcher.
+
 Every config has a matching `.bat` launcher — **double-click it to run**. Add the `test` argument for a single test cycle. The launchers set local test defaults only; move credentials to the Telegraf service environment before plant deployment.
 
 All 16 Modbus configs and the updated MQTT / OPC UA configs pass `telegraf config check` (Telegraf 1.40.3).
@@ -68,7 +74,7 @@ All 16 Modbus configs and the updated MQTT / OPC UA configs pass `telegraf confi
 
 ## ✅ Testing status
 
-Last live test: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on COM1, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
+Last live tests: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on COM1, MQTT broker, MySQL, PostgreSQL, ProSys OPC UA server) and **2026-11-24** (Matrikon OPC DA Simulation Server, 45 supported tags: CSV, SQLite and MQTT JSON/RAW). Multi-device support lives in the commented ADDITIONAL DEVICES block inside each Modbus config.
 
 | 🔌 Source | 📄 Config file | 📤 Output | 📦 Payload | ✅ Status |
 | --- | --- | --- | --- | --- |
@@ -82,6 +88,10 @@ Last live test: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on 
 | OPC UA | `opcua_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | OPC UA | `opcua_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
 | OPC UA | `opcua_to_influxdb.conf` | InfluxDB&nbsp;v2 | Wide + Narrow | ❌&nbsp;Pending |
+| OPC DA | `opcda_to_csv.conf` | CSV | Wide + Narrow | ✅&nbsp;Tested |
+| OPC DA | `opcda_to_sqlite.conf` | SQLite | Wide + Narrow | ✅&nbsp;Tested |
+| OPC DA | `opcda_to_mqtt.conf` | MQTT | JSON payload | ✅&nbsp;Tested |
+| OPC DA | `opcda_to_mqtt.conf` | MQTT | Raw payload | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mysql.conf` | MySQL | Wide + Narrow | ✅&nbsp;Tested |
 | Modbus TCP | `modbus_to_mssql.conf` | MSSQL | Wide + Narrow | ❌&nbsp;Pending |
 | Modbus TCP | `modbus_to_postgres.conf` | PostgreSQL | Wide + Narrow | ✅&nbsp;Tested |
@@ -100,7 +110,11 @@ Last live test: **2026-11-22** (Modbus TCP simulator :502, Modbus RTU device on 
 | OPC UA | ✅ | ✅ | ✅ | | ✅ | ✅ | | |
 | MQTT | | | | | | | | |
 | BACnet | | | | | | | | |
-| OPC DA | | | | | | | | |
+| OPC DA | ✅ | ✅ | | | | ✅ | | |
+
+> **OPC DA live evidence (2026-11-24):** CSV wide + narrow files; SQLite
+> `opcda_data.db` with `opcda_wide` + `opcda_narrow`; MQTT JSON topic
+> `plant/opcda/json` and RAW topic `plant/opcda/raw/<tag>`.
 
 > **Wide vs narrow:** **Wide** stores one row per poll with all tags as columns
 > (`modbus_wide` / `opcua_wide`). **Narrow** stores one row per tag per poll with
