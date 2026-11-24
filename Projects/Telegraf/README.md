@@ -68,7 +68,10 @@ telegraf --config ".\Modbus\Modbus TCP Outputs\modbus_to_csv.conf"
 > the exe reads the tags from the OPC DA server and prints Influx Line Protocol
 > to stdout for Telegraf. If the exe is missing, download `opcda_i386.exe` from
 > https://github.com/lpc921/telegraf-execd-opcda/releases and rename it to
-> `opcda.exe` (32-bit binary for a 32-bit OPC server).
+> `opcda.exe` (32-bit binary for a 32-bit OPC server). On a new system run the
+> one-shot elevated setup script `setup_opcda.ps1` from the PRIVATE OPC-DA folder;
+> it registers the wrapper DLL, starts `OpcEnum`, creates the runtime folder and
+> copies both files.
 
 Every config has a matching `.bat` launcher — **double-click it to run**. Add the `test` argument for a single test cycle. The launchers set local test defaults only; move credentials to the Telegraf service environment before plant deployment.
 
